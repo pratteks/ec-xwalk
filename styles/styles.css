@@ -1,77 +1,129 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
- * This file is licensed to you under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License. You may obtain a copy
- * of the License at http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
- * OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * AT&T Business - Edge Delivery Services
+ * Design system migrated from https://www.business.att.com/
  */
 
+/* fallback fonts - size-adjusted to match AT&T Aleck Sans metrics */
+@font-face {
+  font-family: att-body-fallback;
+  size-adjust: 100%;
+  src: local('Helvetica Neue'), local('Helvetica'), local('Arial');
+}
+
+@font-face {
+  font-family: att-heading-fallback;
+  size-adjust: 100%;
+  src: local('Helvetica Neue'), local('Helvetica'), local('Arial');
+}
+
 :root {
-  /* colors */
-  --background-color: white;
-  --light-color: #f8f8f8;
-  --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
-  --overlay-background-color:lightgrey;
+  /* ===== COLORS ===== */
 
-  /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  /* Primary palette */
+  --color-att-blue: #00388f;
+  --color-att-blue-hover: #0057b8;
+  --color-att-blue-light: #009fdb;
+  --color-att-blue-link: #0568ae;
 
-  /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 19px;
-  --body-font-size-xs: 17px;
+  /* Neutral palette */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-400: #878c94;
+  --color-gray-500: #6b7280;
+  --color-gray-700: #454b52;
+  --color-gray-900: #1d2329;
+  --color-navy: #25303a;
 
-  /* heading sizes */
-  --heading-font-size-xxl: 55px;
-  --heading-font-size-xl: 44px;
-  --heading-font-size-l: 34px;
-  --heading-font-size-m: 27px;
-  --heading-font-size-s: 24px;
-  --heading-font-size-xs: 22px;
+  /* Light blue tint (AT&T light blue) */
+  --color-blue-50: #f2fafd;
 
-  /* nav heights */
-  --nav-height: 64px;
+  /* Semantic colors */
+  --background-color: var(--color-white);
+  --text-color: var(--color-gray-700);
+  --heading-color: var(--color-gray-900);
+  --link-color: var(--color-att-blue-link);
+  --link-hover-color: var(--color-att-blue);
+  --light-color: var(--color-gray-100);
+  --dark-color: var(--color-navy);
+  --overlay-background-color: var(--color-gray-100);
+
+  /* ===== FONTS ===== */
+
+  /* When AT&T Aleck Sans fonts are available, replace 'ATT Aleck Sans' with proper family */
+  --body-font-family: 'Helvetica Neue', helvetica, arial, att-body-fallback, sans-serif;
+  --heading-font-family: 'Helvetica Neue', helvetica, arial, att-heading-fallback, sans-serif;
+
+  /* Body sizes */
+  --body-font-size-m: 17px;
+  --body-font-size-s: 15px;
+  --body-font-size-xs: 13px;
+
+  /* Heading sizes (mobile-first) */
+  --heading-font-size-xxl: 38px;
+  --heading-font-size-xl: 32px;
+  --heading-font-size-l: 26px;
+  --heading-font-size-m: 22px;
+  --heading-font-size-s: 18px;
+  --heading-font-size-xs: 16px;
+
+  /* ===== SPACING ===== */
+  --spacing-xs: 4px;
+  --spacing-s: 8px;
+  --spacing-m: 16px;
+  --spacing-l: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-xxxl: 64px;
+
+  /* ===== LAYOUT ===== */
+  --content-max-width: 960px;
+  --content-padding: 16px;
+  --nav-height: 56px;
   --breadcrumbs-height: 34px;
   --header-height: var(--nav-height);
+
+  /* ===== BUTTONS ===== */
+  --button-font-size: 14px;
+  --button-border-radius: 28px;
+  --button-padding: 12px 32px;
+  --button-transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+  /* ===== TYPOGRAPHY DETAILS ===== */
+  --heading-letter-spacing: -0.03em;
+  --heading-line-height: 1.15;
+  --body-line-height: 1.4;
+  --body-letter-spacing: normal;
+
+  /* ===== BORDERS & SHADOWS ===== */
+  --border-radius-s: 4px;
+  --border-radius-m: 8px;
+  --border-radius-l: 16px;
+  --border-radius-pill: 28px;
+
+  /* ===== FOCUS ===== */
+  --focus-outline: 2px solid var(--color-att-blue);
+  --focus-outline-offset: 2px;
 }
 
-/* fallback fonts */
-@font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
-  src: local('Arial');
-}
-
-@font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
-}
-
+/* Desktop overrides */
 @media (width >= 900px) {
   :root {
-    /* body sizes */
-    --body-font-size-m: 18px;
-    --body-font-size-s: 16px;
-    --body-font-size-xs: 14px;
-
-    /* heading sizes */
-    --heading-font-size-xxl: 45px;
-    --heading-font-size-xl: 36px;
+    --body-font-size-m: 17px;
+    --body-font-size-s: 15px;
+    --body-font-size-xs: 13px;
+    --heading-font-size-xxl: 44px;
+    --heading-font-size-xl: 38px;
     --heading-font-size-l: 28px;
     --heading-font-size-m: 22px;
     --heading-font-size-s: 20px;
     --heading-font-size-xs: 18px;
+    --content-padding: 32px;
   }
 }
+
+/* ===== BASE STYLES ===== */
 
 body {
   display: none;
@@ -80,7 +132,9 @@ body {
   color: var(--text-color);
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-m);
-  line-height: 1.6;
+  line-height: var(--body-line-height);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body.appear {
@@ -107,17 +161,21 @@ footer .footer[data-block-status="loaded"] {
   }
 }
 
+/* ===== HEADINGS ===== */
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  margin-top: 0.8em;
+  margin-top: 0.5em;
   margin-bottom: 0.25em;
   font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
+  font-weight: 700;
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+  color: var(--heading-color);
   scroll-margin: 40px;
 }
 
@@ -128,14 +186,21 @@ h4 { font-size: var(--heading-font-size-m); }
 h5 { font-size: var(--heading-font-size-s); }
 h6 { font-size: var(--heading-font-size-xs); }
 
+/* ===== BODY TEXT ===== */
+
 p,
 dl,
 ol,
 ul,
 pre,
 blockquote {
-  margin-top: 0.8em;
+  margin-top: 0.5em;
   margin-bottom: 0.25em;
+}
+
+small {
+  font-size: var(--body-font-size-xs);
+  color: var(--color-gray-500);
 }
 
 code,
@@ -144,15 +209,30 @@ pre {
 }
 
 pre {
-  padding: 16px;
-  border-radius: 8px;
+  padding: var(--spacing-m);
+  border-radius: var(--border-radius-m);
   background-color: var(--light-color);
   overflow-x: auto;
   white-space: pre;
 }
 
-main > div {
-  margin: 40px 16px;
+/* ===== LINKS ===== */
+
+a:any-link {
+  color: var(--link-color);
+  text-decoration: underline;
+  overflow-wrap: break-word;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+a:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+  border-radius: 2px;
 }
 
 input,
@@ -162,19 +242,8 @@ button {
   font: inherit;
 }
 
-/* links */
-a:any-link {
-  color: var(--link-color);
-  text-decoration: none;
-  overflow-wrap: break-word;
-}
+/* ===== BUTTONS ===== */
 
-a:hover {
-  color: var(--link-hover-color);
-  text-decoration: underline;
-}
-
-/* buttons */
 a.button:any-link,
 button {
   box-sizing: border-box;
@@ -182,42 +251,63 @@ button {
   max-width: 100%;
   margin: 12px 0;
   border: 2px solid transparent;
-  border-radius: 2.4em;
-  padding: 0.5em 1.2em;
-  font-family: var(--body-font-family);
+  border-radius: var(--button-border-radius);
+  padding: var(--button-padding);
+  font-family: var(--heading-font-family);
+  font-size: var(--button-font-size);
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.25;
   text-align: center;
   text-decoration: none;
-  background-color: var(--link-color);
-  color: var(--background-color);
+  background-color: var(--color-att-blue);
+  color: var(--color-white);
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transition: var(--button-transition);
 }
 
 a.button:hover,
 a.button:focus,
 button:hover,
 button:focus {
-  background-color: var(--link-hover-color);
+  background-color: var(--color-att-blue-hover);
+  color: var(--color-white);
   cursor: pointer;
+}
+
+a.button:focus-visible,
+button:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 button:disabled,
 button:disabled:hover {
-  background-color: var(--light-color);
-  cursor: unset;
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-400);
+  border-color: transparent;
+  cursor: not-allowed;
 }
 
+/* Secondary button (outline) */
 a.button.secondary,
 button.secondary {
-  background-color: unset;
+  background-color: transparent;
   border: 2px solid currentcolor;
-  color: var(--text-color);
+  color: var(--color-att-blue);
 }
+
+a.button.secondary:hover,
+button.secondary:hover {
+  background-color: var(--color-att-blue);
+  border-color: var(--color-att-blue);
+  color: var(--color-white);
+}
+
+/* ===== IMAGES ===== */
 
 main img {
   max-width: 100%;
@@ -236,31 +326,135 @@ main img {
   width: 100%;
 }
 
-/* sections */
+/* ===== FORMS ===== */
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-s) var(--spacing-m);
+  border: 1px solid var(--color-gray-400);
+  border-radius: var(--border-radius-s);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  color: var(--text-color);
+  background-color: var(--color-white);
+  transition: border-color 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-att-blue);
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(0 56 143 / 15%);
+}
+
+/* ===== LISTS ===== */
+
+ul,
+ol {
+  padding-left: 1.5em;
+}
+
+li {
+  margin-bottom: 0.25em;
+}
+
+/* ===== LAYOUT ===== */
+
+main > div {
+  margin: 40px 16px;
+}
+
+/* ===== SECTIONS ===== */
+
 main > .section {
-  margin: 40px 0;
+  margin: 0;
+  padding: var(--spacing-xxl) 0;
 }
 
 main > .section > div {
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   margin: auto;
-  padding: 0 24px;
+  padding: 0 var(--content-padding);
 }
 
 main > .section:first-of-type {
   margin-top: 0;
+  padding-top: 0;
 }
 
 @media (width >= 900px) {
   main > .section > div {
-    padding: 0 32px;
+    padding: 0 var(--content-padding);
   }
 }
 
-/* section metadata */
+/* Section variants */
 main .section.light,
 main .section.highlight {
   background-color: var(--light-color);
-  margin: 0;
-  padding: 40px 0;
+  padding: var(--spacing-xxl) 0;
+}
+
+/* Neutral section - light gray background (value propositions) */
+main .section.neutral {
+  background-color: var(--color-gray-100);
+  padding: var(--spacing-xxl) 0;
+}
+
+/* Accent section - light blue tint (micro-banner, promotional) */
+main .section.accent {
+  background-color: var(--color-blue-50);
+  padding: var(--spacing-xxl) 0;
+}
+
+/* Dark section - navy background */
+main .section.dark {
+  background-color: var(--color-navy);
+  color: var(--color-white);
+  padding: var(--spacing-xxl) 0;
+}
+
+main .section.dark h1,
+main .section.dark h2,
+main .section.dark h3,
+main .section.dark h4,
+main .section.dark h5,
+main .section.dark h6 {
+  color: var(--color-white);
+}
+
+main .section.dark a:any-link {
+  color: var(--color-blue-50);
+}
+
+main .section.dark a.button:any-link {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+}
+
+main .section.dark a.button:hover {
+  background-color: var(--color-white);
+}
+
+main .section.dark a.button.secondary {
+  background-color: transparent;
+  border-color: var(--color-blue-50);
+  color: var(--color-blue-50);
+}
+
+main .section.dark a.button.secondary:hover {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+}
+
+/* ===== SECTION METADATA BLOCK (hidden) ===== */
+
+main .section-metadata {
+  display: none;
 }

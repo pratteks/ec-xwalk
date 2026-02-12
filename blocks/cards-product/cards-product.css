@@ -1,0 +1,100 @@
+/*
+ * Cards Product - Product/service cards with image, title, price, CTA
+ * Used for: Product listings, service offerings with pricing
+ * Original: AT&T "Fast, reliable, and secure" multi-tile section
+ */
+
+.cards-product > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-m);
+}
+
+.cards-product > ul > li {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--border-radius-m);
+  background-color: var(--background-color);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.cards-product > ul > li:hover {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+}
+
+/* Card image */
+.cards-product .cards-product-card-image {
+  line-height: 0;
+}
+
+.cards-product > ul > li img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Card body */
+.cards-product .cards-product-card-body {
+  padding: var(--spacing-m) var(--spacing-l);
+}
+
+/* Card heading */
+.cards-product .cards-product-card-body h3 {
+  font-size: var(--heading-font-size-m);
+  font-weight: 700;
+  color: var(--heading-color);
+  margin-bottom: var(--spacing-s);
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+/* Card description */
+.cards-product .cards-product-card-body p {
+  font-size: var(--body-font-size-s);
+  color: var(--text-color);
+  line-height: var(--body-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Price emphasis */
+.cards-product .cards-product-card-body strong {
+  font-weight: 700;
+  color: var(--heading-color);
+}
+
+/* Card link */
+.cards-product .cards-product-card-body a:any-link {
+  color: var(--link-color);
+  font-weight: 700;
+  font-size: var(--body-font-size-s);
+  text-decoration: underline;
+}
+
+.cards-product .cards-product-card-body a:hover {
+  color: var(--link-hover-color);
+}
+
+/* Fine print / disclaimers */
+.cards-product .cards-product-card-body sup {
+  font-size: var(--body-font-size-xs);
+}
+
+@media (width >= 600px) {
+  .cards-product > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .cards-product > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-l);
+  }
+
+  .cards-product > ul > li img {
+    aspect-ratio: 4 / 3;
+  }
+}

@@ -1,0 +1,98 @@
+/*
+ * Columns Offer - Two-column layout with image + text/CTA
+ * Used for: Feature sections with image and descriptive content
+ * Original: "Get backed by the AT&T Guarantee" section
+ */
+
+.columns-offer > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns-offer img {
+  width: 100%;
+  border-radius: var(--border-radius-m);
+}
+
+.columns-offer > div > div {
+  order: 1;
+}
+
+/* Image column */
+.columns-offer > div > .columns-offer-img-col {
+  order: 0;
+  margin-bottom: var(--spacing-l);
+}
+
+.columns-offer > div > .columns-offer-img-col img {
+  display: block;
+}
+
+/* Text column */
+.columns-offer > div > div:not(.columns-offer-img-col) h2 {
+  font-size: var(--heading-font-size-xl);
+  font-weight: 700;
+  color: var(--heading-color);
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+  margin-bottom: var(--spacing-m);
+}
+
+.columns-offer > div > div:not(.columns-offer-img-col) p {
+  font-size: var(--body-font-size-m);
+  color: var(--text-color);
+  line-height: var(--body-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Bullet list in text column */
+.columns-offer ul {
+  padding-left: 1.25em;
+  margin: var(--spacing-m) 0;
+}
+
+.columns-offer li {
+  font-size: var(--body-font-size-m);
+  color: var(--text-color);
+  line-height: var(--body-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+/* CTA buttons */
+.columns-offer .button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-s);
+  margin-top: var(--spacing-m);
+}
+
+/* Links */
+.columns-offer a:any-link:not(.button) {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+.columns-offer a:hover:not(.button) {
+  color: var(--link-hover-color);
+}
+
+@media (width >= 900px) {
+  .columns-offer > div {
+    align-items: center;
+    flex-direction: row;
+    gap: var(--spacing-xl);
+  }
+
+  .columns-offer > div > div {
+    flex: 1;
+    order: unset;
+  }
+
+  .columns-offer > div > .columns-offer-img-col {
+    margin-bottom: 0;
+  }
+
+  .columns-offer > div > div:not(.columns-offer-img-col) h2 {
+    font-size: var(--heading-font-size-xxl);
+  }
+}

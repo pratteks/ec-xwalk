@@ -1,0 +1,94 @@
+/*
+ * Cards Value - Value proposition cards with icon, heading, description, link
+ * Used for: Feature highlights, benefits, value propositions
+ * Original: "Why work with AT&T Business?" section (neutral background)
+ */
+
+.cards-value > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-l);
+}
+
+.cards-value > ul > li {
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Icon image */
+.cards-value .cards-value-card-image {
+  line-height: 0;
+  margin-bottom: var(--spacing-m);
+}
+
+.cards-value > ul > li img {
+  width: 56px;
+  height: 56px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+/* Card body */
+.cards-value .cards-value-card-body {
+  margin: 0;
+  text-align: center;
+}
+
+/* Card heading */
+.cards-value .cards-value-card-body h4 {
+  font-size: var(--heading-font-size-m);
+  font-weight: 400;
+  color: var(--heading-color);
+  line-height: var(--heading-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Card description */
+.cards-value .cards-value-card-body p {
+  font-size: var(--body-font-size-m);
+  color: var(--text-color);
+  line-height: var(--body-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Fine print / disclaimer */
+.cards-value .cards-value-card-body sup {
+  font-size: var(--body-font-size-xs);
+}
+
+/* Card link */
+.cards-value .cards-value-card-body a:any-link {
+  color: var(--text-color);
+  font-weight: 400;
+  text-decoration: underline;
+  font-size: var(--body-font-size-m);
+}
+
+.cards-value .cards-value-card-body a:hover {
+  color: var(--link-hover-color);
+}
+
+@media (width >= 600px) {
+  .cards-value > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .cards-value > ul {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-xl);
+  }
+
+  .cards-value > ul > li img {
+    width: 64px;
+    height: 64px;
+  }
+}
