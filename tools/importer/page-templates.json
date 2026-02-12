@@ -12,7 +12,9 @@
           "name": "Hero",
           "selector": "main .hero:first-of-type",
           "style": null,
-          "blocks": ["hero-banner"],
+          "blocks": [
+            "hero-banner"
+          ],
           "defaultContent": []
         },
         {
@@ -20,23 +22,33 @@
           "name": "Product Cards Carousel",
           "selector": ".multi-tile-cards",
           "style": null,
-          "blocks": ["cards-product"],
-          "defaultContent": ["s2-seq1: heading + paragraph"]
+          "blocks": [
+            "cards-product"
+          ],
+          "defaultContent": [
+            "s2-seq1: heading + paragraph"
+          ]
         },
         {
           "id": "section-3",
           "name": "Promotional Flex Cards",
           "selector": ".flex-cards",
           "style": null,
-          "blocks": ["cards-promo"],
-          "defaultContent": ["s3-seq1: heading"]
+          "blocks": [
+            "cards-promo"
+          ],
+          "defaultContent": [
+            "s3-seq1: heading"
+          ]
         },
         {
           "id": "section-4",
           "name": "Dynamic Defense Hero",
           "selector": "main .hero:nth-of-type(2)",
           "style": null,
-          "blocks": ["hero-feature"],
+          "blocks": [
+            "hero-feature"
+          ],
           "defaultContent": []
         },
         {
@@ -44,15 +56,21 @@
           "name": "Value Propositions",
           "selector": ".generic-list-value-prop",
           "style": "neutral",
-          "blocks": ["cards-value"],
-          "defaultContent": ["s5-seq1: heading + subheading"]
+          "blocks": [
+            "cards-value"
+          ],
+          "defaultContent": [
+            "s5-seq1: heading + subheading"
+          ]
         },
         {
           "id": "section-6",
           "name": "Micro Banner",
           "selector": ".micro-banner",
           "style": "accent",
-          "blocks": ["carousel-banner"],
+          "blocks": [
+            "carousel-banner"
+          ],
           "defaultContent": []
         },
         {
@@ -60,7 +78,9 @@
           "name": "Switch Offer",
           "selector": ".offer",
           "style": null,
-          "blocks": ["columns-offer"],
+          "blocks": [
+            "columns-offer"
+          ],
           "defaultContent": []
         },
         {
@@ -68,15 +88,21 @@
           "name": "Industry Solutions Story Stack",
           "selector": ".story-stack",
           "style": null,
-          "blocks": ["carousel-story"],
-          "defaultContent": ["s8-seq1: heading + paragraph"]
+          "blocks": [
+            "carousel-story"
+          ],
+          "defaultContent": [
+            "s8-seq1: heading + paragraph"
+          ]
         },
         {
           "id": "section-9",
           "name": "AT&T Guarantee Hero",
           "selector": "main .hero:nth-of-type(3)",
           "style": null,
-          "blocks": ["hero-promo"],
+          "blocks": [
+            "hero-promo"
+          ],
           "defaultContent": []
         },
         {
@@ -84,7 +110,9 @@
           "name": "Customer Success Stories",
           "selector": "main .hero:nth-of-type(4)",
           "style": null,
-          "blocks": ["hero-story"],
+          "blocks": [
+            "hero-story"
+          ],
           "defaultContent": []
         },
         {
@@ -92,7 +120,9 @@
           "name": "Sales Expert CTA",
           "selector": ".rai-form",
           "style": null,
-          "blocks": ["columns-contact"],
+          "blocks": [
+            "columns-contact"
+          ],
           "defaultContent": []
         },
         {
@@ -100,58 +130,84 @@
           "name": "Looking For More",
           "selector": ".looking-for-more",
           "style": null,
-          "blocks": ["cards-links"],
+          "blocks": [
+            "cards-links"
+          ],
           "defaultContent": []
         }
       ],
       "blocks": [
         {
           "name": "hero-banner",
-          "instances": ["main .hero:first-of-type"]
+          "instances": [
+            "main .hero:first-of-type"
+          ]
         },
         {
           "name": "cards-product",
-          "instances": [".multi-tile-cards .tile-card-list"]
+          "instances": [
+            ".multi-tile-cards .tile-card-list"
+          ]
         },
         {
           "name": "cards-promo",
-          "instances": [".flex-cards"]
+          "instances": [
+            ".flex-cards"
+          ]
         },
         {
           "name": "hero-feature",
-          "instances": ["main .hero:nth-of-type(2)"]
+          "instances": [
+            "main .hero:nth-of-type(2)"
+          ]
         },
         {
           "name": "cards-value",
-          "instances": [".generic-list-value-prop .value-prop-list"]
+          "instances": [
+            ".generic-list-value-prop .value-prop-list"
+          ]
         },
         {
           "name": "carousel-banner",
-          "instances": [".micro-banner"]
+          "instances": [
+            ".micro-banner"
+          ]
         },
         {
           "name": "columns-offer",
-          "instances": [".offer"]
+          "instances": [
+            ".offer"
+          ]
         },
         {
           "name": "carousel-story",
-          "instances": [".story-stack"]
+          "instances": [
+            ".story-stack"
+          ]
         },
         {
           "name": "hero-promo",
-          "instances": ["main .hero:nth-of-type(3)"]
+          "instances": [
+            "main .hero:nth-of-type(3)"
+          ]
         },
         {
           "name": "hero-story",
-          "instances": ["main .hero:nth-of-type(4)"]
+          "instances": [
+            "main .hero:nth-of-type(4)"
+          ]
         },
         {
           "name": "columns-contact",
-          "instances": [".rai-form"]
+          "instances": [
+            ".rai-form"
+          ]
         },
         {
           "name": "cards-links",
-          "instances": [".looking-for-more"]
+          "instances": [
+            ".looking-for-more"
+          ]
         }
       ]
     }
