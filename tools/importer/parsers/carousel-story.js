@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { createBlock } from '../utils.js';
+import { createBlock, addFieldHint } from '../utils.js';
 
 /**
  * Parser: carousel-story
@@ -42,7 +42,7 @@ export default function parse(element, { document }) {
       });
     }
 
-    cells.push([imgCell, textCell]);
+    cells.push([addFieldHint(document, 'media_image', imgCell), addFieldHint(document, 'content_text', textCell)]);
   });
 
   const block = createBlock(document, cells);

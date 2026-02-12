@@ -59,6 +59,14 @@ var CustomImportScript = (() => {
     });
     return table;
   }
+  function addFieldHint(doc, fieldName, content) {
+    const frag = doc.createDocumentFragment();
+    frag.appendChild(doc.createComment(` field:${fieldName} `));
+    if (content) {
+      frag.appendChild(content);
+    }
+    return frag;
+  }
   function extractBgImageUrl(container) {
     const bgPanel = container.querySelector("[data-desktop]");
     if (bgPanel) {
@@ -131,8 +139,8 @@ var CustomImportScript = (() => {
       imgEl.alt = fallbackImg.alt || "";
       imgWrapper.append(imgEl);
     }
-    cells.push([imgWrapper]);
-    cells.push([textContent]);
+    cells.push([addFieldHint(document, "image", imgWrapper)]);
+    cells.push([addFieldHint(document, "text", textContent)]);
     const block = createBlock(document, cells);
     element.replaceWith(block);
   }
@@ -202,8 +210,8 @@ var CustomImportScript = (() => {
       imgEl.alt = fallbackImg.alt || "";
       imgWrapper.append(imgEl);
     }
-    cells.push([imgWrapper]);
-    cells.push([textContent]);
+    cells.push([addFieldHint(document, "image", imgWrapper)]);
+    cells.push([addFieldHint(document, "text", textContent)]);
     const block = createBlock(document, cells);
     element.replaceWith(block);
   }
@@ -271,8 +279,8 @@ var CustomImportScript = (() => {
       imgEl.alt = fallbackImg.alt || "";
       imgWrapper.append(imgEl);
     }
-    cells.push([imgWrapper]);
-    cells.push([textContent]);
+    cells.push([addFieldHint(document, "image", imgWrapper)]);
+    cells.push([addFieldHint(document, "text", textContent)]);
     const block = createBlock(document, cells);
     element.replaceWith(block);
   }
@@ -316,8 +324,8 @@ var CustomImportScript = (() => {
       imgEl.alt = fallbackImg.alt || "";
       imgWrapper.append(imgEl);
     }
-    cells.push([imgWrapper]);
-    cells.push([textContent]);
+    cells.push([addFieldHint(document, "image", imgWrapper)]);
+    cells.push([addFieldHint(document, "text", textContent)]);
     const block = createBlock(document, cells);
     element.replaceWith(block);
   }
@@ -340,16 +348,16 @@ var CustomImportScript = (() => {
         imgEl.alt = img.alt || "";
         imgCell.append(imgEl);
       }
-      const textCell = document.createElement("div");
+      const contentCell = document.createElement("div");
       if (heading) {
         const h = document.createElement("h3");
         h.textContent = heading.textContent.trim();
-        textCell.append(h);
+        contentCell.append(addFieldHint(document, "content_heading", h));
       }
       if (description) {
         const p = document.createElement("p");
         p.innerHTML = description.innerHTML;
-        textCell.append(p);
+        contentCell.append(addFieldHint(document, "content_description", p));
       }
       if (price && price.textContent.trim()) {
         const p = document.createElement("p");
@@ -359,14 +367,14 @@ var CustomImportScript = (() => {
         } else {
           p.textContent = price.textContent.trim().replace(/\s+/g, " ");
         }
-        textCell.append(p);
+        contentCell.append(addFieldHint(document, "content_pricing", p));
       }
       if (legal && legal.textContent.trim()) {
         const p = document.createElement("p");
         const small = document.createElement("small");
         small.innerHTML = legal.innerHTML;
         p.append(small);
-        textCell.append(p);
+        contentCell.append(addFieldHint(document, "content_disclaimer", p));
       }
       if (cta && cta.textContent.trim()) {
         const p = document.createElement("p");
@@ -374,9 +382,9 @@ var CustomImportScript = (() => {
         a.href = cta.href;
         a.textContent = cta.textContent.trim();
         p.append(a);
-        textCell.append(p);
+        contentCell.append(addFieldHint(document, "content_cta", p));
       }
-      cells.push([imgCell, textCell]);
+      cells.push([addFieldHint(document, "image", imgCell), contentCell]);
     });
     const block = createBlock(document, cells);
     element.replaceWith(block);
@@ -405,36 +413,41 @@ var CustomImportScript = (() => {
         imgEl.alt = "";
         imgCell.append(imgEl);
       }
-      const textCell = document.createElement("div");
+      const contentCell = document.createElement("div");
       if (eyebrow && eyebrow.textContent.trim()) {
         const p = document.createElement("p");
         const em = document.createElement("em");
         em.textContent = eyebrow.textContent.trim();
         p.append(em);
-        textCell.append(p);
+        contentCell.append(addFieldHint(document, "content_eyebrow", p));
       }
       if (heading) {
         const h = document.createElement("h3");
         h.innerHTML = heading.innerHTML;
-        textCell.append(h);
+        contentCell.append(addFieldHint(document, "content_heading", h));
       }
       if (body) {
+        const descDiv = document.createElement("div");
         body.querySelectorAll("p").forEach((p) => {
           if (p.textContent.trim()) {
             const newP = document.createElement("p");
             newP.innerHTML = p.innerHTML;
-            textCell.append(newP);
+            descDiv.append(newP);
           }
         });
+        if (descDiv.childNodes.length > 0) {
+          contentCell.append(addFieldHint(document, "content_description", descDiv));
+        }
       }
       if (legal && legal.textContent.trim()) {
         const p = document.createElement("p");
         const small = document.createElement("small");
         small.innerHTML = legal.innerHTML;
         p.append(small);
-        textCell.append(p);
+        contentCell.append(addFieldHint(document, "content_disclaimer", p));
       }
       if (ctas.length > 0) {
+        const ctaDiv = document.createElement("div");
         ctas.forEach((link) => {
           if (link.textContent.trim()) {
             const p = document.createElement("p");
@@ -444,11 +457,14 @@ var CustomImportScript = (() => {
             strong.textContent = link.textContent.trim();
             a.append(strong);
             p.append(a);
-            textCell.append(p);
+            ctaDiv.append(p);
           }
         });
+        if (ctaDiv.childNodes.length > 0) {
+          contentCell.append(addFieldHint(document, "content_cta", ctaDiv));
+        }
       }
-      cells.push([imgCell, textCell]);
+      cells.push([addFieldHint(document, "image", imgCell), contentCell]);
     });
     const block = createBlock(document, cells);
     element.replaceWith(block);
@@ -471,27 +487,31 @@ var CustomImportScript = (() => {
         imgEl.alt = icon.alt || "";
         imgCell.append(imgEl);
       }
-      const textCell = document.createElement("div");
+      const contentCell = document.createElement("div");
       if (heading) {
         const h = document.createElement("h3");
         h.textContent = heading.textContent.trim();
-        textCell.append(h);
+        contentCell.append(addFieldHint(document, "content_heading", h));
       }
       if (description) {
+        const descDiv = document.createElement("div");
         description.querySelectorAll("p").forEach((p) => {
           if (p.textContent.trim()) {
             const newP = document.createElement("p");
             newP.innerHTML = p.innerHTML;
-            textCell.append(newP);
+            descDiv.append(newP);
           }
         });
+        if (descDiv.childNodes.length > 0) {
+          contentCell.append(addFieldHint(document, "content_description", descDiv));
+        }
       }
       if (legal && legal.textContent.trim()) {
         const p = document.createElement("p");
         const small = document.createElement("small");
         small.innerHTML = legal.innerHTML;
         p.append(small);
-        textCell.append(p);
+        contentCell.append(addFieldHint(document, "content_disclaimer", p));
       }
       if (cta && cta.textContent.trim()) {
         const p = document.createElement("p");
@@ -499,9 +519,9 @@ var CustomImportScript = (() => {
         a.href = cta.href;
         a.textContent = cta.textContent.trim();
         p.append(a);
-        textCell.append(p);
+        contentCell.append(addFieldHint(document, "content_cta", p));
       }
-      cells.push([imgCell, textCell]);
+      cells.push([addFieldHint(document, "image", imgCell), contentCell]);
     });
     const block = createBlock(document, cells);
     element.replaceWith(block);
@@ -514,14 +534,15 @@ var CustomImportScript = (() => {
     linkItems.forEach((li) => {
       const link = li.querySelector("a[href]");
       if (!link || !link.textContent.trim()) return;
-      const textCell = document.createElement("div");
+      const contentCell = document.createElement("div");
       const p = document.createElement("p");
       const a = document.createElement("a");
       a.href = link.href;
       a.textContent = link.textContent.trim();
       p.append(a);
-      textCell.append(p);
-      cells.push([textCell]);
+      contentCell.append(addFieldHint(document, "content_link", p));
+      const imgCell = document.createElement("div");
+      cells.push([imgCell, contentCell]);
     });
     const block = createBlock(document, cells);
     element.replaceWith(block);
@@ -555,7 +576,8 @@ var CustomImportScript = (() => {
         p.append(small);
         textCell.append(p);
       }
-      cells.push([textCell]);
+      const mediaCell = document.createElement("div");
+      cells.push([mediaCell, addFieldHint(document, "content_text", textCell)]);
     });
     const block = createBlock(document, cells);
     element.replaceWith(block);
@@ -591,7 +613,7 @@ var CustomImportScript = (() => {
           }
         });
       }
-      cells.push([imgCell, textCell]);
+      cells.push([addFieldHint(document, "media_image", imgCell), addFieldHint(document, "content_text", textCell)]);
     });
     const block = createBlock(document, cells);
     element.replaceWith(block);

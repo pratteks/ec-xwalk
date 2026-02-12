@@ -1,11 +1,11 @@
 /* eslint-disable */
-import { createBlock } from '../utils.js';
+import { createBlock, addFieldHint } from '../utils.js';
 
 /**
  * Parser: cards-links
  * Selector: .link-farm
  * Content: "Looking for more?" section with lists of links
- * Rows: per link item [textCell] - single column with link paragraph
+ * Model fields per item: image (empty), imageAlt (collapsed), content_link
  */
 export default function parse(element, { document }) {
   const linkItems = element.querySelectorAll('li');
@@ -15,16 +15,18 @@ export default function parse(element, { document }) {
     const link = li.querySelector('a[href]');
     if (!link || !link.textContent.trim()) return;
 
-    // Text cell - single column with link
-    const textCell = document.createElement('div');
+    // Content cell with link field hint
+    const contentCell = document.createElement('div');
     const p = document.createElement('p');
     const a = document.createElement('a');
     a.href = link.href;
     a.textContent = link.textContent.trim();
     p.append(a);
-    textCell.append(p);
+    contentCell.append(addFieldHint(document, 'content_link', p));
 
-    cells.push([textCell]);
+    // Image cell is empty for links
+    const imgCell = document.createElement('div');
+    cells.push([imgCell, contentCell]);
   });
 
   const block = createBlock(document, cells);

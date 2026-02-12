@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { createBlock } from '../utils.js';
+import { createBlock, addFieldHint } from '../utils.js';
 
 /**
  * Parser: carousel-banner
@@ -39,7 +39,9 @@ export default function parse(element, { document }) {
       textCell.append(p);
     }
 
-    cells.push([textCell]);
+    // Model requires media + content columns; media is empty for banner slides
+    const mediaCell = document.createElement('div');
+    cells.push([mediaCell, addFieldHint(document, 'content_text', textCell)]);
   });
 
   const block = createBlock(document, cells);

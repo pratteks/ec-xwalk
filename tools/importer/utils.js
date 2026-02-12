@@ -26,6 +26,24 @@ export function createBlock(doc, cells) {
 }
 
 /**
+ * Create a document fragment with a field hint comment before content.
+ * Used for xwalk Universal Editor field binding.
+ *
+ * @param {Document} doc - The document to create elements in
+ * @param {string} fieldName - The model field name (e.g., 'image', 'text')
+ * @param {Node} content - The content node to place after the hint
+ * @returns {DocumentFragment} Fragment with hint comment + content
+ */
+export function addFieldHint(doc, fieldName, content) {
+  const frag = doc.createDocumentFragment();
+  frag.appendChild(doc.createComment(` field:${fieldName} `));
+  if (content) {
+    frag.appendChild(content);
+  }
+  return frag;
+}
+
+/**
  * Extract background image URL from an element's data attributes or inline style.
  * AT&T site uses data-desktop/data-tablet/data-mobile attributes and inline background-image.
  *
