@@ -1,10 +1,11 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock } from '../utils.js';
 
 /**
  * Parser: carousel-banner
  * Selector: .micro-banner
- * Content: Rotating promotional slides (30-day trial, J.D. Power award)
- * Model fields per slide: media_image (reference), media_imageAlt (text), content_text (richtext)
+ * Content: Rotating promotional slides with heading, body, and legal text
+ * Rows: per slide [textCell] - single column with heading+body+legal
  */
 export default function parse(element, { document }) {
   const slides = element.querySelectorAll('.swiper-slide');
@@ -15,14 +16,8 @@ export default function parse(element, { document }) {
     const bodyText = slide.querySelector('.body-text');
     const legalText = slide.querySelector('.legal-text');
 
-    // Image cell (no images in this text-only carousel)
-    const imgCell = document.createElement('div');
-    imgCell.append(document.createComment(' field:media_image '));
-    imgCell.append(document.createComment(' field:media_imageAlt '));
-
     // Text cell
     const textCell = document.createElement('div');
-    textCell.append(document.createComment(' field:content_text '));
 
     if (headingSection) {
       const p = document.createElement('p');
@@ -44,9 +39,9 @@ export default function parse(element, { document }) {
       textCell.append(p);
     }
 
-    cells.push([imgCell, textCell]);
+    cells.push([textCell]);
   });
 
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }

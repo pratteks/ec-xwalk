@@ -1,9 +1,10 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock, extractBgImageUrl } from '../utils.js';
 
 /**
  * Parser: cards-promo
- * Selector: .flex-cards .flex-card, .flex-cards .flex-card-full
- * Content: Promotional cards with bg images (iPhone 17 Pro, Device Protection, Business Fiber)
+ * Selector: .flex-cards
+ * Content: Promotional cards with CSS background images (no img tags)
  * Model fields per card: image (reference), text (richtext)
  */
 export default function parse(element, { document }) {
@@ -14,26 +15,29 @@ export default function parse(element, { document }) {
     const card = wrapper.querySelector('.flex-card, .card');
     if (!card) return;
 
-    const bgImg = card.querySelector(':scope > img');
+    // Images are CSS backgrounds, not img tags
+    let bgUrl = extractBgImageUrl(card);
+    if (!bgUrl) {
+      bgUrl = extractBgImageUrl(wrapper);
+    }
+
     const eyebrow = card.querySelector('[class*="eyebrow"]');
     const heading = card.querySelector('h3');
     const body = card.querySelector('.type-base');
     const legal = card.querySelector('.type-legal');
-    const cta = card.querySelector('.flexCardItemCta a, .anchor4-button-link');
+    const ctas = card.querySelectorAll('.flexCardItemCta a, .anchor4-button-link, .cta-container a');
 
     // Image cell
     const imgCell = document.createElement('div');
-    imgCell.append(document.createComment(' field:image '));
-    if (bgImg) {
+    if (bgUrl) {
       const imgEl = document.createElement('img');
-      imgEl.src = bgImg.src;
-      imgEl.alt = bgImg.alt || '';
+      imgEl.src = bgUrl;
+      imgEl.alt = '';
       imgCell.append(imgEl);
     }
 
     // Text cell
     const textCell = document.createElement('div');
-    textCell.append(document.createComment(' field:text '));
     if (eyebrow && eyebrow.textContent.trim()) {
       const p = document.createElement('p');
       const em = document.createElement('em');
@@ -62,20 +66,24 @@ export default function parse(element, { document }) {
       p.append(small);
       textCell.append(p);
     }
-    if (cta && cta.textContent.trim()) {
-      const p = document.createElement('p');
-      const a = document.createElement('a');
-      a.href = cta.href;
-      const strong = document.createElement('strong');
-      strong.textContent = cta.textContent.trim();
-      a.append(strong);
-      p.append(a);
-      textCell.append(p);
+    if (ctas.length > 0) {
+      ctas.forEach((link) => {
+        if (link.textContent.trim()) {
+          const p = document.createElement('p');
+          const a = document.createElement('a');
+          a.href = link.href;
+          const strong = document.createElement('strong');
+          strong.textContent = link.textContent.trim();
+          a.append(strong);
+          p.append(a);
+          textCell.append(p);
+        }
+      });
     }
 
     cells.push([imgCell, textCell]);
   });
 
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }

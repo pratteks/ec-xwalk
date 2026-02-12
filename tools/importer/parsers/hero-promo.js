@@ -1,22 +1,22 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock, extractBgImageUrl } from '../utils.js';
 
 /**
  * Parser: hero-promo
- * Selector: main .hero:nth-of-type(3)
- * Content: "AT&T Guarantee" heading, description with checklist, 2 CTAs, dark bg
+ * Selector: .aem-Grid > .hero:nth-child(9)
+ * Content: Heading, body paragraphs, checklist (.chkmrk li), 2 CTAs, background image
  * Model fields: image (reference), imageAlt (text), text (richtext)
  */
 export default function parse(element, { document }) {
-  const bgImg = element.querySelector('.bg-hero-panel img, .bg-art img');
-  const sideImg = element.querySelector('.hero-panel-image img');
-  const img = bgImg || sideImg;
+  // Extract background image - prefer CSS background, fallback to img tag
+  const bgUrl = extractBgImageUrl(element);
+  const fallbackImg = element.querySelector('.hero-panel-image img');
 
   const heading = element.querySelector('h1, h2');
   const bodyText = element.querySelector('.wysiwyg-editor, .type-base');
   const ctaContainer = element.querySelector('.cta-container');
 
   const textContent = document.createElement('div');
-  textContent.append(document.createComment(' field:text '));
 
   if (heading) {
     const h = document.createElement(heading.tagName.toLowerCase());
@@ -37,10 +37,11 @@ export default function parse(element, { document }) {
     if (listItems.length > 0) {
       const ul = document.createElement('ul');
       listItems.forEach((li) => {
-        const text = li.querySelector('span');
-        if (text && text.textContent.trim()) {
+        const spanText = li.querySelector('span');
+        const content = spanText ? spanText.textContent.trim() : li.textContent.trim();
+        if (content) {
           const newLi = document.createElement('li');
-          newLi.textContent = text.textContent.trim();
+          newLi.textContent = content;
           ul.append(newLi);
         }
       });
@@ -64,19 +65,24 @@ export default function parse(element, { document }) {
 
   const cells = [['Hero Promo']];
 
-  if (img) {
+  // Row 1: image
+  const imgWrapper = document.createElement('div');
+  if (bgUrl) {
     const imgEl = document.createElement('img');
-    imgEl.src = img.src;
-    imgEl.alt = img.alt || '';
-    const imgWrapper = document.createElement('div');
-    imgWrapper.append(document.createComment(' field:image '));
+    imgEl.src = bgUrl;
+    imgEl.alt = '';
     imgWrapper.append(imgEl);
-    imgWrapper.append(document.createComment(' field:imageAlt '));
-    cells.push([imgWrapper]);
+  } else if (fallbackImg) {
+    const imgEl = document.createElement('img');
+    imgEl.src = fallbackImg.src;
+    imgEl.alt = fallbackImg.alt || '';
+    imgWrapper.append(imgEl);
   }
+  cells.push([imgWrapper]);
 
+  // Row 2: text
   cells.push([textContent]);
 
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }

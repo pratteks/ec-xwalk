@@ -1,15 +1,16 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock, extractBgImageUrl } from '../utils.js';
 
 /**
  * Parser: hero-feature
- * Selector: main .hero:nth-of-type(2)
- * Content: "AT&T Dynamic Defense" eyebrow, heading, description, legal, 2 CTAs, side image, dark bg
+ * Selector: .aem-Grid > .hero:nth-child(4)
+ * Content: Eyebrow, heading, body text, legal, 2 CTAs, background image
  * Model fields: image (reference), imageAlt (text), text (richtext)
  */
 export default function parse(element, { document }) {
-  const bgImg = element.querySelector('.bg-hero-panel img, .bg-art img');
-  const sideImg = element.querySelector('.hero-panel-image img');
-  const img = bgImg || sideImg;
+  // Extract background image - prefer CSS background, fallback to img tag
+  const bgUrl = extractBgImageUrl(element);
+  const fallbackImg = element.querySelector('.hero-panel-image img');
 
   const eyebrow = element.querySelector('[class*="eyebrow"]');
   const heading = element.querySelector('h1, h2');
@@ -18,7 +19,6 @@ export default function parse(element, { document }) {
   const ctaContainer = element.querySelector('.cta-container');
 
   const textContent = document.createElement('div');
-  textContent.append(document.createComment(' field:text '));
 
   if (eyebrow && eyebrow.textContent.trim()) {
     const p = document.createElement('p');
@@ -65,19 +65,24 @@ export default function parse(element, { document }) {
 
   const cells = [['Hero Feature']];
 
-  if (img) {
+  // Row 1: image
+  const imgWrapper = document.createElement('div');
+  if (bgUrl) {
     const imgEl = document.createElement('img');
-    imgEl.src = img.src;
-    imgEl.alt = img.alt || '';
-    const imgWrapper = document.createElement('div');
-    imgWrapper.append(document.createComment(' field:image '));
+    imgEl.src = bgUrl;
+    imgEl.alt = '';
     imgWrapper.append(imgEl);
-    imgWrapper.append(document.createComment(' field:imageAlt '));
-    cells.push([imgWrapper]);
+  } else if (fallbackImg) {
+    const imgEl = document.createElement('img');
+    imgEl.src = fallbackImg.src;
+    imgEl.alt = fallbackImg.alt || '';
+    imgWrapper.append(imgEl);
   }
+  cells.push([imgWrapper]);
 
+  // Row 2: text
   cells.push([textContent]);
 
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }

@@ -1,33 +1,22 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock } from '../utils.js';
 
 /**
  * Parser: cards-links
- * Selector: .looking-for-more
- * Content: "Looking for more?" heading with grid of icon-based category links
- * Model fields per card: image (reference), text (richtext)
+ * Selector: .link-farm
+ * Content: "Looking for more?" section with lists of links
+ * Rows: per link item [textCell] - single column with link paragraph
  */
 export default function parse(element, { document }) {
-  const linkItems = element.querySelectorAll('a[class*="att-track"], .link-item, li');
+  const linkItems = element.querySelectorAll('li');
   const cells = [['Cards Links']];
 
-  linkItems.forEach((item) => {
-    const icon = item.querySelector('img');
-    const link = item.tagName === 'A' ? item : item.querySelector('a');
+  linkItems.forEach((li) => {
+    const link = li.querySelector('a[href]');
     if (!link || !link.textContent.trim()) return;
 
-    // Image cell
-    const imgCell = document.createElement('div');
-    imgCell.append(document.createComment(' field:image '));
-    if (icon) {
-      const imgEl = document.createElement('img');
-      imgEl.src = icon.src;
-      imgEl.alt = icon.alt || '';
-      imgCell.append(imgEl);
-    }
-
-    // Text cell
+    // Text cell - single column with link
     const textCell = document.createElement('div');
-    textCell.append(document.createComment(' field:text '));
     const p = document.createElement('p');
     const a = document.createElement('a');
     a.href = link.href;
@@ -35,9 +24,9 @@ export default function parse(element, { document }) {
     p.append(a);
     textCell.append(p);
 
-    cells.push([imgCell, textCell]);
+    cells.push([textCell]);
   });
 
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }

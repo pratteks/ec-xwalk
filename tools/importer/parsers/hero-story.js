@@ -1,21 +1,21 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock, extractBgImageUrl } from '../utils.js';
 
 /**
  * Parser: hero-story
- * Selector: main .hero:nth-of-type(4)
- * Content: "Success stories" heading, CTA, background image
+ * Selector: .aem-Grid > .hero:nth-child(10)
+ * Content: Heading, CTA, background image
  * Model fields: image (reference), imageAlt (text), text (richtext)
  */
 export default function parse(element, { document }) {
-  const bgImg = element.querySelector('.bg-hero-panel img, .bg-art img');
-  const sideImg = element.querySelector('.hero-panel-image img');
-  const img = bgImg || sideImg;
+  // Extract background image - prefer CSS background, fallback to img tag
+  const bgUrl = extractBgImageUrl(element);
+  const fallbackImg = element.querySelector('.hero-panel-image img');
 
   const heading = element.querySelector('h1, h2');
   const ctaContainer = element.querySelector('.cta-container');
 
   const textContent = document.createElement('div');
-  textContent.append(document.createComment(' field:text '));
 
   if (heading) {
     const h = document.createElement(heading.tagName.toLowerCase());
@@ -39,19 +39,24 @@ export default function parse(element, { document }) {
 
   const cells = [['Hero Story']];
 
-  if (img) {
+  // Row 1: image
+  const imgWrapper = document.createElement('div');
+  if (bgUrl) {
     const imgEl = document.createElement('img');
-    imgEl.src = img.src;
-    imgEl.alt = img.alt || '';
-    const imgWrapper = document.createElement('div');
-    imgWrapper.append(document.createComment(' field:image '));
+    imgEl.src = bgUrl;
+    imgEl.alt = '';
     imgWrapper.append(imgEl);
-    imgWrapper.append(document.createComment(' field:imageAlt '));
-    cells.push([imgWrapper]);
+  } else if (fallbackImg) {
+    const imgEl = document.createElement('img');
+    imgEl.src = fallbackImg.src;
+    imgEl.alt = fallbackImg.alt || '';
+    imgWrapper.append(imgEl);
   }
+  cells.push([imgWrapper]);
 
+  // Row 2: text
   cells.push([textContent]);
 
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }

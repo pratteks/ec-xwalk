@@ -1,4 +1,4 @@
-/* global WebImporter */
+/* eslint-disable */
 
 /**
  * AT&T Business section transformer.
@@ -29,35 +29,61 @@ function createSectionMetadata(document, style) {
   return table;
 }
 
+function findBlockTable(root, blockName) {
+  const tables = root.querySelectorAll('table');
+  for (const table of tables) {
+    const th = table.querySelector('tr:first-child th');
+    if (th && th.textContent.trim().toLowerCase() === blockName.toLowerCase()) {
+      return table;
+    }
+  }
+  return null;
+}
+
 function afterTransform(element, payload) {
   const { document } = payload;
 
-  // Section definitions matching page-templates.json
+  // After parsers run, original elements are replaced with <table> blocks.
+  // Find block tables by their header text (first <th> content).
   const sections = [
-    { selector: 'main .hero:first-of-type', style: null },
-    { selector: '.multi-tile-cards', style: null },
-    { selector: '.flex-cards', style: null },
-    { selector: 'main .hero:nth-of-type(2)', style: null },
-    { selector: '.generic-list-value-prop', style: 'neutral' },
-    { selector: '.micro-banner', style: 'accent' },
-    { selector: '.offer', style: null },
-    { selector: '.story-stack', style: null },
-    { selector: 'main .hero:nth-of-type(3)', style: null },
-    { selector: 'main .hero:nth-of-type(4)', style: null },
-    { selector: '.rai-form', style: null },
+    { blockName: 'Hero Banner', style: null },
+    { blockName: 'Cards Product', style: null },
+    { blockName: 'Cards Promo', style: null },
+    { blockName: 'Hero Feature', style: null },
+    { blockName: 'Cards Value', style: 'neutral' },
+    { blockName: 'Carousel Banner', style: 'accent' },
+    { blockName: 'Columns Offer', style: null },
+    { blockName: 'Carousel Story', style: null },
+    { blockName: 'Hero Promo', style: null },
+    { blockName: 'Hero Story', style: null },
+    { blockName: 'Columns Contact', style: null },
+    { blockName: 'Cards Links', style: null },
   ];
 
-  const main = document.querySelector('main');
-  if (!main) return;
+  const main = document.querySelector('main') || document.body;
+  if (!main) {
+    console.warn('[att-sections] No main or body found');
+    return;
+  }
 
-  // Find each section element and insert HR + section-metadata before it
+  const allTables = main.querySelectorAll('table');
+  console.log(`[att-sections] Found ${allTables.length} tables in DOM`);
+  allTables.forEach((t, i) => {
+    const th = t.querySelector('tr:first-child th');
+    console.log(`[att-sections]   table[${i}] th="${th ? th.textContent.trim() : 'NONE'}"`);
+  });
+
+  // Find each block table element
   const sectionElements = [];
   sections.forEach((sec) => {
-    const el = main.querySelector(sec.selector) || document.querySelector(sec.selector);
+    const el = findBlockTable(main, sec.blockName);
     if (el) {
       sectionElements.push({ el, style: sec.style });
+    } else {
+      console.warn(`[att-sections] Block table NOT found: "${sec.blockName}"`);
     }
   });
+  console.log(`[att-sections] Matched ${sectionElements.length}/${sections.length} sections`);
 
   // Insert HRs between sections (starting from second section)
   for (let i = 1; i < sectionElements.length; i += 1) {

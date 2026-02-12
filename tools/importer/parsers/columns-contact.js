@@ -1,10 +1,11 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock } from '../utils.js';
 
 /**
  * Parser: columns-contact
  * Selector: .rai-form
- * Content: "Talk to an AT&T Business sales expert" heading, phone, legal
- * Columns block: NO field hinting per library spec
+ * Content: Contact section with heading, phone info, and legal text
+ * Layout: 2-column row [col1=heading+body, col2=legal/form placeholder text]
  */
 export default function parse(element, { document }) {
   const heading = element.querySelector('h2');
@@ -28,7 +29,7 @@ export default function parse(element, { document }) {
     });
   }
 
-  // Column 2: Legal text
+  // Column 2: Legal text / form placeholder
   const col2 = document.createElement('div');
   if (legal && legal.textContent.trim()) {
     const p = document.createElement('p');
@@ -39,6 +40,6 @@ export default function parse(element, { document }) {
   }
 
   const cells = [['Columns Contact'], [col1, col2]];
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }

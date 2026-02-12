@@ -40,17 +40,47 @@ var CustomImportScript = (() => {
     default: () => import_homepage_default
   });
 
+  // tools/importer/utils.js
+  function createBlock(doc, cells) {
+    const table = doc.createElement("table");
+    cells.forEach((row, rowIdx) => {
+      const tr = doc.createElement("tr");
+      const items = Array.isArray(row) ? row : [row];
+      items.forEach((cell) => {
+        const td = doc.createElement(rowIdx === 0 ? "th" : "td");
+        if (typeof cell === "string") {
+          td.textContent = cell;
+        } else if (cell) {
+          td.append(cell);
+        }
+        tr.append(td);
+      });
+      table.append(tr);
+    });
+    return table;
+  }
+  function extractBgImageUrl(container) {
+    const bgPanel = container.querySelector("[data-desktop]");
+    if (bgPanel) {
+      return bgPanel.getAttribute("data-desktop");
+    }
+    const styledEl = container.querySelector('[style*="background-image"]');
+    if (styledEl) {
+      const match = styledEl.style.backgroundImage.match(/url\(["']?([^"')]+)["']?\)/);
+      if (match) return match[1];
+    }
+    return null;
+  }
+
   // tools/importer/parsers/hero-banner.js
   function parse(element, { document }) {
-    const bgImg = element.querySelector(".bg-hero-panel img, .bg-art img");
-    const sideImg = element.querySelector(".hero-panel-image img");
-    const img = bgImg || sideImg;
+    const bgUrl = extractBgImageUrl(element);
+    const fallbackImg = element.querySelector(".hero-panel-image img");
     const eyebrow = element.querySelector('[class*="eyebrow"]');
     const heading = element.querySelector("h1, h2");
     const bodyText = element.querySelector(".wysiwyg-editor, .type-base");
     const ctaContainer = element.querySelector(".cta-container");
     const textContent = document.createElement("div");
-    textContent.append(document.createComment(" field:text "));
     if (eyebrow && eyebrow.textContent.trim()) {
       const p = document.createElement("p");
       const em = document.createElement("em");
@@ -89,33 +119,34 @@ var CustomImportScript = (() => {
       });
     }
     const cells = [["Hero Banner"]];
-    if (img) {
+    const imgWrapper = document.createElement("div");
+    if (bgUrl) {
       const imgEl = document.createElement("img");
-      imgEl.src = img.src;
-      imgEl.alt = img.alt || "";
-      const imgWrapper = document.createElement("div");
-      imgWrapper.append(document.createComment(" field:image "));
+      imgEl.src = bgUrl;
+      imgEl.alt = "";
       imgWrapper.append(imgEl);
-      imgWrapper.append(document.createComment(" field:imageAlt "));
-      cells.push([imgWrapper]);
+    } else if (fallbackImg) {
+      const imgEl = document.createElement("img");
+      imgEl.src = fallbackImg.src;
+      imgEl.alt = fallbackImg.alt || "";
+      imgWrapper.append(imgEl);
     }
+    cells.push([imgWrapper]);
     cells.push([textContent]);
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
   // tools/importer/parsers/hero-feature.js
   function parse2(element, { document }) {
-    const bgImg = element.querySelector(".bg-hero-panel img, .bg-art img");
-    const sideImg = element.querySelector(".hero-panel-image img");
-    const img = bgImg || sideImg;
+    const bgUrl = extractBgImageUrl(element);
+    const fallbackImg = element.querySelector(".hero-panel-image img");
     const eyebrow = element.querySelector('[class*="eyebrow"]');
     const heading = element.querySelector("h1, h2");
     const bodyText = element.querySelector(".wysiwyg-editor, .type-base");
     const legalText = element.querySelector(".type-legal");
     const ctaContainer = element.querySelector(".cta-container");
     const textContent = document.createElement("div");
-    textContent.append(document.createComment(" field:text "));
     if (eyebrow && eyebrow.textContent.trim()) {
       const p = document.createElement("p");
       const em = document.createElement("em");
@@ -159,31 +190,32 @@ var CustomImportScript = (() => {
       });
     }
     const cells = [["Hero Feature"]];
-    if (img) {
+    const imgWrapper = document.createElement("div");
+    if (bgUrl) {
       const imgEl = document.createElement("img");
-      imgEl.src = img.src;
-      imgEl.alt = img.alt || "";
-      const imgWrapper = document.createElement("div");
-      imgWrapper.append(document.createComment(" field:image "));
+      imgEl.src = bgUrl;
+      imgEl.alt = "";
       imgWrapper.append(imgEl);
-      imgWrapper.append(document.createComment(" field:imageAlt "));
-      cells.push([imgWrapper]);
+    } else if (fallbackImg) {
+      const imgEl = document.createElement("img");
+      imgEl.src = fallbackImg.src;
+      imgEl.alt = fallbackImg.alt || "";
+      imgWrapper.append(imgEl);
     }
+    cells.push([imgWrapper]);
     cells.push([textContent]);
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
   // tools/importer/parsers/hero-promo.js
   function parse3(element, { document }) {
-    const bgImg = element.querySelector(".bg-hero-panel img, .bg-art img");
-    const sideImg = element.querySelector(".hero-panel-image img");
-    const img = bgImg || sideImg;
+    const bgUrl = extractBgImageUrl(element);
+    const fallbackImg = element.querySelector(".hero-panel-image img");
     const heading = element.querySelector("h1, h2");
     const bodyText = element.querySelector(".wysiwyg-editor, .type-base");
     const ctaContainer = element.querySelector(".cta-container");
     const textContent = document.createElement("div");
-    textContent.append(document.createComment(" field:text "));
     if (heading) {
       const h = document.createElement(heading.tagName.toLowerCase());
       h.innerHTML = heading.innerHTML;
@@ -201,10 +233,11 @@ var CustomImportScript = (() => {
       if (listItems.length > 0) {
         const ul = document.createElement("ul");
         listItems.forEach((li) => {
-          const text = li.querySelector("span");
-          if (text && text.textContent.trim()) {
+          const spanText = li.querySelector("span");
+          const content = spanText ? spanText.textContent.trim() : li.textContent.trim();
+          if (content) {
             const newLi = document.createElement("li");
-            newLi.textContent = text.textContent.trim();
+            newLi.textContent = content;
             ul.append(newLi);
           }
         });
@@ -226,30 +259,31 @@ var CustomImportScript = (() => {
       });
     }
     const cells = [["Hero Promo"]];
-    if (img) {
+    const imgWrapper = document.createElement("div");
+    if (bgUrl) {
       const imgEl = document.createElement("img");
-      imgEl.src = img.src;
-      imgEl.alt = img.alt || "";
-      const imgWrapper = document.createElement("div");
-      imgWrapper.append(document.createComment(" field:image "));
+      imgEl.src = bgUrl;
+      imgEl.alt = "";
       imgWrapper.append(imgEl);
-      imgWrapper.append(document.createComment(" field:imageAlt "));
-      cells.push([imgWrapper]);
+    } else if (fallbackImg) {
+      const imgEl = document.createElement("img");
+      imgEl.src = fallbackImg.src;
+      imgEl.alt = fallbackImg.alt || "";
+      imgWrapper.append(imgEl);
     }
+    cells.push([imgWrapper]);
     cells.push([textContent]);
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
   // tools/importer/parsers/hero-story.js
   function parse4(element, { document }) {
-    const bgImg = element.querySelector(".bg-hero-panel img, .bg-art img");
-    const sideImg = element.querySelector(".hero-panel-image img");
-    const img = bgImg || sideImg;
+    const bgUrl = extractBgImageUrl(element);
+    const fallbackImg = element.querySelector(".hero-panel-image img");
     const heading = element.querySelector("h1, h2");
     const ctaContainer = element.querySelector(".cta-container");
     const textContent = document.createElement("div");
-    textContent.append(document.createComment(" field:text "));
     if (heading) {
       const h = document.createElement(heading.tagName.toLowerCase());
       h.innerHTML = heading.innerHTML;
@@ -270,18 +304,21 @@ var CustomImportScript = (() => {
       });
     }
     const cells = [["Hero Story"]];
-    if (img) {
+    const imgWrapper = document.createElement("div");
+    if (bgUrl) {
       const imgEl = document.createElement("img");
-      imgEl.src = img.src;
-      imgEl.alt = img.alt || "";
-      const imgWrapper = document.createElement("div");
-      imgWrapper.append(document.createComment(" field:image "));
+      imgEl.src = bgUrl;
+      imgEl.alt = "";
       imgWrapper.append(imgEl);
-      imgWrapper.append(document.createComment(" field:imageAlt "));
-      cells.push([imgWrapper]);
+    } else if (fallbackImg) {
+      const imgEl = document.createElement("img");
+      imgEl.src = fallbackImg.src;
+      imgEl.alt = fallbackImg.alt || "";
+      imgWrapper.append(imgEl);
     }
+    cells.push([imgWrapper]);
     cells.push([textContent]);
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
@@ -291,13 +328,12 @@ var CustomImportScript = (() => {
     const cells = [["Cards Product"]];
     cards.forEach((card) => {
       const img = card.querySelector(".card-img img");
-      const heading = card.querySelector("h3, .js-heading-section");
-      const description = card.querySelector(".tileSubheading, .js-textBody-section");
+      const heading = card.querySelector("h3");
+      const description = card.querySelector(".tileSubheading");
       const price = card.querySelector(".price-comp");
       const legal = card.querySelector(".cardlegal, .type-legal-wysiwyg-editor");
       const cta = card.querySelector(".cta-container a");
       const imgCell = document.createElement("div");
-      imgCell.append(document.createComment(" field:image "));
       if (img) {
         const imgEl = document.createElement("img");
         imgEl.src = img.src;
@@ -305,7 +341,6 @@ var CustomImportScript = (() => {
         imgCell.append(imgEl);
       }
       const textCell = document.createElement("div");
-      textCell.append(document.createComment(" field:text "));
       if (heading) {
         const h = document.createElement("h3");
         h.textContent = heading.textContent.trim();
@@ -343,7 +378,7 @@ var CustomImportScript = (() => {
       }
       cells.push([imgCell, textCell]);
     });
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
@@ -354,22 +389,23 @@ var CustomImportScript = (() => {
     cardWrappers.forEach((wrapper) => {
       const card = wrapper.querySelector(".flex-card, .card");
       if (!card) return;
-      const bgImg = card.querySelector(":scope > img");
+      let bgUrl = extractBgImageUrl(card);
+      if (!bgUrl) {
+        bgUrl = extractBgImageUrl(wrapper);
+      }
       const eyebrow = card.querySelector('[class*="eyebrow"]');
       const heading = card.querySelector("h3");
       const body = card.querySelector(".type-base");
       const legal = card.querySelector(".type-legal");
-      const cta = card.querySelector(".flexCardItemCta a, .anchor4-button-link");
+      const ctas = card.querySelectorAll(".flexCardItemCta a, .anchor4-button-link, .cta-container a");
       const imgCell = document.createElement("div");
-      imgCell.append(document.createComment(" field:image "));
-      if (bgImg) {
+      if (bgUrl) {
         const imgEl = document.createElement("img");
-        imgEl.src = bgImg.src;
-        imgEl.alt = bgImg.alt || "";
+        imgEl.src = bgUrl;
+        imgEl.alt = "";
         imgCell.append(imgEl);
       }
       const textCell = document.createElement("div");
-      textCell.append(document.createComment(" field:text "));
       if (eyebrow && eyebrow.textContent.trim()) {
         const p = document.createElement("p");
         const em = document.createElement("em");
@@ -398,34 +434,37 @@ var CustomImportScript = (() => {
         p.append(small);
         textCell.append(p);
       }
-      if (cta && cta.textContent.trim()) {
-        const p = document.createElement("p");
-        const a = document.createElement("a");
-        a.href = cta.href;
-        const strong = document.createElement("strong");
-        strong.textContent = cta.textContent.trim();
-        a.append(strong);
-        p.append(a);
-        textCell.append(p);
+      if (ctas.length > 0) {
+        ctas.forEach((link) => {
+          if (link.textContent.trim()) {
+            const p = document.createElement("p");
+            const a = document.createElement("a");
+            a.href = link.href;
+            const strong = document.createElement("strong");
+            strong.textContent = link.textContent.trim();
+            a.append(strong);
+            p.append(a);
+            textCell.append(p);
+          }
+        });
       }
       cells.push([imgCell, textCell]);
     });
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
   // tools/importer/parsers/cards-value.js
   function parse7(element, { document }) {
-    const items = element.querySelectorAll(".value-prop-item, .value-prop-wrapper");
+    const items = element.querySelectorAll(".generic-list-icon-vp");
     const cells = [["Cards Value"]];
     items.forEach((item) => {
-      const icon = item.querySelector(".icon-img img, .value-prop-icon img, img");
-      const heading = item.querySelector('h3, h4, .heading-sm, [class*="heading"]');
+      const icon = item.querySelector("img");
+      const heading = item.querySelector('h3, h4, [class*="heading"]');
       const description = item.querySelector(".type-base, .wysiwyg-editor");
       const legal = item.querySelector(".type-legal");
-      const cta = item.querySelector('a.att-track, .cta-container a, a[class*="btn"]');
+      const cta = item.querySelector('a[class*="att-track"], .cta-container a, a[class*="btn"]');
       const imgCell = document.createElement("div");
-      imgCell.append(document.createComment(" field:image "));
       if (icon) {
         const imgEl = document.createElement("img");
         imgEl.src = icon.src;
@@ -433,7 +472,6 @@ var CustomImportScript = (() => {
         imgCell.append(imgEl);
       }
       const textCell = document.createElement("div");
-      textCell.append(document.createComment(" field:text "));
       if (heading) {
         const h = document.createElement("h3");
         h.textContent = heading.textContent.trim();
@@ -465,37 +503,27 @@ var CustomImportScript = (() => {
       }
       cells.push([imgCell, textCell]);
     });
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
   // tools/importer/parsers/cards-links.js
   function parse8(element, { document }) {
-    const linkItems = element.querySelectorAll('a[class*="att-track"], .link-item, li');
+    const linkItems = element.querySelectorAll("li");
     const cells = [["Cards Links"]];
-    linkItems.forEach((item) => {
-      const icon = item.querySelector("img");
-      const link = item.tagName === "A" ? item : item.querySelector("a");
+    linkItems.forEach((li) => {
+      const link = li.querySelector("a[href]");
       if (!link || !link.textContent.trim()) return;
-      const imgCell = document.createElement("div");
-      imgCell.append(document.createComment(" field:image "));
-      if (icon) {
-        const imgEl = document.createElement("img");
-        imgEl.src = icon.src;
-        imgEl.alt = icon.alt || "";
-        imgCell.append(imgEl);
-      }
       const textCell = document.createElement("div");
-      textCell.append(document.createComment(" field:text "));
       const p = document.createElement("p");
       const a = document.createElement("a");
       a.href = link.href;
       a.textContent = link.textContent.trim();
       p.append(a);
       textCell.append(p);
-      cells.push([imgCell, textCell]);
+      cells.push([textCell]);
     });
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
@@ -507,11 +535,7 @@ var CustomImportScript = (() => {
       const headingSection = slide.querySelector(".heading-section");
       const bodyText = slide.querySelector(".body-text");
       const legalText = slide.querySelector(".legal-text");
-      const imgCell = document.createElement("div");
-      imgCell.append(document.createComment(" field:media_image "));
-      imgCell.append(document.createComment(" field:media_imageAlt "));
       const textCell = document.createElement("div");
-      textCell.append(document.createComment(" field:content_text "));
       if (headingSection) {
         const p = document.createElement("p");
         const strong = document.createElement("strong");
@@ -531,31 +555,28 @@ var CustomImportScript = (() => {
         p.append(small);
         textCell.append(p);
       }
-      cells.push([imgCell, textCell]);
+      cells.push([textCell]);
     });
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
   // tools/importer/parsers/carousel-story.js
   function parse10(element, { document }) {
-    const slides = element.querySelectorAll(".swiper-slide");
+    const slides = element.querySelectorAll(".swiper-slide:not(.swiper-slide-duplicate)");
     const cells = [["Carousel Story"]];
     slides.forEach((slide) => {
       const bgImg = slide.querySelector(".swiper-image");
       const heading = slide.querySelector('[class*="heading-sm"]');
-      const description = slide.querySelector(".story-description, .wysiwyg-editor");
+      const description = slide.querySelector(".story-description");
       const imgCell = document.createElement("div");
-      imgCell.append(document.createComment(" field:media_image "));
       if (bgImg) {
         const imgEl = document.createElement("img");
         imgEl.src = bgImg.src;
         imgEl.alt = bgImg.alt || "";
         imgCell.append(imgEl);
       }
-      imgCell.append(document.createComment(" field:media_imageAlt "));
       const textCell = document.createElement("div");
-      textCell.append(document.createComment(" field:content_text "));
       if (heading) {
         const h = document.createElement("h3");
         h.textContent = heading.textContent.trim();
@@ -572,17 +593,17 @@ var CustomImportScript = (() => {
       }
       cells.push([imgCell, textCell]);
     });
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
   // tools/importer/parsers/columns-offer.js
   function parse11(element, { document }) {
-    const img = element.querySelector(".imgOffer, .video-content-offer img, .zoomable img");
+    const img = element.querySelector(".imgOffer") || element.querySelector("img");
     const eyebrow = element.querySelector('[class*="eyebrow"]');
     const heading = element.querySelector("h2");
     const body = element.querySelector(".wysiwyg-editor, .type-base");
-    const ctaContainer = element.querySelector(".cta-container");
+    const cta = element.querySelector(".cta-container a");
     const col1 = document.createElement("div");
     if (img) {
       const imgEl = document.createElement("img");
@@ -616,31 +637,28 @@ var CustomImportScript = (() => {
         const ul = document.createElement("ul");
         listItems.forEach((li) => {
           const span = li.querySelector("span");
-          if (span && span.textContent.trim()) {
+          const text = span ? span.textContent.trim() : li.textContent.trim();
+          if (text) {
             const newLi = document.createElement("li");
-            newLi.textContent = span.textContent.trim();
+            newLi.textContent = text;
             ul.append(newLi);
           }
         });
         col2.append(ul);
       }
     }
-    if (ctaContainer) {
-      ctaContainer.querySelectorAll("a").forEach((link) => {
-        if (link.textContent.trim()) {
-          const p = document.createElement("p");
-          const a = document.createElement("a");
-          a.href = link.href;
-          const strong = document.createElement("strong");
-          strong.textContent = link.textContent.trim();
-          a.append(strong);
-          p.append(a);
-          col2.append(p);
-        }
-      });
+    if (cta && cta.textContent.trim()) {
+      const p = document.createElement("p");
+      const a = document.createElement("a");
+      a.href = cta.href;
+      const strong = document.createElement("strong");
+      strong.textContent = cta.textContent.trim();
+      a.append(strong);
+      p.append(a);
+      col2.append(p);
     }
     const cells = [["Columns Offer"], [col1, col2]];
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
@@ -673,7 +691,7 @@ var CustomImportScript = (() => {
       col2.append(p);
     }
     const cells = [["Columns Contact"], [col1, col2]];
-    const block = WebImporter.Blocks.createBlock(document, cells);
+    const block = createBlock(document, cells);
     element.replaceWith(block);
   }
 
@@ -768,74 +786,6 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/transformers/att-sections.js
-  var TransformHook2 = {
-    afterTransform: "afterTransform"
-  };
-  function createSectionMetadata(document, style) {
-    const table = document.createElement("table");
-    const headerRow = document.createElement("tr");
-    const headerCell = document.createElement("th");
-    headerCell.textContent = "Section metadata";
-    headerCell.colSpan = 2;
-    headerRow.append(headerCell);
-    table.append(headerRow);
-    const row = document.createElement("tr");
-    const keyCell = document.createElement("td");
-    keyCell.textContent = "style";
-    const valueCell = document.createElement("td");
-    valueCell.textContent = style;
-    row.append(keyCell, valueCell);
-    table.append(row);
-    return table;
-  }
-  function afterTransform2(element, payload) {
-    const { document } = payload;
-    const sections = [
-      { selector: "main .hero:first-of-type", style: null },
-      { selector: ".multi-tile-cards", style: null },
-      { selector: ".flex-cards", style: null },
-      { selector: "main .hero:nth-of-type(2)", style: null },
-      { selector: ".generic-list-value-prop", style: "neutral" },
-      { selector: ".micro-banner", style: "accent" },
-      { selector: ".offer", style: null },
-      { selector: ".story-stack", style: null },
-      { selector: "main .hero:nth-of-type(3)", style: null },
-      { selector: "main .hero:nth-of-type(4)", style: null },
-      { selector: ".rai-form", style: null }
-    ];
-    const main = document.querySelector("main");
-    if (!main) return;
-    const sectionElements = [];
-    sections.forEach((sec) => {
-      const el = main.querySelector(sec.selector) || document.querySelector(sec.selector);
-      if (el) {
-        sectionElements.push({ el, style: sec.style });
-      }
-    });
-    for (let i = 1; i < sectionElements.length; i += 1) {
-      const { el } = sectionElements[i];
-      const hr = document.createElement("hr");
-      el.parentNode.insertBefore(hr, el);
-    }
-    sectionElements.forEach(({ el, style }) => {
-      if (style) {
-        const metadata = createSectionMetadata(document, style);
-        const nextHr = el.nextElementSibling;
-        if (nextHr && nextHr.tagName === "HR") {
-          el.parentNode.insertBefore(metadata, nextHr);
-        } else {
-          el.parentNode.insertBefore(metadata, el.nextSibling);
-        }
-      }
-    });
-  }
-  function transform2(hookName, element, payload) {
-    if (hookName === TransformHook2.afterTransform) {
-      afterTransform2(element, payload);
-    }
-  }
-
   // tools/importer/import-homepage.js
   var parsers = {
     "hero-banner": parse,
@@ -852,9 +802,12 @@ var CustomImportScript = (() => {
     "columns-contact": parse12
   };
   var transformers = [
-    transform,
-    transform2
+    transform
   ];
+  var SECTION_STYLES = {
+    "cards-value": "neutral",
+    "carousel-banner": "accent"
+  };
   var PAGE_TEMPLATE = {
     name: "homepage",
     description: "AT&T Business homepage with hero, product offerings, and promotional content",
@@ -862,32 +815,32 @@ var CustomImportScript = (() => {
       "https://www.business.att.com/"
     ],
     sections: [
-      { id: "section-1", name: "Hero", selector: "main .hero:first-of-type", style: null, blocks: ["hero-banner"], defaultContent: [] },
+      { id: "section-1", name: "Hero", selector: ".aem-Grid > .hero:nth-child(1)", style: null, blocks: ["hero-banner"], defaultContent: [] },
       { id: "section-2", name: "Product Cards Carousel", selector: ".multi-tile-cards", style: null, blocks: ["cards-product"], defaultContent: [] },
       { id: "section-3", name: "Promotional Flex Cards", selector: ".flex-cards", style: null, blocks: ["cards-promo"], defaultContent: [] },
-      { id: "section-4", name: "Dynamic Defense Hero", selector: "main .hero:nth-of-type(2)", style: null, blocks: ["hero-feature"], defaultContent: [] },
+      { id: "section-4", name: "Dynamic Defense Hero", selector: ".aem-Grid > .hero:nth-child(4)", style: null, blocks: ["hero-feature"], defaultContent: [] },
       { id: "section-5", name: "Value Propositions", selector: ".generic-list-value-prop", style: "neutral", blocks: ["cards-value"], defaultContent: [] },
       { id: "section-6", name: "Micro Banner", selector: ".micro-banner", style: "accent", blocks: ["carousel-banner"], defaultContent: [] },
       { id: "section-7", name: "Switch Offer", selector: ".offer", style: null, blocks: ["columns-offer"], defaultContent: [] },
       { id: "section-8", name: "Industry Solutions", selector: ".story-stack", style: null, blocks: ["carousel-story"], defaultContent: [] },
-      { id: "section-9", name: "AT&T Guarantee Hero", selector: "main .hero:nth-of-type(3)", style: null, blocks: ["hero-promo"], defaultContent: [] },
-      { id: "section-10", name: "Customer Success Stories", selector: "main .hero:nth-of-type(4)", style: null, blocks: ["hero-story"], defaultContent: [] },
+      { id: "section-9", name: "AT&T Guarantee Hero", selector: ".aem-Grid > .hero:nth-child(9)", style: null, blocks: ["hero-promo"], defaultContent: [] },
+      { id: "section-10", name: "Customer Success Stories", selector: ".aem-Grid > .hero:nth-child(10)", style: null, blocks: ["hero-story"], defaultContent: [] },
       { id: "section-11", name: "Sales Expert CTA", selector: ".rai-form", style: null, blocks: ["columns-contact"], defaultContent: [] },
-      { id: "section-12", name: "Looking For More", selector: ".looking-for-more", style: null, blocks: ["cards-links"], defaultContent: [] }
+      { id: "section-12", name: "Looking For More", selector: ".link-farm", style: null, blocks: ["cards-links"], defaultContent: [] }
     ],
     blocks: [
-      { name: "hero-banner", instances: ["main .hero:first-of-type"] },
-      { name: "cards-product", instances: [".multi-tile-cards .tile-card-list"] },
+      { name: "hero-banner", instances: [".aem-Grid > .hero:nth-child(1)"] },
+      { name: "cards-product", instances: [".multi-tile-cards"] },
       { name: "cards-promo", instances: [".flex-cards"] },
-      { name: "hero-feature", instances: ["main .hero:nth-of-type(2)"] },
-      { name: "cards-value", instances: [".generic-list-value-prop .value-prop-list"] },
+      { name: "hero-feature", instances: [".aem-Grid > .hero:nth-child(4)"] },
+      { name: "cards-value", instances: [".generic-list-value-prop"] },
       { name: "carousel-banner", instances: [".micro-banner"] },
       { name: "columns-offer", instances: [".offer"] },
       { name: "carousel-story", instances: [".story-stack"] },
-      { name: "hero-promo", instances: ["main .hero:nth-of-type(3)"] },
-      { name: "hero-story", instances: ["main .hero:nth-of-type(4)"] },
+      { name: "hero-promo", instances: [".aem-Grid > .hero:nth-child(9)"] },
+      { name: "hero-story", instances: [".aem-Grid > .hero:nth-child(10)"] },
       { name: "columns-contact", instances: [".rai-form"] },
-      { name: "cards-links", instances: [".looking-for-more"] }
+      { name: "cards-links", instances: [".link-farm"] }
     ]
   };
   function executeTransformers(hookName, element, payload) {
@@ -929,27 +882,94 @@ var CustomImportScript = (() => {
       const main = document.body;
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
+      const parsedBlocks = [];
       pageBlocks.forEach((block) => {
         const parser = parsers[block.name];
-        if (parser) {
-          try {
-            parser(block.element, { document, url, params });
-          } catch (e) {
-            console.error(`Failed to parse ${block.name} (${block.selector}):`, e);
-          }
-        } else {
+        if (!parser) {
           console.warn(`No parser found for block: ${block.name}`);
+          return;
+        }
+        try {
+          parser(block.element, { document, url, params });
+          parsedBlocks.push(block.name);
+        } catch (e) {
+          console.error(`Failed to parse ${block.name} (${block.selector}):`, e);
         }
       });
       executeTransformers("afterTransform", main, payload);
+      const allTables = Array.from(main.querySelectorAll("table"));
+      const blockTables = [];
+      allTables.forEach((table) => {
+        const th = table.querySelector("tr:first-child th");
+        if (th) blockTables.push({ table, name: th.textContent.trim() });
+      });
+      while (main.firstChild) main.removeChild(main.firstChild);
+      blockTables.forEach(({ table, name }, idx) => {
+        if (idx > 0) {
+          const prevName = blockTables[idx - 1].name;
+          const prevKebab = prevName.toLowerCase().replace(/\s+/g, "-");
+          const prevStyle = SECTION_STYLES[prevKebab];
+          if (prevStyle) {
+            const metaTable = document.createElement("table");
+            const headerRow = document.createElement("tr");
+            const headerCell = document.createElement("th");
+            headerCell.textContent = "Section metadata";
+            headerCell.colSpan = 2;
+            headerRow.append(headerCell);
+            metaTable.append(headerRow);
+            const dataRow = document.createElement("tr");
+            const keyCell = document.createElement("td");
+            keyCell.textContent = "style";
+            const valCell = document.createElement("td");
+            valCell.textContent = prevStyle;
+            dataRow.append(keyCell, valCell);
+            metaTable.append(dataRow);
+            main.appendChild(metaTable);
+          }
+          main.appendChild(document.createElement("hr"));
+        }
+        main.appendChild(table);
+      });
+      if (blockTables.length > 0) {
+        const lastKebab = blockTables[blockTables.length - 1].name.toLowerCase().replace(/\s+/g, "-");
+        const lastStyle = SECTION_STYLES[lastKebab];
+        if (lastStyle) {
+          const metaTable = document.createElement("table");
+          const headerRow = document.createElement("tr");
+          const headerCell = document.createElement("th");
+          headerCell.textContent = "Section metadata";
+          headerCell.colSpan = 2;
+          headerRow.append(headerCell);
+          metaTable.append(headerRow);
+          const dataRow = document.createElement("tr");
+          const keyCell = document.createElement("td");
+          keyCell.textContent = "style";
+          const valCell = document.createElement("td");
+          valCell.textContent = lastStyle;
+          dataRow.append(keyCell, valCell);
+          metaTable.append(dataRow);
+          main.appendChild(metaTable);
+        }
+      }
       const hr = document.createElement("hr");
       main.appendChild(hr);
-      WebImporter.rules.createMetadata(main, document);
-      WebImporter.rules.transformBackgroundImages(main, document);
-      WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
-      const path = WebImporter.FileUtils.sanitizePath(
-        new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html$/, "") || "/index"
-      );
+      try {
+        if (typeof WebImporter !== "undefined" && WebImporter.rules) {
+          WebImporter.rules.createMetadata(main, document);
+          WebImporter.rules.transformBackgroundImages(main, document);
+          WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
+        }
+      } catch (e) {
+        console.warn("WebImporter rules not available:", e.message);
+      }
+      let path;
+      try {
+        path = typeof WebImporter !== "undefined" ? WebImporter.FileUtils.sanitizePath(
+          new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html$/, "") || "/index"
+        ) : new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html$/, "") || "/index";
+      } catch (e) {
+        path = "/index";
+      }
       return [{
         element: main,
         path,

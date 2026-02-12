@@ -1,25 +1,25 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock } from '../utils.js';
 
 /**
  * Parser: cards-value
- * Selector: .generic-list-value-prop .value-prop-list
- * Content: 4 value proposition items with icon, heading, description, legal, CTA
- * Model fields per card: image (reference), text (richtext)
+ * Selector: .generic-list-value-prop
+ * Content: Value proposition items with icon, heading, description, legal, CTA
+ * Rows: per item [imgCell, textCell]
  */
 export default function parse(element, { document }) {
-  const items = element.querySelectorAll('.value-prop-item, .value-prop-wrapper');
+  const items = element.querySelectorAll('.generic-list-icon-vp');
   const cells = [['Cards Value']];
 
   items.forEach((item) => {
-    const icon = item.querySelector('.icon-img img, .value-prop-icon img, img');
-    const heading = item.querySelector('h3, h4, .heading-sm, [class*="heading"]');
+    const icon = item.querySelector('img');
+    const heading = item.querySelector('h3, h4, [class*="heading"]');
     const description = item.querySelector('.type-base, .wysiwyg-editor');
     const legal = item.querySelector('.type-legal');
-    const cta = item.querySelector('a.att-track, .cta-container a, a[class*="btn"]');
+    const cta = item.querySelector('a[class*="att-track"], .cta-container a, a[class*="btn"]');
 
     // Image cell
     const imgCell = document.createElement('div');
-    imgCell.append(document.createComment(' field:image '));
     if (icon) {
       const imgEl = document.createElement('img');
       imgEl.src = icon.src;
@@ -29,7 +29,6 @@ export default function parse(element, { document }) {
 
     // Text cell
     const textCell = document.createElement('div');
-    textCell.append(document.createComment(' field:text '));
     if (heading) {
       const h = document.createElement('h3');
       h.textContent = heading.textContent.trim();
@@ -63,6 +62,6 @@ export default function parse(element, { document }) {
     cells.push([imgCell, textCell]);
   });
 
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }

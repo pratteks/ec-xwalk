@@ -2,16 +2,21 @@
   "status": "success",
   "url": "https://www.business.att.com/",
   "path": "index",
-  "timestamp": "2026-02-12T06:22:43.025Z",
+  "timestamp": "2026-02-12T07:15:09.661Z",
   "title": "AT&T Business – Fiber Internet, Mobility, IoT, 5G Solutions",
   "template": "homepage",
   "blocks": [
     "hero-banner",
+    "cards-product",
     "cards-promo",
+    "hero-feature",
+    "cards-value",
     "carousel-banner",
     "columns-offer",
     "carousel-story",
+    "hero-promo",
     "hero-story",
-    "columns-contact"
+    "columns-contact",
+    "cards-links"
   ]
 }
