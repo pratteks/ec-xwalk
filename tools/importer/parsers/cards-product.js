@@ -1,8 +1,9 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock } from '../utils.js';
 
 /**
  * Parser: cards-product
- * Selector: .multi-tile-cards .tile-card-list
+ * Selector: .multi-tile-cards
  * Content: 6 product tiles (Mobile, Internet, Voice, Security, Network, Specialty)
  * Model fields per card: image (reference), text (richtext)
  */
@@ -12,15 +13,14 @@ export default function parse(element, { document }) {
 
   cards.forEach((card) => {
     const img = card.querySelector('.card-img img');
-    const heading = card.querySelector('h3, .js-heading-section');
-    const description = card.querySelector('.tileSubheading, .js-textBody-section');
+    const heading = card.querySelector('h3');
+    const description = card.querySelector('.tileSubheading');
     const price = card.querySelector('.price-comp');
     const legal = card.querySelector('.cardlegal, .type-legal-wysiwyg-editor');
     const cta = card.querySelector('.cta-container a');
 
     // Image cell
     const imgCell = document.createElement('div');
-    imgCell.append(document.createComment(' field:image '));
     if (img) {
       const imgEl = document.createElement('img');
       imgEl.src = img.src;
@@ -30,7 +30,6 @@ export default function parse(element, { document }) {
 
     // Text cell
     const textCell = document.createElement('div');
-    textCell.append(document.createComment(' field:text '));
     if (heading) {
       const h = document.createElement('h3');
       h.textContent = heading.textContent.trim();
@@ -70,6 +69,6 @@ export default function parse(element, { document }) {
     cells.push([imgCell, textCell]);
   });
 
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }

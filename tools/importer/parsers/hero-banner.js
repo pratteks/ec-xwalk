@@ -1,16 +1,16 @@
-/* global WebImporter */
+/* eslint-disable */
+import { createBlock, extractBgImageUrl } from '../utils.js';
 
 /**
  * Parser: hero-banner
- * Selector: main .hero:first-of-type
- * Content: Eyebrow "AT&T Business", heading "Give your team an edge", paragraph, background image
+ * Selector: .aem-Grid > .hero:nth-child(1)
+ * Content: Eyebrow, heading, body text, CTAs, background image via CSS (no img tag)
  * Model fields: image (reference), imageAlt (text), text (richtext)
  */
 export default function parse(element, { document }) {
-  // Extract background image
-  const bgImg = element.querySelector('.bg-hero-panel img, .bg-art img');
-  const sideImg = element.querySelector('.hero-panel-image img');
-  const img = bgImg || sideImg;
+  // Extract background image from CSS background (no img tag in .bg-hero-panel)
+  const bgUrl = extractBgImageUrl(element);
+  const fallbackImg = element.querySelector('.hero-panel-image img');
 
   // Extract text content
   const eyebrow = element.querySelector('[class*="eyebrow"]');
@@ -20,8 +20,6 @@ export default function parse(element, { document }) {
 
   // Build richtext content
   const textContent = document.createElement('div');
-  // <!-- field:text -->
-  textContent.append(document.createComment(' field:text '));
   if (eyebrow && eyebrow.textContent.trim()) {
     const p = document.createElement('p');
     const em = document.createElement('em');
@@ -64,20 +62,23 @@ export default function parse(element, { document }) {
   const cells = [['Hero Banner']];
 
   // Row 1: image
-  if (img) {
+  const imgWrapper = document.createElement('div');
+  if (bgUrl) {
     const imgEl = document.createElement('img');
-    imgEl.src = img.src;
-    imgEl.alt = img.alt || '';
-    const imgWrapper = document.createElement('div');
-    imgWrapper.append(document.createComment(' field:image '));
+    imgEl.src = bgUrl;
+    imgEl.alt = '';
     imgWrapper.append(imgEl);
-    imgWrapper.append(document.createComment(' field:imageAlt '));
-    cells.push([imgWrapper]);
+  } else if (fallbackImg) {
+    const imgEl = document.createElement('img');
+    imgEl.src = fallbackImg.src;
+    imgEl.alt = fallbackImg.alt || '';
+    imgWrapper.append(imgEl);
   }
+  cells.push([imgWrapper]);
 
   // Row 2: text
   cells.push([textContent]);
 
-  const block = WebImporter.Blocks.createBlock(document, cells);
+  const block = createBlock(document, cells);
   element.replaceWith(block);
 }
