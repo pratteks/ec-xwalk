@@ -1,0 +1,115 @@
+/*
+ * Hero Banner - Full-width hero with background image
+ * Used for: Main page hero, large feature banners
+ * Original: AT&T Business homepage top hero
+ */
+
+/* Full-bleed container */
+.hero-banner-container .hero-banner-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 400px;
+  padding: 48px 24px;
+  overflow: hidden;
+}
+
+/* Background image layer */
+.hero-banner picture {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.hero-banner img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Content container */
+.hero-banner > div {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 var(--content-padding);
+}
+
+/* Description text */
+.hero-banner > div > p {
+  color: var(--color-white);
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+  max-width: 500px;
+}
+
+/* Eyebrow text (first paragraph before heading) */
+.hero-banner > div > p:first-child {
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+  margin-bottom: var(--spacing-s);
+  letter-spacing: 0.02em;
+}
+
+/* Heading */
+.hero-banner h1,
+.hero-banner h2 {
+  color: var(--color-white);
+  font-size: var(--heading-font-size-xxl);
+  font-weight: 700;
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+  margin-bottom: var(--spacing-m);
+  max-width: 600px;
+}
+
+/* Hide mobile-only images (last picture in content) */
+.hero-banner > div > p:last-child picture {
+  display: none;
+}
+
+/* Button overrides for white-on-dark */
+.hero-banner a.button:any-link {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+  border-color: transparent;
+}
+
+.hero-banner a.button:hover {
+  background-color: var(--color-white);
+}
+
+.hero-banner a.button.secondary {
+  background-color: transparent;
+  border-color: var(--color-blue-50);
+  color: var(--color-blue-50);
+}
+
+.hero-banner a.button.secondary:hover {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+}
+
+/* Links in hero */
+.hero-banner a:any-link:not(.button) {
+  color: var(--color-blue-50);
+}
+
+@media (width >= 900px) {
+  .hero-banner {
+    min-height: 480px;
+    padding: 64px 32px;
+  }
+
+  .hero-banner h1,
+  .hero-banner h2 {
+    max-width: 650px;
+  }
+}

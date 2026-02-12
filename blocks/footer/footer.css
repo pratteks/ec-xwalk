@@ -1,20 +1,120 @@
 footer {
-  background-color: var(--light-color);
+  background-color: var(--heading-color);
+  color: var(--color-gray-200);
   font-size: var(--body-font-size-xs);
 }
 
 footer .footer > div {
   margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+  max-width: var(--content-max-width);
+  padding: var(--spacing-xl) var(--content-padding);
 }
 
 footer .footer p {
   margin: 0;
 }
 
+footer a:any-link {
+  color: var(--color-gray-200);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--color-white);
+  text-decoration: underline;
+}
+
+/* Section 1: Brand + social */
+footer .footer > div > div:first-child .default-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  padding-bottom: var(--spacing-l);
+  border-bottom: 1px solid var(--color-gray-600);
+}
+
+footer .footer > div > div:first-child .default-content-wrapper > p {
+  font-size: var(--heading-font-size-s);
+  font-weight: 700;
+}
+
+footer .footer > div > div:first-child .default-content-wrapper > p a:any-link {
+  color: var(--color-white);
+}
+
+footer .footer > div > div:first-child ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: var(--spacing-m);
+}
+
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer > div > div:first-child .default-content-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
+}
+
+/* Section 2: Link categories */
+footer .footer > div > div:nth-child(2) .default-content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-m);
+  padding-top: var(--spacing-l);
+  padding-bottom: var(--spacing-l);
+  border-bottom: 1px solid var(--color-gray-600);
+}
+
+footer .footer > div > div:nth-child(2) ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer .footer > div > div:nth-child(2) li {
+  padding: var(--spacing-xs) 0;
+}
+
+@media (width >= 900px) {
+  footer .footer > div > div:nth-child(2) .default-content-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Section 3: Utility links */
+footer .footer > div > div:nth-child(3) .default-content-wrapper {
+  padding-top: var(--spacing-l);
+  padding-bottom: var(--spacing-l);
+  border-bottom: 1px solid var(--color-gray-600);
+}
+
+footer .footer > div > div:nth-child(3) ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-l);
+}
+
+/* Section 4: Legal + copyright */
+footer .footer > div > div:last-child .default-content-wrapper {
+  padding-top: var(--spacing-l);
+}
+
+footer .footer > div > div:last-child ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-m);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-l);
+}
+
+footer .footer > div > div:last-child .default-content-wrapper > p:last-child {
+  color: var(--color-gray-400);
+  line-height: var(--body-line-height);
 }

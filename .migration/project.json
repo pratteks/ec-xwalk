@@ -1,0 +1,9 @@
+{
+  "type": "xwalk",
+  "contentHostUrl": "author-p170502-e1825534.adobeaemcloud.com",
+  "libraryUrl": "https://main--sta-xwalk-boilerplate--aemysites.aem.page/tools/sidekick/library.json",
+  "aemSitePath": "/content/ec-xwalk",
+  "aemAssetsFolderPath": "/content/dam/ec-xwalk",
+  "aemSiteName": "ec-xwalk",
+  "aemSiteTitle": "ec-xwalk"
+}

@@ -1,0 +1,101 @@
+/*
+ * Hero Promo - Text-focused hero with colored background
+ * Used for: Promotional sections, CTAs with bullet lists
+ * Original: "Switch. Save. Soar." / "Make the switch to AT&T Business"
+ */
+
+/* Full-bleed container */
+.hero-promo-container .hero-promo-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-promo {
+  position: relative;
+  padding: var(--spacing-xxl) var(--content-padding);
+  background-color: var(--color-att-blue);
+  color: var(--color-white);
+}
+
+/* Content container */
+.hero-promo > div {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+/* Description text */
+.hero-promo p {
+  color: var(--color-white);
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+  max-width: 550px;
+}
+
+/* Eyebrow text */
+.hero-promo > div > p:first-child {
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+  color: var(--color-blue-50);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Heading */
+.hero-promo h1,
+.hero-promo h2 {
+  color: var(--color-white);
+  font-size: var(--heading-font-size-xl);
+  font-weight: 700;
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+  margin-bottom: var(--spacing-m);
+  max-width: 600px;
+}
+
+/* Bullet list */
+.hero-promo ul {
+  color: var(--color-white);
+  padding-left: 1.25em;
+  margin: var(--spacing-m) 0 var(--spacing-l);
+  max-width: 550px;
+}
+
+.hero-promo li {
+  margin-bottom: var(--spacing-s);
+  line-height: var(--body-line-height);
+}
+
+.hero-promo li sup {
+  font-size: var(--body-font-size-xs);
+}
+
+/* CTA button */
+.hero-promo a.button:any-link {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+  border-color: transparent;
+}
+
+.hero-promo a.button:hover {
+  background-color: var(--color-white);
+}
+
+/* Links */
+.hero-promo a:any-link:not(.button) {
+  color: var(--color-blue-50);
+}
+
+/* Hide background image (this variant has no bg image) */
+.hero-promo picture {
+  display: none;
+}
+
+@media (width >= 900px) {
+  .hero-promo {
+    padding: var(--spacing-xxxl) var(--content-padding);
+  }
+
+  .hero-promo h1,
+  .hero-promo h2 {
+    font-size: var(--heading-font-size-xxl);
+  }
+}
