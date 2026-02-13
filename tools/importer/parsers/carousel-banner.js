@@ -5,11 +5,11 @@ import { createBlock, addFieldHint } from '../utils.js';
  * Parser: carousel-banner
  * Selector: .micro-banner
  * Content: Rotating promotional slides with heading, body, and legal text
- * Rows: per slide [textCell] - single column with heading+body+legal
+ * Rows: per slide [mediaCell, textCell] - media is empty for banner slides
  */
 export default function parse(element, { document }) {
   const slides = element.querySelectorAll('.swiper-slide');
-  const cells = [['Carousel Banner']];
+  const cells = [['Carousel (Banner)']];
 
   slides.forEach((slide) => {
     const headingSection = slide.querySelector('.heading-section');
@@ -41,7 +41,7 @@ export default function parse(element, { document }) {
 
     // Model requires media + content columns; media is empty for banner slides
     const mediaCell = document.createElement('div');
-    cells.push([mediaCell, addFieldHint(document, 'content_text', textCell)]);
+    cells.push([addFieldHint(document, 'media_image', mediaCell), addFieldHint(document, 'content_text', textCell)]);
   });
 
   const block = createBlock(document, cells);

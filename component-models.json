@@ -379,11 +379,52 @@
         "multi": false
       },
       {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image Alt"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "content_eyebrow",
+        "label": "Eyebrow"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "content_heading",
+        "label": "Heading"
+      },
+      {
         "component": "richtext",
-        "name": "text",
-        "value": "",
-        "label": "Text",
-        "valueType": "string"
+        "valueType": "string",
+        "name": "content_description",
+        "label": "Description"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "content_pricing",
+        "label": "Pricing"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "content_disclaimer",
+        "label": "Disclaimer"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "content_cta",
+        "label": "CTA"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "content_link",
+        "label": "Link"
       }
     ]
   },

@@ -1,25 +1,8 @@
 var CustomImportScript = (() => {
   var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
-      }
-    return a;
-  };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, { get: all[name], enumerable: true });
@@ -126,7 +109,7 @@ var CustomImportScript = (() => {
         }
       });
     }
-    const cells = [["Hero Banner"]];
+    const cells = [["Hero (Banner)"]];
     const imgWrapper = document.createElement("div");
     if (bgUrl) {
       const imgEl = document.createElement("img");
@@ -197,7 +180,7 @@ var CustomImportScript = (() => {
         }
       });
     }
-    const cells = [["Hero Feature"]];
+    const cells = [["Hero (Feature)"]];
     const imgWrapper = document.createElement("div");
     if (bgUrl) {
       const imgEl = document.createElement("img");
@@ -266,7 +249,7 @@ var CustomImportScript = (() => {
         }
       });
     }
-    const cells = [["Hero Promo"]];
+    const cells = [["Hero (Promo)"]];
     const imgWrapper = document.createElement("div");
     if (bgUrl) {
       const imgEl = document.createElement("img");
@@ -311,7 +294,7 @@ var CustomImportScript = (() => {
         }
       });
     }
-    const cells = [["Hero Story"]];
+    const cells = [["Hero (Story)"]];
     const imgWrapper = document.createElement("div");
     if (bgUrl) {
       const imgEl = document.createElement("img");
@@ -333,7 +316,7 @@ var CustomImportScript = (() => {
   // tools/importer/parsers/cards-product.js
   function parse5(element, { document }) {
     const cards = element.querySelectorAll(".tile-card");
-    const cells = [["Cards Product"]];
+    const cells = [["Cards (Product)"]];
     cards.forEach((card) => {
       const img = card.querySelector(".card-img img");
       const heading = card.querySelector("h3");
@@ -349,41 +332,35 @@ var CustomImportScript = (() => {
         imgCell.append(imgEl);
       }
       const contentCell = document.createElement("div");
-      if (heading) {
-        const h = document.createElement("h3");
-        h.textContent = heading.textContent.trim();
-        contentCell.append(addFieldHint(document, "content_heading", h));
-      }
-      if (description) {
-        const p = document.createElement("p");
-        p.innerHTML = description.innerHTML;
-        contentCell.append(addFieldHint(document, "content_description", p));
-      }
+      const h = document.createElement("h3");
+      if (heading) h.textContent = heading.textContent.trim();
+      contentCell.append(addFieldHint(document, "content_heading", h));
+      const descP = document.createElement("p");
+      if (description) descP.innerHTML = description.innerHTML;
+      contentCell.append(addFieldHint(document, "content_description", descP));
+      const priceP = document.createElement("p");
       if (price && price.textContent.trim()) {
-        const p = document.createElement("p");
         const spoken = price.querySelector(".hidden-spoken");
         if (spoken) {
-          p.textContent = spoken.textContent.trim();
+          priceP.textContent = spoken.textContent.trim();
         } else {
-          p.textContent = price.textContent.trim().replace(/\s+/g, " ");
+          priceP.textContent = price.textContent.trim().replace(/\s+/g, " ");
         }
-        contentCell.append(addFieldHint(document, "content_pricing", p));
       }
+      contentCell.append(addFieldHint(document, "content_pricing", priceP));
+      const disclaimerP = document.createElement("p");
       if (legal && legal.textContent.trim()) {
-        const p = document.createElement("p");
-        const small = document.createElement("small");
-        small.innerHTML = legal.innerHTML;
-        p.append(small);
-        contentCell.append(addFieldHint(document, "content_disclaimer", p));
+        disclaimerP.innerHTML = legal.innerHTML;
       }
+      contentCell.append(addFieldHint(document, "content_disclaimer", disclaimerP));
+      const ctaP = document.createElement("p");
       if (cta && cta.textContent.trim()) {
-        const p = document.createElement("p");
         const a = document.createElement("a");
         a.href = cta.href;
         a.textContent = cta.textContent.trim();
-        p.append(a);
-        contentCell.append(addFieldHint(document, "content_cta", p));
+        ctaP.append(a);
       }
+      contentCell.append(addFieldHint(document, "content_cta", ctaP));
       cells.push([addFieldHint(document, "image", imgCell), contentCell]);
     });
     const block = createBlock(document, cells);
@@ -393,7 +370,7 @@ var CustomImportScript = (() => {
   // tools/importer/parsers/cards-promo.js
   function parse6(element, { document }) {
     const cardWrappers = element.querySelectorAll(".card-wrapper");
-    const cells = [["Cards Promo"]];
+    const cells = [["Cards (Promo)"]];
     cardWrappers.forEach((wrapper) => {
       const card = wrapper.querySelector(".flex-card, .card");
       if (!card) return;
@@ -414,56 +391,43 @@ var CustomImportScript = (() => {
         imgCell.append(imgEl);
       }
       const contentCell = document.createElement("div");
+      const eyebrowP = document.createElement("p");
       if (eyebrow && eyebrow.textContent.trim()) {
-        const p = document.createElement("p");
         const em = document.createElement("em");
         em.textContent = eyebrow.textContent.trim();
-        p.append(em);
-        contentCell.append(addFieldHint(document, "content_eyebrow", p));
+        eyebrowP.append(em);
       }
-      if (heading) {
-        const h = document.createElement("h3");
-        h.innerHTML = heading.innerHTML;
-        contentCell.append(addFieldHint(document, "content_heading", h));
-      }
+      contentCell.append(addFieldHint(document, "content_eyebrow", eyebrowP));
+      const h = document.createElement("h3");
+      if (heading) h.innerHTML = heading.innerHTML;
+      contentCell.append(addFieldHint(document, "content_heading", h));
+      const descP = document.createElement("p");
       if (body) {
-        const descDiv = document.createElement("div");
+        const paragraphs = [];
         body.querySelectorAll("p").forEach((p) => {
-          if (p.textContent.trim()) {
-            const newP = document.createElement("p");
-            newP.innerHTML = p.innerHTML;
-            descDiv.append(newP);
-          }
+          if (p.textContent.trim()) paragraphs.push(p.innerHTML);
         });
-        if (descDiv.childNodes.length > 0) {
-          contentCell.append(addFieldHint(document, "content_description", descDiv));
-        }
+        if (paragraphs.length > 0) descP.innerHTML = paragraphs.join("</p><p>");
       }
+      contentCell.append(addFieldHint(document, "content_description", descP));
+      const disclaimerP = document.createElement("p");
       if (legal && legal.textContent.trim()) {
-        const p = document.createElement("p");
-        const small = document.createElement("small");
-        small.innerHTML = legal.innerHTML;
-        p.append(small);
-        contentCell.append(addFieldHint(document, "content_disclaimer", p));
+        disclaimerP.innerHTML = legal.innerHTML;
       }
+      contentCell.append(addFieldHint(document, "content_disclaimer", disclaimerP));
+      const ctaP = document.createElement("p");
       if (ctas.length > 0) {
-        const ctaDiv = document.createElement("div");
-        ctas.forEach((link) => {
-          if (link.textContent.trim()) {
-            const p = document.createElement("p");
-            const a = document.createElement("a");
-            a.href = link.href;
-            const strong = document.createElement("strong");
-            strong.textContent = link.textContent.trim();
-            a.append(strong);
-            p.append(a);
-            ctaDiv.append(p);
-          }
-        });
-        if (ctaDiv.childNodes.length > 0) {
-          contentCell.append(addFieldHint(document, "content_cta", ctaDiv));
+        const firstCta = Array.from(ctas).find((link) => link.textContent.trim());
+        if (firstCta) {
+          const a = document.createElement("a");
+          a.href = firstCta.href;
+          const strong = document.createElement("strong");
+          strong.textContent = firstCta.textContent.trim();
+          a.append(strong);
+          ctaP.append(a);
         }
       }
+      contentCell.append(addFieldHint(document, "content_cta", ctaP));
       cells.push([addFieldHint(document, "image", imgCell), contentCell]);
     });
     const block = createBlock(document, cells);
@@ -473,7 +437,7 @@ var CustomImportScript = (() => {
   // tools/importer/parsers/cards-value.js
   function parse7(element, { document }) {
     const items = element.querySelectorAll(".generic-list-icon-vp");
-    const cells = [["Cards Value"]];
+    const cells = [["Cards (Value)"]];
     items.forEach((item) => {
       const icon = item.querySelector("img");
       const heading = item.querySelector('h3, h4, [class*="heading"]');
@@ -488,39 +452,31 @@ var CustomImportScript = (() => {
         imgCell.append(imgEl);
       }
       const contentCell = document.createElement("div");
-      if (heading) {
-        const h = document.createElement("h3");
-        h.textContent = heading.textContent.trim();
-        contentCell.append(addFieldHint(document, "content_heading", h));
-      }
+      const h = document.createElement("h3");
+      if (heading) h.textContent = heading.textContent.trim();
+      contentCell.append(addFieldHint(document, "content_heading", h));
+      const descP = document.createElement("p");
       if (description) {
-        const descDiv = document.createElement("div");
+        const paragraphs = [];
         description.querySelectorAll("p").forEach((p) => {
-          if (p.textContent.trim()) {
-            const newP = document.createElement("p");
-            newP.innerHTML = p.innerHTML;
-            descDiv.append(newP);
-          }
+          if (p.textContent.trim()) paragraphs.push(p.innerHTML);
         });
-        if (descDiv.childNodes.length > 0) {
-          contentCell.append(addFieldHint(document, "content_description", descDiv));
-        }
+        if (paragraphs.length > 0) descP.innerHTML = paragraphs.join("</p><p>");
       }
+      contentCell.append(addFieldHint(document, "content_description", descP));
+      const disclaimerP = document.createElement("p");
       if (legal && legal.textContent.trim()) {
-        const p = document.createElement("p");
-        const small = document.createElement("small");
-        small.innerHTML = legal.innerHTML;
-        p.append(small);
-        contentCell.append(addFieldHint(document, "content_disclaimer", p));
+        disclaimerP.innerHTML = legal.innerHTML;
       }
+      contentCell.append(addFieldHint(document, "content_disclaimer", disclaimerP));
+      const ctaP = document.createElement("p");
       if (cta && cta.textContent.trim()) {
-        const p = document.createElement("p");
         const a = document.createElement("a");
         a.href = cta.href;
         a.textContent = cta.textContent.trim();
-        p.append(a);
-        contentCell.append(addFieldHint(document, "content_cta", p));
+        ctaP.append(a);
       }
+      contentCell.append(addFieldHint(document, "content_cta", ctaP));
       cells.push([addFieldHint(document, "image", imgCell), contentCell]);
     });
     const block = createBlock(document, cells);
@@ -531,19 +487,20 @@ var CustomImportScript = (() => {
   function parse8(element, { document }) {
     element.querySelectorAll(".mobile-view").forEach((el) => el.remove());
     const linkItems = element.querySelectorAll("li");
-    const cells = [["Cards Links"]];
+    const cells = [["Cards (Links)"]];
     linkItems.forEach((li) => {
       const link = li.querySelector("a[href]");
       if (!link || !link.textContent.trim()) return;
-      const contentCell = document.createElement("div");
       const p = document.createElement("p");
       const a = document.createElement("a");
       a.href = link.href;
       a.textContent = link.textContent.trim();
       p.append(a);
-      contentCell.append(addFieldHint(document, "content_link", p));
       const imgCell = document.createElement("div");
-      cells.push([imgCell, contentCell]);
+      cells.push([
+        addFieldHint(document, "image", imgCell),
+        addFieldHint(document, "content_link", p)
+      ]);
     });
     const block = createBlock(document, cells);
     element.replaceWith(block);
@@ -552,7 +509,7 @@ var CustomImportScript = (() => {
   // tools/importer/parsers/carousel-banner.js
   function parse9(element, { document }) {
     const slides = element.querySelectorAll(".swiper-slide");
-    const cells = [["Carousel Banner"]];
+    const cells = [["Carousel (Banner)"]];
     slides.forEach((slide) => {
       const headingSection = slide.querySelector(".heading-section");
       const bodyText = slide.querySelector(".body-text");
@@ -578,7 +535,7 @@ var CustomImportScript = (() => {
         textCell.append(p);
       }
       const mediaCell = document.createElement("div");
-      cells.push([mediaCell, addFieldHint(document, "content_text", textCell)]);
+      cells.push([addFieldHint(document, "media_image", mediaCell), addFieldHint(document, "content_text", textCell)]);
     });
     const block = createBlock(document, cells);
     element.replaceWith(block);
@@ -587,7 +544,7 @@ var CustomImportScript = (() => {
   // tools/importer/parsers/carousel-story.js
   function parse10(element, { document }) {
     const slides = element.querySelectorAll(".swiper-slide:not(.swiper-slide-duplicate)");
-    const cells = [["Carousel Story"]];
+    const cells = [["Carousel (Story)"]];
     slides.forEach((slide) => {
       const bgImg = slide.querySelector(".swiper-image");
       const heading = slide.querySelector('[class*="heading-sm"]');
@@ -867,9 +824,10 @@ var CustomImportScript = (() => {
     ]
   };
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = __spreadProps(__spreadValues({}, payload), {
+    const enhancedPayload = {
+      ...payload,
       template: PAGE_TEMPLATE
-    });
+    };
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);
@@ -930,7 +888,7 @@ var CustomImportScript = (() => {
       blockTables.forEach(({ table, name }, idx) => {
         if (idx > 0) {
           const prevName = blockTables[idx - 1].name;
-          const prevKebab = prevName.toLowerCase().replace(/\s+/g, "-");
+          const prevKebab = prevName.toLowerCase().replace(/[()]/g, "").trim().replace(/\s+/g, "-");
           const prevStyle = SECTION_STYLES[prevKebab];
           if (prevStyle) {
             const metaTable = document.createElement("table");
@@ -954,7 +912,7 @@ var CustomImportScript = (() => {
         main.appendChild(table);
       });
       if (blockTables.length > 0) {
-        const lastKebab = blockTables[blockTables.length - 1].name.toLowerCase().replace(/\s+/g, "-");
+        const lastKebab = blockTables[blockTables.length - 1].name.toLowerCase().replace(/[()]/g, "").trim().replace(/\s+/g, "-");
         const lastStyle = SECTION_STYLES[lastKebab];
         if (lastStyle) {
           const metaTable = document.createElement("table");

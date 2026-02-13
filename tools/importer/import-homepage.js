@@ -179,7 +179,7 @@ export default {
       // Section-metadata for PREVIOUS block (before HR)
       if (idx > 0) {
         const prevName = blockTables[idx - 1].name;
-        const prevKebab = prevName.toLowerCase().replace(/\s+/g, '-');
+        const prevKebab = prevName.toLowerCase().replace(/[()]/g, '').trim().replace(/\s+/g, '-');
         const prevStyle = SECTION_STYLES[prevKebab];
         if (prevStyle) {
           const metaTable = document.createElement('table');
@@ -206,7 +206,7 @@ export default {
 
     // Section-metadata for the last block if needed
     if (blockTables.length > 0) {
-      const lastKebab = blockTables[blockTables.length - 1].name.toLowerCase().replace(/\s+/g, '-');
+      const lastKebab = blockTables[blockTables.length - 1].name.toLowerCase().replace(/[()]/g, '').trim().replace(/\s+/g, '-');
       const lastStyle = SECTION_STYLES[lastKebab];
       if (lastStyle) {
         const metaTable = document.createElement('table');

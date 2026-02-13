@@ -59,7 +59,7 @@ export default function parse(element, { document }) {
   }
 
   // Build block cells
-  const cells = [['Hero Banner']];
+  const cells = [['Hero (Banner)']];
 
   // Row 1: image
   const imgWrapper = document.createElement('div');
