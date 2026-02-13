@@ -183,9 +183,17 @@ export default async function decorate(block) {
   block.textContent = '';
   const nav = document.createElement('nav');
   nav.id = 'nav';
-  while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
+  if (fragment) {
+    while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
+  }
 
-  const classes = ['utility', 'brand', 'sections', 'tools'];
+  // Assign nav section classes based on how many top-level divs exist:
+  // 4 divs → utility, brand, sections, tools  (AT&T layout with utility bar)
+  // 3 divs → brand, sections, tools           (standard boilerplate layout)
+  const sectionCount = nav.children.length;
+  const classes = sectionCount >= 4
+    ? ['utility', 'brand', 'sections', 'tools']
+    : ['brand', 'sections', 'tools'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
     if (section) section.classList.add(`nav-${c}`);
@@ -205,16 +213,16 @@ export default async function decorate(block) {
   }
 
   const navBrand = nav.querySelector('.nav-brand');
-  const brandLink = navBrand.querySelector('.button');
-  if (brandLink) {
-    brandLink.className = '';
-    brandLink.closest('.button-container').className = '';
-  }
-
-  // Add AT&T globe logo before the brand text
   if (navBrand) {
+    const brandLink = navBrand.querySelector('.button');
+    if (brandLink) {
+      brandLink.className = '';
+      brandLink.closest('.button-container').className = '';
+    }
+
+    // Add AT&T globe logo before the brand text (only if brand contains AT&T link)
     const brandAnchor = navBrand.querySelector('a');
-    if (brandAnchor) {
+    if (brandAnchor && brandAnchor.textContent.includes('AT&T')) {
       const globeImg = document.createElement('img');
       globeImg.src = 'https://www.business.att.com/content/dam/att-gnavpc/iconography/att-globe-icon-blue.svg';
       globeImg.alt = 'AT&T';
