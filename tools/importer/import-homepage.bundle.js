@@ -529,6 +529,7 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/cards-links.js
   function parse8(element, { document }) {
+    element.querySelectorAll(".mobile-view").forEach((el) => el.remove());
     const linkItems = element.querySelectorAll("li");
     const cells = [["Cards Links"]];
     linkItems.forEach((li) => {

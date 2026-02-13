@@ -1,3 +1,12 @@
+/*
+ * Hero Block — unified variants: banner, feature, promo, story
+ *
+ * DOM structure (xwalk two-row block):
+ *   .hero > div:first-child  → image row  (row > col > p > img)
+ *   .hero > div:nth-child(2) → text row   (row > col > p/h2/ul…)
+ */
+
+/* === Base / Full-bleed container === */
 .hero-container .hero-wrapper {
   max-width: unset;
   padding: 0;
@@ -9,29 +18,283 @@
   min-height: 300px;
 }
 
-.hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
-}
-
-.hero picture {
+/* --- Image row — positioned as background layer --- */
+.hero > div:first-child {
   position: absolute;
   z-index: -1;
   inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.hero img {
+.hero > div:first-child > div,
+.hero > div:first-child > div > p {
+  height: 100%;
+  margin: 0;
+}
+
+.hero > div:first-child img {
   object-fit: cover;
   width: 100%;
   height: 100%;
 }
 
+/* --- Text content row --- */
+.hero > div:nth-child(2) > div {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 var(--content-padding);
+}
+
+/* Heading */
+.hero h1,
+.hero h2 {
+  color: var(--heading-color);
+  font-size: var(--heading-font-size-xxl);
+  font-weight: 700;
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+  margin-bottom: var(--spacing-m);
+  max-width: 600px;
+}
+
+/* Description text */
+.hero > div:nth-child(2) > div > p {
+  color: var(--text-color);
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+  max-width: 520px;
+}
+
+/* Eyebrow text (first paragraph before heading) */
+.hero > div:nth-child(2) > div > p:first-child {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: var(--spacing-s);
+}
+
 @media (width >= 900px) {
   .hero {
     padding: 40px 32px;
+  }
+
+  .hero h1,
+  .hero h2 {
+    max-width: 650px;
+  }
+}
+
+/* =============================================
+   Banner Variant — full-width hero with bg image
+   ============================================= */
+.hero.banner {
+  display: flex;
+  align-items: center;
+  min-height: 400px;
+  padding: 48px 24px;
+  overflow: hidden;
+}
+
+.hero.banner > div:nth-child(2) > div > p {
+  max-width: 500px;
+}
+
+.hero.banner > div:nth-child(2) > div > p:first-child {
+  letter-spacing: 0.02em;
+}
+
+@media (width >= 900px) {
+  .hero.banner {
+    min-height: 480px;
+    padding: 64px 32px;
+  }
+}
+
+/* =============================================
+   Feature Variant — hero with dark bg image, white text
+   ============================================= */
+.hero.feature {
+  display: flex;
+  align-items: center;
+  min-height: 420px;
+  padding: 48px 24px;
+  overflow: hidden;
+}
+
+/* Feature uses white text on dark background */
+.hero.feature h1,
+.hero.feature h2 {
+  color: var(--color-white);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.hero.feature > div:nth-child(2) > div > p {
+  color: var(--color-white);
+}
+
+/* Feature buttons — white-on-dark */
+.hero.feature a.button:any-link {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+  border-color: transparent;
+}
+
+.hero.feature a.button:hover {
+  background-color: var(--color-white);
+}
+
+.hero.feature a.button.secondary {
+  background-color: transparent;
+  border-color: var(--color-blue-50);
+  color: var(--color-blue-50);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.hero.feature a.button.secondary:hover {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+}
+
+/* Feature links */
+.hero.feature a:any-link:not(.button) {
+  color: var(--color-blue-50);
+}
+
+/* Disclaimer / fine print */
+.hero.feature > div:nth-child(2) > div > p sup {
+  font-size: var(--body-font-size-xs);
+}
+
+/* CTA row — multiple buttons side by side */
+.hero.feature .button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-s);
+}
+
+@media (width >= 900px) {
+  .hero.feature {
+    min-height: 500px;
+    padding: 64px 32px;
+  }
+}
+
+/* =============================================
+   Promo Variant — solid blue bg, no image
+   ============================================= */
+.hero.promo {
+  padding: var(--spacing-xxl) var(--content-padding);
+  background-color: var(--color-att-blue);
+  color: var(--color-white);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.hero.promo > div:nth-child(2) > div > p {
+  color: var(--color-white);
+  max-width: 550px;
+}
+
+/* Promo eyebrow — light blue on dark background */
+.hero.promo > div:nth-child(2) > div > p:first-child {
+  color: var(--color-blue-50);
+}
+
+/* Promo heading — white on blue, starts smaller, scales up */
+.hero.promo h1,
+.hero.promo h2 {
+  color: var(--color-white);
+  font-size: var(--heading-font-size-xl);
+}
+
+/* Promo buttons — white-on-dark */
+.hero.promo a.button:any-link {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+  border-color: transparent;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.hero.promo a.button:hover {
+  background-color: var(--color-white);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.hero.promo a.button.secondary {
+  background-color: transparent;
+  border-color: var(--color-blue-50);
+  color: var(--color-blue-50);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.hero.promo a.button.secondary:hover {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+}
+
+/* Promo links */
+.hero.promo a:any-link:not(.button) {
+  color: var(--color-blue-50);
+}
+
+/* Bullet list */
+.hero.promo ul {
+  color: var(--color-white);
+  padding-left: 1.25em;
+  margin: var(--spacing-m) 0 var(--spacing-l);
+  max-width: 550px;
+}
+
+.hero.promo li {
+  margin-bottom: var(--spacing-s);
+  line-height: var(--body-line-height);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.hero.promo li sup {
+  font-size: var(--body-font-size-xs);
+}
+
+/* Promo has no background image — hide the image row */
+.hero.promo > div:first-child {
+  display: none;
+}
+
+@media (width >= 900px) {
+  .hero.promo {
+    padding: var(--spacing-xxxl) var(--content-padding);
+  }
+
+  .hero.promo h1,
+  .hero.promo h2 {
+    font-size: var(--heading-font-size-xxl);
+  }
+}
+
+/* =============================================
+   Story Variant — compact hero with bg image
+   ============================================= */
+.hero.story {
+  display: flex;
+  align-items: center;
+  min-height: 300px;
+  padding: 40px 24px;
+  overflow: hidden;
+}
+
+/* Story heading — starts smaller, scales up on desktop */
+.hero.story h1,
+.hero.story h2 {
+  font-size: var(--heading-font-size-xl);
+}
+
+@media (width >= 900px) {
+  .hero.story {
+    min-height: 360px;
+    padding: 48px 32px;
+  }
+
+  .hero.story h1,
+  .hero.story h2 {
+    font-size: var(--heading-font-size-xxl);
   }
 }

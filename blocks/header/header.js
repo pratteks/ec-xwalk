@@ -185,11 +185,24 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
-  const classes = ['brand', 'sections', 'tools'];
+  const classes = ['utility', 'brand', 'sections', 'tools'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
     if (section) section.classList.add(`nav-${c}`);
   });
+
+  // mark the active segment in the utility bar
+  const navUtility = nav.querySelector('.nav-utility');
+  if (navUtility) {
+    const businessLink = navUtility.querySelector('a[href*="business.att.com"]');
+    if (businessLink) businessLink.setAttribute('aria-current', 'true');
+    // strip button classes from utility links
+    navUtility.querySelectorAll('.button').forEach((btn) => {
+      btn.className = '';
+      const bc = btn.closest('.button-container');
+      if (bc) bc.className = '';
+    });
+  }
 
   const navBrand = nav.querySelector('.nav-brand');
   const brandLink = navBrand.querySelector('.button');
@@ -218,6 +231,12 @@ export default async function decorate(block) {
 
   const navTools = nav.querySelector('.nav-tools');
   if (navTools) {
+    // strip button classes — "Account sign in" should render as plain text link
+    navTools.querySelectorAll('.button').forEach((btn) => {
+      btn.className = '';
+      const bc = btn.closest('.button-container');
+      if (bc) bc.className = '';
+    });
     const search = navTools.querySelector('a[href*="search"]');
     if (search && search.textContent === '') {
       search.setAttribute('aria-label', 'Search');

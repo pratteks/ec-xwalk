@@ -78,7 +78,7 @@
   --spacing-xxxl: 64px;
 
   /* ===== LAYOUT ===== */
-  --content-max-width: 960px;
+  --content-max-width: 1200px;
   --content-padding: 16px;
   --nav-height: 56px;
   --breadcrumbs-height: 34px;
@@ -113,10 +113,10 @@
     --body-font-size-m: 17px;
     --body-font-size-s: 15px;
     --body-font-size-xs: 13px;
-    --heading-font-size-xxl: 44px;
-    --heading-font-size-xl: 38px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
+    --heading-font-size-xxl: 48px;
+    --heading-font-size-xl: 48px;
+    --heading-font-size-l: 26px;
+    --heading-font-size-m: 26px;
     --heading-font-size-s: 20px;
     --heading-font-size-xs: 18px;
     --content-padding: 32px;
