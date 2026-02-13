@@ -43,7 +43,7 @@
 
 /* Card heading */
 .cards-value .cards-value-card-body h4 {
-  font-size: var(--heading-font-size-m);
+  font-size: var(--heading-font-size-l);
   font-weight: 400;
   color: var(--heading-color);
   line-height: var(--heading-line-height);
@@ -63,15 +63,15 @@
   font-size: var(--body-font-size-xs);
 }
 
-/* Card link */
-.cards-value .cards-value-card-body a:any-link {
+/* Card link (exclude buttons) */
+.cards-value .cards-value-card-body a:any-link:not(.button) {
   color: var(--text-color);
   font-weight: 400;
   text-decoration: underline;
   font-size: var(--body-font-size-m);
 }
 
-.cards-value .cards-value-card-body a:hover {
+.cards-value .cards-value-card-body a:hover:not(.button) {
   color: var(--link-hover-color);
 }
 

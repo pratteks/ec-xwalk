@@ -25,5 +25,26 @@ export default async function decorate(block) {
     }
   });
 
+  // add accordion behavior for link category headings
+  const linkCategories = footer.children[1];
+  if (linkCategories) {
+    linkCategories.querySelectorAll(':scope > .default-content-wrapper > ul > li > strong').forEach((strong) => {
+      const li = strong.parentElement;
+      const nestedUl = li.querySelector('ul');
+      if (!nestedUl) return;
+
+      const btn = document.createElement('button');
+      btn.className = 'footer-accordion-toggle';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = strong.textContent;
+      strong.replaceWith(btn);
+
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      });
+    });
+  }
+
   block.append(footer);
 }

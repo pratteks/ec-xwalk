@@ -8,6 +8,8 @@ import { createBlock, addFieldHint } from '../utils.js';
  * Model fields per item: image (empty), imageAlt (collapsed), content_link
  */
 export default function parse(element, { document }) {
+  // Exclude .mobile-view duplicates — original site renders desktop + mobile copies
+  element.querySelectorAll('.mobile-view').forEach((el) => el.remove());
   const linkItems = element.querySelectorAll('li');
   const cells = [['Cards Links']];
 

@@ -18,6 +18,13 @@ export default function decorate(block) {
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
   });
+  // strip button classes – links should render as plain text links
+  ul.querySelectorAll('.button').forEach((btn) => {
+    btn.className = '';
+    const bc = btn.closest('.button-container');
+    if (bc) bc.className = '';
+  });
+
   block.textContent = '';
   block.append(ul);
 }

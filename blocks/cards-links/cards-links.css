@@ -2,6 +2,13 @@
  * Cards Links - Multi-column link grid
  * Used for: Footer-style link collections, "Looking for more?" sections
  * Original: AT&T "Looking for more?" links section
+ *
+ * Design tokens (from original):
+ *   Background: transparent (white)
+ *   Link color: --color-gray-700 (#454b52)
+ *   Link size: 14px, weight 400
+ *   Hover: underline
+ *   Grid: 4 columns on desktop
  */
 
 .cards-links > ul {
@@ -19,7 +26,7 @@
   padding: var(--spacing-xs) 0;
 }
 
-/* Card image (hidden - this variant is text-only) */
+/* Card image (hidden — this variant is text-only) */
 .cards-links .cards-links-card-image {
   display: none;
 }
@@ -29,17 +36,18 @@
   margin: 0;
 }
 
-/* Link styling */
+/* Link styling — plain text links, not CTAs */
 .cards-links .cards-links-card-body a:any-link {
-  color: var(--link-color);
+  color: var(--color-gray-700);
   font-size: var(--body-font-size-s);
   font-weight: 400;
-  text-decoration: underline;
-  line-height: 1.6;
+  text-decoration: none;
+  line-height: 1.4;
 }
 
 .cards-links .cards-links-card-body a:hover {
-  color: var(--link-hover-color);
+  text-decoration: underline;
+  color: var(--color-black);
 }
 
 /* Card body paragraphs */
