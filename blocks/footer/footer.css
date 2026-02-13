@@ -80,7 +80,7 @@ footer .footer > div > div:nth-child(2) li {
 
 @media (width >= 900px) {
   footer .footer > div > div:nth-child(2) .default-content-wrapper {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
