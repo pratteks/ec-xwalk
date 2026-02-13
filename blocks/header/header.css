@@ -1,9 +1,68 @@
 /* header and nav layout */
 header .nav-wrapper {
-  background-color: var(--background-color);
+  background-color: var(--color-white);
   width: 100%;
   z-index: 2;
   position: fixed;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+/* utility bar (Personal/Business + Support/Contact Sales) */
+header nav .nav-utility {
+  display: none;
+}
+
+@media (width >= 900px) {
+  header nav .nav-utility {
+    display: block;
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--color-gray-200);
+    margin: 0 calc(-1 * var(--content-padding));
+    width: calc(100% + 2 * var(--content-padding));
+    padding: 0;
+  }
+
+  header nav .nav-utility .default-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: calc(var(--content-max-width) + 64px);
+    margin: 0 auto;
+    padding: 6px 32px;
+  }
+
+  header nav .nav-utility ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0;
+  }
+
+  header nav .nav-utility li {
+    padding: 0;
+  }
+
+  header nav .nav-utility li:not(:last-child) {
+    border-right: 1px solid var(--color-gray-400);
+  }
+
+  header nav .nav-utility a:any-link {
+    color: var(--color-gray-700);
+    text-decoration: none;
+    padding: 2px 12px;
+    font-size: var(--body-font-size-s);
+    font-weight: 500;
+  }
+
+  header nav .nav-utility a:hover {
+    color: var(--color-black);
+  }
+
+  header nav .nav-utility a[aria-current='true'] {
+    color: var(--color-black);
+    font-weight: 700;
+  }
 }
 
 header nav {
@@ -15,10 +74,11 @@ header nav {
   align-items: center;
   gap: 0 24px;
   margin: auto;
-  max-width: 1248px;
+  max-width: var(--content-max-width);
   height: var(--nav-height);
-  padding: 0 24px;
+  padding: 0 var(--content-padding);
   font-family: var(--body-font-family);
+  color: var(--heading-color);
 }
 
 header nav[aria-expanded='true'] {
@@ -33,10 +93,13 @@ header nav[aria-expanded='true'] {
 @media (width >= 900px) {
   header nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 0 32px;
-    max-width: 1264px;
+    max-width: calc(var(--content-max-width) + 64px);
     padding: 0 32px;
+    height: auto;
+    position: relative;
   }
 
   header nav[aria-expanded='true'] {
@@ -52,6 +115,11 @@ header nav p {
 
 header nav a:any-link {
   color: currentcolor;
+  text-decoration: none;
+}
+
+header nav a:hover {
+  color: var(--color-black);
 }
 
 /* hamburger */
@@ -68,7 +136,7 @@ header nav .nav-hamburger button {
   border: 0;
   border-radius: 0;
   padding: 0;
-  background-color: var(--background-color);
+  background-color: var(--color-white);
   color: inherit;
   overflow: initial;
   text-overflow: initial;
@@ -144,6 +212,10 @@ header .nav-brand {
   line-height: 1;
 }
 
+header .nav-brand a:any-link {
+  color: var(--color-att-blue);
+}
+
 header nav .nav-brand img {
   width: 128px;
   height: auto;
@@ -192,8 +264,11 @@ header nav .nav-sections ul > li > ul > li {
     align-self: unset;
   }
 
+  header nav .nav-sections .default-content-wrapper {
+    position: static;
+  }
+
   header nav .nav-sections .nav-drop {
-    position: relative;
     padding-right: 16px;
     cursor: pointer;
   }
@@ -201,9 +276,9 @@ header nav .nav-sections ul > li > ul > li {
   header nav .nav-sections .nav-drop::after {
     content: '';
     display: inline-block;
-    position: absolute;
-    top: 2px;
-    right: 2px;
+    position: relative;
+    top: -1px;
+    margin-left: 4px;
     transform: rotate(135deg);
     width: 6px;
     height: 6px;
@@ -213,53 +288,103 @@ header nav .nav-sections ul > li > ul > li {
   }
 
   header nav .nav-sections .nav-drop[aria-expanded='true']::after {
-    top: unset;
-    bottom: 2px;
+    top: 2px;
     transform: rotate(315deg);
+  }
+
+  /* Active state — nav item turns blue when dropdown is open */
+  header nav .nav-sections .nav-drop[aria-expanded='true'] {
+    color: var(--color-att-blue-link);
   }
 
   header nav .nav-sections ul {
     display: flex;
-    gap: 24px;
+    gap: 0;
     margin: 0;
+    align-items: center;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li {
     flex: 0 1 auto;
-    position: relative;
+    position: static;
+    padding: 0 16px;
   }
 
+  header nav .nav-sections .default-content-wrapper > ul > li:first-child {
+    padding-left: 0;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li:not(:last-child) {
+    border-right: 1px solid var(--color-gray-400);
+  }
+
+  /* --- Mega menu dropdown panel --- */
   header nav .nav-sections .default-content-wrapper > ul > li > ul {
     display: none;
     position: relative;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul {
-    display: block;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px 32px;
     position: absolute;
-    left: -24px;
-    width: 200px;
-    top: 150%;
-    padding: 16px;
-    background-color: var(--light-color);
+    left: 0;
+    right: 0;
+    top: 100%;
+    padding: 24px 32px;
+    background-color: var(--color-white);
     white-space: initial;
-    z-index: 1;
+    z-index: 10;
+    border-top: 1px solid var(--color-gray-200);
+    border-bottom: 2px solid var(--color-gray-200);
+    box-shadow: 0 8px 16px rgb(0 0 0 / 8%);
   }
 
-  header nav .nav-sections .default-content-wrapper > ul > li > ul::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 16px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid var(--light-color);
-  }
-
+  /* stylelint-disable-next-line no-descending-specificity -- targets dropdown items, not top-level nav items */
   header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
     padding: 8px 0;
+    color: var(--color-gray-900);
+    font-weight: 700;
+  }
+
+  /* L2 category heading — direct link of a dropdown item */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > a {
+    color: var(--color-gray-900);
+    font-size: var(--body-font-size-s);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > a:hover {
+    color: var(--color-att-blue-link);
+  }
+
+  /* L3 sub-list — override the flex display from the general ul rule */
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul {
+    display: block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* L3 sub-link items */
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul > li {
+    padding: 3px 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul > li a {
+    color: var(--color-gray-700);
+    font-size: var(--body-font-size-xs);
+    font-weight: 400;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul > li a:hover {
+    color: var(--color-att-blue-link);
   }
 }
 
@@ -268,19 +393,17 @@ header nav .nav-tools {
   grid-area: tools;
 }
 
-header nav .nav-tools .button {
-  margin: 0;
-  border: none;
-  padding: 0.5em;
-  background: none;
-  line-height: 0;
+header nav .nav-tools a:any-link {
+  font-size: var(--body-font-size-s);
+  font-weight: 500;
+  color: var(--color-gray-700);
 }
 
 /* breadcrumbs */
 header .breadcrumbs {
   display: none;
   margin: auto;
-  max-width: 1248px;
+  max-width: var(--content-max-width);
   height: var(--breadcrumbs-height);
   padding: 0 24px;
   font-size: var(--body-font-size-xs);
@@ -300,7 +423,7 @@ header .breadcrumbs ol {
 /* stylelint-disable-next-line no-descending-specificity */
 header .breadcrumbs ol li {
   padding: 0;
-  color: var(--dark-color);
+  color: var(--heading-color);
 }
 
 header .breadcrumbs ol li:not(:last-child)::after {
@@ -316,7 +439,7 @@ header .breadcrumbs ol li[aria-current] {
 @media (width >= 900px) {
   header .breadcrumbs {
     display: block;
-    max-width: 1264px;
+    max-width: calc(var(--content-max-width) + 64px);
     padding: 0 32px;
   }
 }

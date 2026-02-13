@@ -1,0 +1,119 @@
+/*
+ * Columns Contact - Two-column layout with text info + contact form
+ * Used for: Contact sections, lead generation, sales inquiry
+ * Original: "Talk to an AT&T Business sales expert" section
+ */
+
+.columns-contact > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.columns-contact img {
+  width: 100%;
+}
+
+.columns-contact > div > div {
+  order: 1;
+}
+
+.columns-contact > div > .columns-contact-img-col {
+  order: 0;
+}
+
+.columns-contact > div > .columns-contact-img-col img {
+  display: block;
+}
+
+/* Info column (left) */
+.columns-contact > div > div:first-child h2 {
+  font-size: var(--heading-font-size-xl);
+  font-weight: 700;
+  color: var(--heading-color);
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+  margin-bottom: var(--spacing-m);
+}
+
+.columns-contact > div > div:first-child p {
+  font-size: var(--body-font-size-m);
+  color: var(--text-color);
+  line-height: var(--body-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Phone link */
+.columns-contact a[href^="tel"] {
+  color: var(--link-color);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Form column styling */
+.columns-contact > div > div:last-child {
+  background-color: var(--color-gray-100);
+  border-radius: var(--border-radius-m);
+  padding: var(--spacing-xl);
+}
+
+/* Form headings */
+.columns-contact > div > div:last-child h3,
+.columns-contact > div > div:last-child h4 {
+  font-size: var(--heading-font-size-s);
+  font-weight: 700;
+  color: var(--heading-color);
+  margin-bottom: var(--spacing-m);
+}
+
+/* Form labels */
+.columns-contact > div > div:last-child p {
+  font-size: var(--body-font-size-s);
+  color: var(--text-color);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Link lists at bottom */
+.columns-contact ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing-m) 0;
+}
+
+.columns-contact li {
+  margin-bottom: var(--spacing-xs);
+}
+
+.columns-contact li a:any-link {
+  color: var(--link-color);
+  font-size: var(--body-font-size-s);
+  text-decoration: underline;
+  line-height: 1.6;
+}
+
+/* Links in contact section */
+.columns-contact a:any-link:not(.button, [href^="tel"]) {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+.columns-contact a:hover:not(.button) {
+  color: var(--link-hover-color);
+}
+
+@media (width >= 900px) {
+  .columns-contact > div {
+    align-items: flex-start;
+    flex-direction: row;
+    gap: var(--spacing-xxl);
+  }
+
+  .columns-contact > div > div {
+    flex: 1;
+    order: unset;
+  }
+
+  .columns-contact > div > div:first-child h2 {
+    font-size: var(--heading-font-size-xxl);
+  }
+}

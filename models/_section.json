@@ -33,6 +33,18 @@
             {
               "name": "Highlight",
               "value": "highlight"
+            },
+            {
+              "name": "Neutral",
+              "value": "neutral"
+            },
+            {
+              "name": "Accent",
+              "value": "accent"
+            },
+            {
+              "name": "Dark",
+              "value": "dark"
             }
           ]
         }
@@ -46,12 +58,24 @@
         "accordion",
         "button",
         "cards",
+        "cards-links",
+        "cards-product",
+        "cards-promo",
+        "cards-value",
         "carousel",
+        "carousel-banner",
+        "carousel-story",
         "columns",
+        "columns-contact",
+        "columns-offer",
         "embed",
         "fragment",
         "form",
         "hero",
+        "hero-banner",
+        "hero-feature",
+        "hero-promo",
+        "hero-story",
         "image",
         "quote",
         "search",

@@ -1,20 +1,249 @@
+/* ===== Footer — matches AT&T Business footer design tokens ===== */
+
+/* --- Base --- */
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  font-size: var(--body-font-size-s);
 }
 
 footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+  margin: 0;
+  padding: 0;
 }
 
 footer .footer p {
   margin: 0;
 }
 
+footer a:any-link {
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* --- Section 1: Brand bar (AT&T blue background) --- */
+footer .footer > div > div:first-child {
+  background-color: var(--color-att-blue-light);
+  color: var(--color-white);
+  padding: var(--spacing-m) var(--content-padding);
+}
+
+footer .footer > div > div:first-child a:any-link {
+  color: var(--color-white);
+}
+
+footer .footer > div > div:first-child .default-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+footer .footer > div > div:first-child .default-content-wrapper > p {
+  font-size: var(--heading-font-size-s);
+  font-weight: 700;
+}
+
+footer .footer > div > div:first-child ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: var(--spacing-m);
+}
+
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer > div > div:first-child .default-content-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
+}
+
+/* --- Section 2: Link categories (light background, dark text) --- */
+footer .footer > div > div:nth-child(2) {
+  background-color: var(--color-blue-50);
+  color: var(--heading-color);
+  padding: var(--spacing-xl) var(--content-padding) 0;
+}
+
+footer .footer > div > div:nth-child(2) a:any-link {
+  color: var(--heading-color);
+  font-size: var(--body-font-size-s);
+}
+
+footer .footer > div > div:nth-child(2) a:hover {
+  color: var(--color-black);
+}
+
+footer .footer > div > div:nth-child(2) .default-content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-m);
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding-bottom: var(--spacing-l);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+footer .footer > div > div:nth-child(2) ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li {
+  border-bottom: 1px solid var(--color-gray-200);
+  padding-bottom: var(--spacing-m);
+  margin-bottom: 0;
+}
+
+/* --- Accordion toggle button --- */
+footer .footer .footer-accordion-toggle {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-m) 0;
+  color: var(--color-black);
+  font-size: var(--heading-font-size-xs);
+  font-weight: 700;
+  letter-spacing: var(--heading-letter-spacing);
+  cursor: pointer;
+}
+
+footer .footer .footer-accordion-toggle::after {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--color-black);
+  border-bottom: 2px solid var(--color-black);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-left: var(--spacing-m);
+}
+
+footer .footer .footer-accordion-toggle[aria-expanded="true"]::after {
+  transform: rotate(-135deg);
+}
+
+/* --- Nested links: hidden by default on mobile --- */
+footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li > ul {
+  display: none;
+  padding-bottom: var(--spacing-m);
+}
+
+footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li > .footer-accordion-toggle[aria-expanded="true"] + ul {
+  display: block;
+}
+
+footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li > ul > li {
+  padding: var(--spacing-xs) 0;
+}
+
+/* --- Desktop: show all links, hide accordion chevrons --- */
+@media (width >= 900px) {
+  footer .footer > div > div:nth-child(2) .default-content-wrapper {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: var(--spacing-l);
+  }
+
+  footer .footer .footer-accordion-toggle {
+    cursor: default;
+    padding: 0 0 var(--spacing-s);
+  }
+
+  footer .footer .footer-accordion-toggle::after {
+    display: none;
+  }
+
+  footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li > ul {
+    display: block;
+    padding-bottom: 0;
+  }
+}
+
+/* --- Section 3: Utility links (same light background) --- */
+footer .footer > div > div:nth-child(3) {
+  background-color: var(--color-blue-50);
+  color: var(--color-black);
+  padding: 0 var(--content-padding);
+}
+
+footer .footer > div > div:nth-child(3) a:any-link {
+  color: var(--color-black);
+  font-size: var(--heading-font-size-xs);
+  font-weight: 700;
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+footer .footer > div > div:nth-child(3) a:hover {
+  color: var(--heading-color);
+}
+
+footer .footer > div > div:nth-child(3) .default-content-wrapper {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding-top: var(--spacing-l);
+  padding-bottom: var(--spacing-l);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- targets section 3 ul, not section 2 accordion */
+footer .footer > div > div:nth-child(3) .default-content-wrapper ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-l);
+}
+
+/* --- Section 4: Legal + copyright (same light background) --- */
+footer .footer > div > div:last-child {
+  background-color: var(--color-blue-50);
+  color: var(--color-gray-700);
+  padding: 0 var(--content-padding) var(--spacing-xl);
+}
+
+footer .footer > div > div:last-child a:any-link {
+  color: var(--color-gray-700);
+  font-size: var(--body-font-size-xs);
+}
+
+footer .footer > div > div:last-child a:hover {
+  color: var(--color-black);
+}
+
+footer .footer > div > div:last-child .default-content-wrapper {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding-top: var(--spacing-l);
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- targets section 4 ul, not section 2 accordion */
+footer .footer > div > div:last-child .default-content-wrapper ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-m);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-l);
+}
+
+footer .footer > div > div:last-child .default-content-wrapper > p:last-child {
+  color: var(--color-gray-500);
+  font-size: var(--body-font-size-xs);
+  line-height: var(--body-line-height);
 }
