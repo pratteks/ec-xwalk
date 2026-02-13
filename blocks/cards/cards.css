@@ -54,8 +54,8 @@
 
 .cards.product > ul > li {
   border: none;
-  border-radius: var(--border-radius-m);
-  background-color: var(--color-blue-50);
+  border-radius: var(--border-radius-l);
+  background-color: var(--background-color);
   overflow: hidden;
   transition: box-shadow 0.2s ease;
 }
@@ -72,6 +72,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  border-radius: var(--border-radius-l) var(--border-radius-l) 0 0;
 }
 
 .cards.product .cards-card-body {
@@ -81,7 +82,7 @@
 
 .cards.product .cards-card-body h3 {
   font-size: var(--heading-font-size-l);
-  font-weight: 700;
+  font-weight: 400;
   color: var(--heading-color);
   margin-bottom: var(--spacing-s);
   line-height: var(--heading-line-height);
@@ -100,15 +101,35 @@
   color: var(--heading-color);
 }
 
+/* Inline links (e.g. "See offer details" in disclaimer) */
 .cards.product .cards-card-body a:any-link:not(.button) {
   color: var(--link-color);
   font-weight: 700;
-  font-size: var(--body-font-size-s);
+  font-size: inherit;
   text-decoration: underline;
 }
 
 .cards.product .cards-card-body a:hover:not(.button) {
   color: var(--link-hover-color);
+}
+
+/* CTA link — last paragraph in card body, styled as pill button */
+.cards.product .cards-card-body > p:last-child > a:any-link {
+  display: inline-block;
+  background-color: var(--color-att-blue);
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: var(--button-font-size);
+  text-decoration: none;
+  border-radius: var(--border-radius-pill);
+  padding: 0 32px;
+  line-height: 40px;
+  transition: var(--button-transition);
+}
+
+.cards.product .cards-card-body > p:last-child > a:hover {
+  background-color: var(--color-att-blue-hover);
+  color: var(--color-white);
 }
 
 .cards.product .cards-card-body sup {
@@ -233,6 +254,7 @@
 }
 
 /* CTA link (non-button) */
+/* stylelint-disable-next-line no-descending-specificity */
 .cards.promo .cards-card-body a:any-link:not(.button) {
   color: var(--color-white);
   font-weight: 700;
@@ -337,7 +359,7 @@
   text-align: center;
 }
 
-.cards.value .cards-card-body h4 {
+.cards.value .cards-card-body :is(h3, h4) {
   font-size: var(--heading-font-size-l);
   font-weight: 400;
   color: var(--heading-color);
@@ -362,7 +384,12 @@
   color: var(--text-color);
   font-weight: 400;
   text-decoration: underline;
-  font-size: var(--body-font-size-m);
+  font-size: 12px;
+}
+
+.cards.value .cards-card-body a:any-link:not(.button)::after {
+  content: ' >';
+  font-weight: 700;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
