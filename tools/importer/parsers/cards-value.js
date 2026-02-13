@@ -1,11 +1,12 @@
 /* eslint-disable */
-import { createBlock } from '../utils.js';
+import { createBlock, addFieldHint } from '../utils.js';
 
 /**
  * Parser: cards-value
  * Selector: .generic-list-value-prop
  * Content: Value proposition items with icon, heading, description, legal, CTA
- * Rows: per item [imgCell, textCell]
+ * Model fields per item: image, imageAlt (collapsed), content_heading, content_description,
+ *   content_disclaimer, content_cta (grouped in content cell)
  */
 export default function parse(element, { document }) {
   const items = element.querySelectorAll('.generic-list-icon-vp');
@@ -27,28 +28,32 @@ export default function parse(element, { document }) {
       imgCell.append(imgEl);
     }
 
-    // Text cell
-    const textCell = document.createElement('div');
+    // Content cell with individual field hints
+    const contentCell = document.createElement('div');
     if (heading) {
       const h = document.createElement('h3');
       h.textContent = heading.textContent.trim();
-      textCell.append(h);
+      contentCell.append(addFieldHint(document, 'content_heading', h));
     }
     if (description) {
+      const descDiv = document.createElement('div');
       description.querySelectorAll('p').forEach((p) => {
         if (p.textContent.trim()) {
           const newP = document.createElement('p');
           newP.innerHTML = p.innerHTML;
-          textCell.append(newP);
+          descDiv.append(newP);
         }
       });
+      if (descDiv.childNodes.length > 0) {
+        contentCell.append(addFieldHint(document, 'content_description', descDiv));
+      }
     }
     if (legal && legal.textContent.trim()) {
       const p = document.createElement('p');
       const small = document.createElement('small');
       small.innerHTML = legal.innerHTML;
       p.append(small);
-      textCell.append(p);
+      contentCell.append(addFieldHint(document, 'content_disclaimer', p));
     }
     if (cta && cta.textContent.trim()) {
       const p = document.createElement('p');
@@ -56,10 +61,10 @@ export default function parse(element, { document }) {
       a.href = cta.href;
       a.textContent = cta.textContent.trim();
       p.append(a);
-      textCell.append(p);
+      contentCell.append(addFieldHint(document, 'content_cta', p));
     }
 
-    cells.push([imgCell, textCell]);
+    cells.push([addFieldHint(document, 'image', imgCell), contentCell]);
   });
 
   const block = createBlock(document, cells);

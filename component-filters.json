@@ -11,12 +11,24 @@
       "accordion",
       "button",
       "cards",
+      "cards-links",
+      "cards-product",
+      "cards-promo",
+      "cards-value",
       "carousel",
+      "carousel-banner",
+      "carousel-story",
       "columns",
+      "columns-contact",
+      "columns-offer",
       "embed",
       "fragment",
       "form",
       "hero",
+      "hero-banner",
+      "hero-feature",
+      "hero-promo",
+      "hero-story",
       "image",
       "quote",
       "search",
@@ -34,15 +46,81 @@
     ]
   },
   {
+    "id": "cards-links",
+    "components": [
+      "card-link"
+    ]
+  },
+  {
+    "id": "cards-product",
+    "components": [
+      "card-product"
+    ]
+  },
+  {
+    "id": "cards-promo",
+    "components": [
+      "card-promo"
+    ]
+  },
+  {
+    "id": "cards-value",
+    "components": [
+      "card-value"
+    ]
+  },
+  {
     "id": "cards",
     "components": [
       "card"
     ]
   },
   {
+    "id": "carousel-banner",
+    "components": [
+      "carousel-banner-item"
+    ]
+  },
+  {
+    "id": "carousel-story",
+    "components": [
+      "carousel-story-item"
+    ]
+  },
+  {
     "id": "carousel",
     "components": [
       "carousel-item"
+    ]
+  },
+  {
+    "id": "columns-contact",
+    "components": [
+      "column"
+    ]
+  },
+  {
+    "id": "column",
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title"
+    ]
+  },
+  {
+    "id": "columns-offer",
+    "components": [
+      "column"
+    ]
+  },
+  {
+    "id": "column",
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title"
     ]
   },
   {

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { createBlock, extractBgImageUrl } from '../utils.js';
+import { createBlock, extractBgImageUrl, addFieldHint } from '../utils.js';
 
 /**
  * Parser: hero-banner
@@ -74,10 +74,10 @@ export default function parse(element, { document }) {
     imgEl.alt = fallbackImg.alt || '';
     imgWrapper.append(imgEl);
   }
-  cells.push([imgWrapper]);
+  cells.push([addFieldHint(document, 'image', imgWrapper)]);
 
   // Row 2: text
-  cells.push([textContent]);
+  cells.push([addFieldHint(document, 'text', textContent)]);
 
   const block = createBlock(document, cells);
   element.replaceWith(block);
