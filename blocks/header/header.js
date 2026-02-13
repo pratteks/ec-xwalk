@@ -211,6 +211,18 @@ export default async function decorate(block) {
     brandLink.closest('.button-container').className = '';
   }
 
+  // Add AT&T globe logo before the brand text
+  if (navBrand) {
+    const brandAnchor = navBrand.querySelector('a');
+    if (brandAnchor) {
+      const globeImg = document.createElement('img');
+      globeImg.src = 'https://www.business.att.com/content/dam/att-gnavpc/iconography/att-globe-icon-blue.svg';
+      globeImg.alt = 'AT&T';
+      globeImg.classList.add('nav-brand-logo');
+      brandAnchor.prepend(globeImg);
+    }
+  }
+
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
@@ -237,10 +249,20 @@ export default async function decorate(block) {
       const bc = btn.closest('.button-container');
       if (bc) bc.className = '';
     });
-    const search = navTools.querySelector('a[href*="search"]');
-    if (search && search.textContent === '') {
-      search.setAttribute('aria-label', 'Search');
-    }
+
+    // Add search bar before account sign in
+    const searchForm = document.createElement('div');
+    searchForm.classList.add('nav-search');
+    searchForm.innerHTML = `<form role="search" action="/search" method="get">
+      <input type="search" name="q" placeholder="Let's find what you need..." aria-label="Search">
+      <button type="submit" aria-label="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </form>`;
+    navTools.prepend(searchForm);
   }
 
   // hamburger for mobile
