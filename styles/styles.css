@@ -142,7 +142,7 @@ body.appear {
 }
 
 header {
-  height: var(--header-height);
+  height: auto;
 }
 
 header .header,
