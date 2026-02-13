@@ -335,6 +335,40 @@
     ]
   },
   {
+    "id": "cards",
+    "fields": [
+      {
+        "component": "select",
+        "name": "classes",
+        "value": "",
+        "label": "Card Style",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Product",
+            "value": "product"
+          },
+          {
+            "name": "Promo",
+            "value": "promo"
+          },
+          {
+            "name": "Value",
+            "value": "value"
+          },
+          {
+            "name": "Links",
+            "value": "links"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "card",
     "fields": [
       {
@@ -402,6 +436,32 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "carousel",
+    "fields": [
+      {
+        "component": "select",
+        "name": "classes",
+        "value": "",
+        "label": "Carousel Style",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Banner",
+            "value": "banner"
+          },
+          {
+            "name": "Story",
+            "value": "story"
+          }
+        ]
       }
     ]
   },

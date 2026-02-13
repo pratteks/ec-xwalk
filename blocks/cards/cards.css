@@ -1,3 +1,20 @@
+/*
+ * Cards Block — unified variants: product, promo, value, links
+ *
+ * DOM structure (from decorate):
+ *   .cards > ul > li > .cards-card-image  (picture/img)
+ *                     > .cards-card-body   (text, headings, links)
+ *
+ * Variants applied as additional class on block element:
+ *   .cards.product  — product/service tiles with image, title, price
+ *   .cards.promo    — promotional overlay cards (8-4-12 grid)
+ *   .cards.value    — icon-based value proposition cards
+ *   .cards.links    — text-only link grid
+ */
+
+/* =============================================
+   Base — default card grid
+   ============================================= */
 .cards > ul {
   list-style: none;
   margin: 0;
@@ -24,4 +41,413 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+/* =============================================
+   Product Variant — product/service cards with image, title, price, CTA
+   Used for: Product listings, service offerings with pricing
+   ============================================= */
+.cards.product > ul {
+  grid-template-columns: 1fr;
+  gap: var(--spacing-m);
+}
+
+.cards.product > ul > li {
+  border: none;
+  border-radius: var(--border-radius-m);
+  background-color: var(--color-blue-50);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.cards.product > ul > li:hover {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+}
+
+.cards.product .cards-card-image {
+  line-height: 0;
+}
+
+.cards.product > ul > li img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.cards.product .cards-card-body {
+  padding: var(--spacing-m) var(--spacing-l);
+  margin: 0;
+}
+
+.cards.product .cards-card-body h3 {
+  font-size: var(--heading-font-size-l);
+  font-weight: 700;
+  color: var(--heading-color);
+  margin-bottom: var(--spacing-s);
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+.cards.product .cards-card-body p {
+  font-size: var(--body-font-size-s);
+  color: var(--text-color);
+  line-height: var(--body-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+.cards.product .cards-card-body strong {
+  font-weight: 700;
+  color: var(--heading-color);
+}
+
+.cards.product .cards-card-body a:any-link:not(.button) {
+  color: var(--link-color);
+  font-weight: 700;
+  font-size: var(--body-font-size-s);
+  text-decoration: underline;
+}
+
+.cards.product .cards-card-body a:hover:not(.button) {
+  color: var(--link-hover-color);
+}
+
+.cards.product .cards-card-body sup {
+  font-size: var(--body-font-size-xs);
+}
+
+@media (width >= 600px) {
+  .cards.product > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .cards.product > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-l);
+  }
+
+  .cards.product > ul > li img {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* =============================================
+   Promo Variant — promotional cards with image overlay (8-4-12 grid)
+   Used for: Promotional offers, featured content with images
+   ============================================= */
+.cards.promo > ul {
+  grid-template-columns: 1fr;
+  gap: var(--spacing-m);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.promo > ul > li {
+  position: relative;
+  border: none;
+  border-radius: var(--border-radius-l);
+  background-color: var(--color-navy);
+  overflow: hidden;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Image — positioned absolutely as background layer */
+.cards.promo .cards-card-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  line-height: 0;
+}
+
+.cards.promo .cards-card-image p {
+  height: 100%;
+  margin: 0;
+}
+
+.cards.promo > ul > li img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: auto;
+}
+
+/* Card body — overlaid on image */
+.cards.promo .cards-card-body {
+  position: relative;
+  z-index: 1;
+  padding: var(--spacing-l);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* Default text color: white (dark cards) */
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.promo .cards-card-body p {
+  font-size: var(--body-font-size-s);
+  color: var(--color-white);
+  line-height: var(--body-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Eyebrow text (first paragraph in card body) */
+.cards.promo .cards-card-body > p:first-child {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Card heading */
+.cards.promo .cards-card-body h3 {
+  font-size: 34px;
+  font-weight: 400;
+  color: var(--color-white);
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Fine print */
+.cards.promo .cards-card-body sup {
+  font-size: var(--body-font-size-xs);
+}
+
+/* CTA button in card — white-on-dark */
+.cards.promo .cards-card-body a.button:any-link {
+  align-self: flex-start;
+  margin-top: var(--spacing-s);
+  background-color: var(--color-white);
+  color: var(--color-att-blue);
+  border-color: transparent;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.promo .cards-card-body a.button:hover {
+  background-color: var(--color-blue-50);
+}
+
+/* CTA link (non-button) */
+.cards.promo .cards-card-body a:any-link:not(.button) {
+  color: var(--color-white);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Third card — light background, dark text */
+.cards.promo > ul > li:last-child {
+  background-color: var(--color-gray-100);
+}
+
+.cards.promo > ul > li:last-child .cards-card-body h3 {
+  color: var(--heading-color);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.promo > ul > li:last-child .cards-card-body p {
+  color: var(--text-color);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.promo > ul > li:last-child .cards-card-body a:any-link:not(.button) {
+  color: var(--link-color);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.promo > ul > li:last-child .cards-card-body a.button:any-link {
+  background-color: var(--color-att-blue);
+  color: var(--color-white);
+}
+
+/* Promo responsive — tablet */
+@media (width >= 600px) {
+  .cards.promo > ul {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .cards.promo > ul > li:nth-child(1) {
+    grid-column: span 8;
+  }
+
+  .cards.promo > ul > li:nth-child(2) {
+    grid-column: span 4;
+  }
+
+  .cards.promo > ul > li:nth-child(3) {
+    grid-column: span 12;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .cards.promo > ul > li {
+    min-height: 360px;
+  }
+}
+
+/* Promo responsive — desktop */
+@media (width >= 900px) {
+  .cards.promo > ul > li {
+    min-height: 400px;
+  }
+
+  .cards.promo .cards-card-body {
+    padding: var(--spacing-xl);
+  }
+}
+
+/* =============================================
+   Value Variant — icon-based value proposition cards
+   Used for: Feature highlights, benefits, value propositions
+   ============================================= */
+.cards.value > ul {
+  grid-template-columns: 1fr;
+  gap: var(--spacing-l);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.value > ul > li {
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Icon image */
+.cards.value .cards-card-image {
+  line-height: 0;
+  margin-bottom: var(--spacing-m);
+}
+
+.cards.value > ul > li img {
+  width: 56px;
+  height: 56px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+/* Card body */
+.cards.value .cards-card-body {
+  margin: 0;
+  text-align: center;
+}
+
+.cards.value .cards-card-body h4 {
+  font-size: var(--heading-font-size-l);
+  font-weight: 400;
+  color: var(--heading-color);
+  line-height: var(--heading-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.value .cards-card-body p {
+  font-size: var(--body-font-size-m);
+  color: var(--text-color);
+  line-height: var(--body-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+.cards.value .cards-card-body sup {
+  font-size: var(--body-font-size-xs);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.value .cards-card-body a:any-link:not(.button) {
+  color: var(--text-color);
+  font-weight: 400;
+  text-decoration: underline;
+  font-size: var(--body-font-size-m);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.value .cards-card-body a:hover:not(.button) {
+  color: var(--link-hover-color);
+}
+
+@media (width >= 600px) {
+  .cards.value > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .cards.value > ul {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-xl);
+  }
+
+  .cards.value > ul > li img {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* =============================================
+   Links Variant — text-only multi-column link grid
+   Used for: Footer-style link collections, "Looking for more?" sections
+   ============================================= */
+.cards.links > ul {
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xs);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.links > ul > li {
+  border: none;
+  background-color: transparent;
+  padding: var(--spacing-xs) 0;
+}
+
+/* Card image (hidden — this variant is text-only) */
+.cards.links .cards-card-image {
+  display: none;
+}
+
+/* Card body */
+.cards.links .cards-card-body {
+  margin: 0;
+}
+
+/* Link styling — plain text links, not CTAs */
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.links .cards-card-body a:any-link {
+  color: var(--color-gray-700);
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.links .cards-card-body a:hover {
+  text-decoration: underline;
+  color: var(--color-black);
+}
+
+/* Card body paragraphs */
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.links .cards-card-body p {
+  font-size: var(--body-font-size-s);
+  color: var(--text-color);
+  margin: 0;
+}
+
+@media (width >= 600px) {
+  .cards.links > ul {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-s) var(--spacing-l);
+  }
+}
+
+@media (width >= 900px) {
+  .cards.links > ul {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-s) var(--spacing-xl);
+  }
 }
