@@ -1,3 +1,24 @@
+/*
+ * Carousel Block — unified variants: banner, story
+ *
+ * DOM structure (from decorate):
+ *   .carousel > .carousel-slides-container
+ *     > .carousel-navigation-buttons  (prev/next)
+ *     > ul.carousel-slides
+ *       > li.carousel-slide
+ *         > .carousel-slide-image   (picture/img)
+ *         > .carousel-slide-content (text, headings, links)
+ *   .carousel > nav > ol.carousel-slide-indicators
+ *     > li.carousel-slide-indicator > button
+ *
+ * Variants applied as additional class on block element:
+ *   .carousel.banner — text-only banner carousel (no images)
+ *   .carousel.story  — card-shaped story carousel with icons
+ */
+
+/* =============================================
+   Base — full-bleed image carousel with overlay
+   ============================================= */
 .carousel .carousel-slides-container {
   position: relative;
 }
@@ -149,5 +170,217 @@
 
   .carousel .carousel-slide .carousel-slide-content[data-align='justify'] {
     --slide-content-width: auto;
+  }
+}
+
+/* =============================================
+   Banner Variant — text-only banner carousel (no images)
+   Used for: Micro-banners, promotional messages, trust signals
+   ============================================= */
+
+/* Individual slide — centered text, auto height */
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.banner .carousel-slide {
+  min-height: auto;
+  padding: var(--spacing-l) var(--content-padding);
+  text-align: center;
+  align-items: center;
+}
+
+/* Hide image layer (text-only variant) */
+.carousel.banner .carousel-slide .carousel-slide-image {
+  display: none;
+}
+
+/* Content area — transparent, centered */
+.carousel.banner .carousel-slide .carousel-slide-content {
+  margin: 0;
+  padding: 0;
+  max-width: 700px;
+  color: var(--heading-color);
+  background-color: transparent;
+  text-align: center;
+}
+
+/* Bold title text */
+.carousel.banner .carousel-slide-content strong {
+  font-size: var(--body-font-size-m);
+  font-weight: 700;
+  color: var(--heading-color);
+  display: block;
+  margin-bottom: var(--spacing-s);
+}
+
+/* Description text */
+.carousel.banner .carousel-slide-content p {
+  font-size: var(--body-font-size-m);
+  color: var(--heading-color);
+  line-height: var(--body-line-height);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Links */
+.carousel.banner .carousel-slide-content a:any-link {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* Dot indicators — smaller */
+.carousel.banner .carousel-slide-indicators {
+  padding: var(--spacing-s);
+  background-color: transparent;
+}
+
+.carousel.banner .carousel-slide-indicator button {
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-gray-400);
+  border: none;
+}
+
+.carousel.banner .carousel-slide-indicator button:disabled,
+.carousel.banner .carousel-slide-indicator button:hover {
+  background-color: var(--color-att-blue);
+}
+
+/* Navigation buttons — smaller, gray */
+.carousel.banner .carousel-navigation-buttons {
+  left: var(--spacing-s);
+  right: var(--spacing-s);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.banner .carousel-navigation-buttons button {
+  width: 36px;
+  height: 36px;
+  background-color: var(--color-gray-200);
+  border: none;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.banner .carousel-navigation-buttons button:hover {
+  background-color: var(--color-gray-400);
+}
+
+.carousel.banner .carousel-navigation-buttons button::after {
+  border-color: var(--heading-color);
+  height: 10px;
+  width: 10px;
+}
+
+/* =============================================
+   Story Variant — card-shaped story carousel with icons
+   Used for: Industry solutions, sector showcases, story stacks
+   ============================================= */
+
+/* Individual slide — card shape with rounded corners */
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.story .carousel-slide {
+  min-height: 360px;
+  background-color: var(--color-blue-50);
+  border-radius: var(--border-radius-l);
+  overflow: hidden;
+  align-items: center;
+}
+
+/* Icon in slide */
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.story .carousel-slide-content img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: var(--spacing-m);
+}
+
+/* Background image */
+.carousel.story .carousel-slide .carousel-slide-image picture {
+  position: absolute;
+  inset: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.story .carousel-slide .carousel-slide-image picture > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Content area — centered, transparent bg */
+.carousel.story .carousel-slide .carousel-slide-content {
+  margin: 0;
+  padding: var(--spacing-xl);
+  color: var(--heading-color);
+  background-color: transparent;
+  text-align: center;
+  max-width: 500px;
+}
+
+/* Slide title */
+.carousel.story .carousel-slide-content h3,
+.carousel.story .carousel-slide-content h4 {
+  font-size: var(--heading-font-size-m);
+  font-weight: 700;
+  color: var(--heading-color);
+  margin-bottom: var(--spacing-s);
+}
+
+/* Slide description */
+.carousel.story .carousel-slide-content p {
+  font-size: var(--body-font-size-m);
+  color: var(--text-color);
+  line-height: var(--body-line-height);
+}
+
+/* Links */
+.carousel.story .carousel-slide-content a:any-link {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* Dot indicators — small, centered */
+.carousel.story .carousel-slide-indicators {
+  padding: var(--spacing-m);
+  background-color: transparent;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.story .carousel-slide-indicator button {
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-gray-400);
+  border: none;
+}
+
+.carousel.story .carousel-slide-indicator button:disabled,
+.carousel.story .carousel-slide-indicator button:hover {
+  background-color: var(--color-att-blue);
+}
+
+/* Navigation buttons — white, translucent */
+.carousel.story .carousel-navigation-buttons {
+  left: var(--spacing-m);
+  right: var(--spacing-m);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.story .carousel-navigation-buttons button {
+  width: 44px;
+  height: 44px;
+  background-color: rgb(255 255 255 / 80%);
+  border: none;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.story .carousel-navigation-buttons button:hover {
+  background-color: var(--color-white);
+}
+
+.carousel.story .carousel-navigation-buttons button::after {
+  border-color: var(--heading-color);
+}
+
+@media (width >= 900px) {
+  .carousel.story .carousel-slide {
+    min-height: 420px;
   }
 }
