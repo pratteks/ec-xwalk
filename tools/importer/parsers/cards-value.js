@@ -10,7 +10,7 @@ import { createBlock, addFieldHint } from '../utils.js';
  */
 export default function parse(element, { document }) {
   const items = element.querySelectorAll('.generic-list-icon-vp');
-  const cells = [['Cards Value']];
+  const cells = [['Cards (Value)']];
 
   items.forEach((item) => {
     const icon = item.querySelector('img');
@@ -28,41 +28,41 @@ export default function parse(element, { document }) {
       imgCell.append(imgEl);
     }
 
-    // Content cell with individual field hints
+    // Content cell — all content_* fields grouped in one column (md2jcr groups by prefix)
     const contentCell = document.createElement('div');
-    if (heading) {
-      const h = document.createElement('h3');
-      h.textContent = heading.textContent.trim();
-      contentCell.append(addFieldHint(document, 'content_heading', h));
-    }
+
+    // content_heading
+    const h = document.createElement('h3');
+    if (heading) h.textContent = heading.textContent.trim();
+    contentCell.append(addFieldHint(document, 'content_heading', h));
+
+    // content_description
+    const descP = document.createElement('p');
     if (description) {
-      const descDiv = document.createElement('div');
+      const paragraphs = [];
       description.querySelectorAll('p').forEach((p) => {
-        if (p.textContent.trim()) {
-          const newP = document.createElement('p');
-          newP.innerHTML = p.innerHTML;
-          descDiv.append(newP);
-        }
+        if (p.textContent.trim()) paragraphs.push(p.innerHTML);
       });
-      if (descDiv.childNodes.length > 0) {
-        contentCell.append(addFieldHint(document, 'content_description', descDiv));
-      }
+      if (paragraphs.length > 0) descP.innerHTML = paragraphs.join('</p><p>');
     }
+    contentCell.append(addFieldHint(document, 'content_description', descP));
+
+    // content_disclaimer
+    const disclaimerP = document.createElement('p');
     if (legal && legal.textContent.trim()) {
-      const p = document.createElement('p');
-      const small = document.createElement('small');
-      small.innerHTML = legal.innerHTML;
-      p.append(small);
-      contentCell.append(addFieldHint(document, 'content_disclaimer', p));
+      disclaimerP.innerHTML = legal.innerHTML;
     }
+    contentCell.append(addFieldHint(document, 'content_disclaimer', disclaimerP));
+
+    // content_cta
+    const ctaP = document.createElement('p');
     if (cta && cta.textContent.trim()) {
-      const p = document.createElement('p');
       const a = document.createElement('a');
       a.href = cta.href;
       a.textContent = cta.textContent.trim();
-      p.append(a);
-      contentCell.append(addFieldHint(document, 'content_cta', p));
+      ctaP.append(a);
     }
+    contentCell.append(addFieldHint(document, 'content_cta', ctaP));
 
     cells.push([addFieldHint(document, 'image', imgCell), contentCell]);
   });

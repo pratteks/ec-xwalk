@@ -10,7 +10,7 @@ import { createBlock, extractBgImageUrl, addFieldHint } from '../utils.js';
  */
 export default function parse(element, { document }) {
   const cardWrappers = element.querySelectorAll('.card-wrapper');
-  const cells = [['Cards Promo']];
+  const cells = [['Cards (Promo)']];
 
   cardWrappers.forEach((wrapper) => {
     const card = wrapper.querySelector('.flex-card, .card');
@@ -37,58 +37,55 @@ export default function parse(element, { document }) {
       imgCell.append(imgEl);
     }
 
-    // Content cell with individual field hints
+    // Content cell — all content_* fields grouped in one column (md2jcr groups by prefix)
     const contentCell = document.createElement('div');
+
+    // content_eyebrow
+    const eyebrowP = document.createElement('p');
     if (eyebrow && eyebrow.textContent.trim()) {
-      const p = document.createElement('p');
       const em = document.createElement('em');
       em.textContent = eyebrow.textContent.trim();
-      p.append(em);
-      contentCell.append(addFieldHint(document, 'content_eyebrow', p));
+      eyebrowP.append(em);
     }
-    if (heading) {
-      const h = document.createElement('h3');
-      h.innerHTML = heading.innerHTML;
-      contentCell.append(addFieldHint(document, 'content_heading', h));
-    }
+    contentCell.append(addFieldHint(document, 'content_eyebrow', eyebrowP));
+
+    // content_heading
+    const h = document.createElement('h3');
+    if (heading) h.innerHTML = heading.innerHTML;
+    contentCell.append(addFieldHint(document, 'content_heading', h));
+
+    // content_description
+    const descP = document.createElement('p');
     if (body) {
-      const descDiv = document.createElement('div');
+      const paragraphs = [];
       body.querySelectorAll('p').forEach((p) => {
-        if (p.textContent.trim()) {
-          const newP = document.createElement('p');
-          newP.innerHTML = p.innerHTML;
-          descDiv.append(newP);
-        }
+        if (p.textContent.trim()) paragraphs.push(p.innerHTML);
       });
-      if (descDiv.childNodes.length > 0) {
-        contentCell.append(addFieldHint(document, 'content_description', descDiv));
-      }
+      if (paragraphs.length > 0) descP.innerHTML = paragraphs.join('</p><p>');
     }
+    contentCell.append(addFieldHint(document, 'content_description', descP));
+
+    // content_disclaimer
+    const disclaimerP = document.createElement('p');
     if (legal && legal.textContent.trim()) {
-      const p = document.createElement('p');
-      const small = document.createElement('small');
-      small.innerHTML = legal.innerHTML;
-      p.append(small);
-      contentCell.append(addFieldHint(document, 'content_disclaimer', p));
+      disclaimerP.innerHTML = legal.innerHTML;
     }
+    contentCell.append(addFieldHint(document, 'content_disclaimer', disclaimerP));
+
+    // content_cta
+    const ctaP = document.createElement('p');
     if (ctas.length > 0) {
-      const ctaDiv = document.createElement('div');
-      ctas.forEach((link) => {
-        if (link.textContent.trim()) {
-          const p = document.createElement('p');
-          const a = document.createElement('a');
-          a.href = link.href;
-          const strong = document.createElement('strong');
-          strong.textContent = link.textContent.trim();
-          a.append(strong);
-          p.append(a);
-          ctaDiv.append(p);
-        }
-      });
-      if (ctaDiv.childNodes.length > 0) {
-        contentCell.append(addFieldHint(document, 'content_cta', ctaDiv));
+      const firstCta = Array.from(ctas).find((link) => link.textContent.trim());
+      if (firstCta) {
+        const a = document.createElement('a');
+        a.href = firstCta.href;
+        const strong = document.createElement('strong');
+        strong.textContent = firstCta.textContent.trim();
+        a.append(strong);
+        ctaP.append(a);
       }
     }
+    contentCell.append(addFieldHint(document, 'content_cta', ctaP));
 
     cells.push([addFieldHint(document, 'image', imgCell), contentCell]);
   });

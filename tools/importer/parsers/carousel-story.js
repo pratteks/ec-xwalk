@@ -9,7 +9,7 @@ import { createBlock, addFieldHint } from '../utils.js';
  */
 export default function parse(element, { document }) {
   const slides = element.querySelectorAll('.swiper-slide:not(.swiper-slide-duplicate)');
-  const cells = [['Carousel Story']];
+  const cells = [['Carousel (Story)']];
 
   slides.forEach((slide) => {
     const bgImg = slide.querySelector('.swiper-image');

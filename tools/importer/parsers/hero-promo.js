@@ -63,7 +63,7 @@ export default function parse(element, { document }) {
     });
   }
 
-  const cells = [['Hero Promo']];
+  const cells = [['Hero (Promo)']];
 
   // Row 1: image
   const imgWrapper = document.createElement('div');
