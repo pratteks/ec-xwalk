@@ -220,14 +220,15 @@ export default async function decorate(block) {
       brandLink.closest('.button-container').className = '';
     }
 
-    // Add AT&T globe logo before the brand text (only if brand contains AT&T link)
+    // Replace brand text with the combined AT&T Business logo SVG
     const brandAnchor = navBrand.querySelector('a');
     if (brandAnchor && brandAnchor.textContent.includes('AT&T')) {
-      const globeImg = document.createElement('img');
-      globeImg.src = 'https://www.business.att.com/content/dam/att-gnavpc/iconography/att-globe-icon-blue.svg';
-      globeImg.alt = 'AT&T';
-      globeImg.classList.add('nav-brand-logo');
-      brandAnchor.prepend(globeImg);
+      const logoImg = document.createElement('img');
+      logoImg.src = 'https://www.business.att.com/content/dam/attbusiness/global/new-global-nav-img.svg';
+      logoImg.alt = 'AT&T Business';
+      logoImg.classList.add('nav-brand-logo');
+      brandAnchor.textContent = '';
+      brandAnchor.appendChild(logoImg);
     }
   }
 
