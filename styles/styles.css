@@ -68,6 +68,7 @@
   --heading-font-size-xs: 16px;
 
   /* ===== SPACING ===== */
+  --spacing-xxxs: 2px;
   --spacing-xs: 4px;
   --spacing-s: 8px;
   --spacing-m: 16px;
@@ -75,11 +76,13 @@
   --spacing-xl: 32px;
   --spacing-xxl: 48px;
   --spacing-xxxl: 64px;
+  --spacing-xxxxl: 80px;
 
   /* ===== LAYOUT ===== */
   --content-max-width: 1310px;
   --content-full-width: 1600px;
   --content-padding: 16px;
+  --hero-text-max-width: 648px;
   --nav-height: 56px;
   --breadcrumbs-height: 34px;
   --header-height: var(--nav-height);
@@ -89,6 +92,12 @@
   --section-width-default: var(--content-max-width);
   --section-width-wide: 1400px;
   --section-width-full: var(--content-full-width);
+
+  /* ===== GAPS (grid / flex) ===== */
+  --gap-tight: 8px;
+  --gap-default: 16px;
+  --gap-wide: 32px;
+  --gap-extra-wide: 64px;
 
   /* ===== BUTTONS ===== */
   --button-font-size: 14px;
@@ -511,6 +520,23 @@ main .section.blue a.button.secondary:hover {
 }
 
 /* Full-width section variant (legacy class — prefer data-layout) */
+
+/* Compact section — tighter vertical spacing */
+main .section.compact {
+  padding: var(--spacing-l) 0;
+}
+
+/* Spacious section — extra breathing room */
+main .section.spacious {
+  padding: var(--spacing-xxxxl) 0;
+}
+
+/* Flush section — no vertical spacing (adjacent to hero / full-bleed) */
+main .section.flush {
+  padding: 0;
+}
+
+/* Full-width section variant */
 main .section.full-width > div {
   max-width: var(--content-full-width);
 }
