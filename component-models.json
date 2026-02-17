@@ -148,6 +148,18 @@
           {
             "name": "Dark",
             "value": "dark"
+          },
+          {
+            "name": "Compact",
+            "value": "compact"
+          },
+          {
+            "name": "Spacious",
+            "value": "spacious"
+          },
+          {
+            "name": "Flush",
+            "value": "flush"
           }
         ]
       }

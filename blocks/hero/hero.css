@@ -60,7 +60,7 @@
   line-height: var(--heading-line-height);
   letter-spacing: var(--heading-letter-spacing);
   margin-bottom: var(--spacing-m);
-  max-width: 600px;
+  max-width: var(--hero-text-max-width);
 }
 
 /* Description text */
@@ -68,7 +68,7 @@
   color: var(--text-color);
   font-size: 17px;
   line-height: var(--body-line-height);
-  max-width: 520px;
+  max-width: calc(var(--hero-text-max-width) - 128px);
 }
 
 /* Eyebrow text (first paragraph before heading) */
@@ -87,7 +87,7 @@
   .hero h1,
   .hero h2 {
     font-size: 38px;
-    max-width: 650px;
+    max-width: var(--hero-text-max-width);
   }
 }
 

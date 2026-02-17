@@ -21,7 +21,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  gap: var(--spacing-l);
 }
 
 .cards > ul > li {
