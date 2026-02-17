@@ -90,6 +90,59 @@ function createSlide(row, slideIndex, carouselId) {
   return slide;
 }
 
+function decorateStoryVariant(block) {
+  const slides = block.querySelectorAll('.carousel-slide');
+  const storyLayout = document.createElement('div');
+  storyLayout.classList.add('story-layout');
+
+  const imagePanel = document.createElement('div');
+  imagePanel.classList.add('story-image-panel');
+
+  const itemsPanel = document.createElement('div');
+  itemsPanel.classList.add('story-items-panel');
+
+  slides.forEach((slide, idx) => {
+    const image = slide.querySelector('.carousel-slide-image');
+    if (image) {
+      const imageWrapper = document.createElement('div');
+      imageWrapper.classList.add('story-image');
+      imageWrapper.dataset.slideIndex = idx;
+      if (idx === 0) imageWrapper.classList.add('active');
+      imageWrapper.append(image.cloneNode(true));
+      imagePanel.append(imageWrapper);
+    }
+
+    const content = slide.querySelector('.carousel-slide-content');
+    if (content) {
+      const item = document.createElement('div');
+      item.classList.add('story-item');
+      item.dataset.slideIndex = idx;
+      if (idx === 0) item.classList.add('active');
+
+      const contentClone = content.cloneNode(true);
+      item.append(contentClone);
+
+      const arrow = document.createElement('span');
+      arrow.classList.add('story-item-arrow');
+      item.append(arrow);
+
+      item.addEventListener('click', () => {
+        itemsPanel.querySelectorAll('.story-item').forEach((i) => i.classList.remove('active'));
+        imagePanel.querySelectorAll('.story-image').forEach((i) => i.classList.remove('active'));
+        item.classList.add('active');
+        const target = imagePanel.querySelector(`.story-image[data-slide-index="${idx}"]`);
+        if (target) target.classList.add('active');
+      });
+
+      itemsPanel.append(item);
+    }
+  });
+
+  storyLayout.append(imagePanel);
+  storyLayout.append(itemsPanel);
+  block.append(storyLayout);
+}
+
 let carouselId = 0;
 export default async function decorate(block) {
   carouselId += 1;
@@ -148,5 +201,9 @@ export default async function decorate(block) {
 
   if (!isSingleSlide) {
     bindEvents(block);
+  }
+
+  if (block.classList.contains('story')) {
+    decorateStoryVariant(block);
   }
 }
