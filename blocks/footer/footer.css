@@ -147,7 +147,7 @@ footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li > u
   padding: var(--spacing-xs) 0;
 }
 
-/* --- Desktop: show all links, hide accordion chevrons --- */
+/* --- Desktop: 4-column grid, keep accordion behavior --- */
 @media (width >= 900px) {
   footer .footer > div > div:nth-child(2) .default-content-wrapper {
     grid-template-columns: repeat(4, 1fr);
@@ -156,21 +156,7 @@ footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li > u
   footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li {
     border-bottom: none;
     padding-bottom: 0;
-    margin-bottom: var(--spacing-l);
-  }
-
-  footer .footer .footer-accordion-toggle {
-    cursor: default;
-    padding: 0 0 var(--spacing-s);
-  }
-
-  footer .footer .footer-accordion-toggle::after {
-    display: none;
-  }
-
-  footer .footer > div > div:nth-child(2) > .default-content-wrapper > ul > li > ul {
-    display: block;
-    padding-bottom: 0;
+    margin-bottom: 0;
   }
 }
 
