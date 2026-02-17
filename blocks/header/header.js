@@ -199,6 +199,64 @@ export default async function decorate(block) {
     if (section) section.classList.add(`nav-${c}`);
   });
 
+  // When the AEM-authored nav has 3 sections (no utility bar), build one
+  // by extracting Support/Contact Sales from nav-sections and adding
+  // Personal/Business segment links.
+  if (sectionCount < 4) {
+    const navSectionsEl = nav.querySelector('.nav-sections');
+    if (navSectionsEl) {
+      const topItems = navSectionsEl.querySelectorAll(':scope .default-content-wrapper > ul > li');
+      const utilityRight = [];
+      // Find plain-link nav items (Support, Contact Sales) and move them
+      topItems.forEach((li) => {
+        const hasSubMenu = li.querySelector('ul');
+        const link = li.querySelector(':scope > p > a');
+        if (!hasSubMenu && link) {
+          utilityRight.push(li);
+        }
+      });
+
+      const utilityDiv = document.createElement('div');
+      utilityDiv.classList.add('nav-utility');
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('default-content-wrapper');
+
+      // Left side: Personal | Business
+      const leftUl = document.createElement('ul');
+      const personalLi = document.createElement('li');
+      const personalA = document.createElement('a');
+      personalA.href = 'https://www.att.com/?customerType=personal';
+      personalA.textContent = 'Personal';
+      personalLi.append(personalA);
+      const businessLi = document.createElement('li');
+      const businessA = document.createElement('a');
+      businessA.href = 'https://www.business.att.com';
+      businessA.textContent = 'Business';
+      businessA.setAttribute('aria-current', 'true');
+      businessLi.append(businessA);
+      leftUl.append(personalLi, businessLi);
+
+      // Right side: Support | Contact Sales (moved from nav-sections)
+      const rightUl = document.createElement('ul');
+      utilityRight.forEach((li) => {
+        const link = li.querySelector('a');
+        if (link) {
+          const newLi = document.createElement('li');
+          const newA = document.createElement('a');
+          newA.href = link.href;
+          newA.textContent = link.textContent;
+          newLi.append(newA);
+          rightUl.append(newLi);
+          li.remove(); // remove from nav-sections
+        }
+      });
+
+      wrapper.append(leftUl, rightUl);
+      utilityDiv.append(wrapper);
+      nav.prepend(utilityDiv);
+    }
+  }
+
   // mark the active segment in the utility bar
   const navUtility = nav.querySelector('.nav-utility');
   if (navUtility) {
@@ -258,6 +316,12 @@ export default async function decorate(block) {
       const bc = btn.closest('.button-container');
       if (bc) bc.className = '';
     });
+
+    // Normalize sign-in link text to "Account sign in"
+    const signInLink = navTools.querySelector('a[href*="signin"]');
+    if (signInLink && signInLink.textContent.trim() === 'Sign in') {
+      signInLink.textContent = 'Account sign in';
+    }
 
     // Add search bar before account sign in
     const searchForm = document.createElement('div');
