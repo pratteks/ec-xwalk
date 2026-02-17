@@ -1,6 +1,4 @@
 import {
-  loadHeader,
-  loadFooter,
   decorateButtons,
   decorateIcons,
   decorateSections,
@@ -8,10 +6,15 @@ import {
   decorateTemplateAndTheme,
   getMetadata,
   waitForFirstImage,
-  loadSection,
-  loadSections,
   loadCSS,
 } from './aem.js';
+
+import {
+  loadSection,
+  loadHeader,
+  loadFooter,
+  loadSections,
+} from './multi-theme.js';
 
 /**
  * Moves all the attributes from a given elmenet to another given element.
@@ -109,6 +112,46 @@ export function decorateMain(main) {
   decorateBlocks(main);
   // add aria-label to links
   a11yLinks(main);
+}
+
+/**
+ * Loads brand and theme-based tokens + styles early in loadEager().
+ */
+export function loadBrandThemeCss() {
+  // Read meta values
+  const brandCode = [...document.head.querySelectorAll('meta[name="brand"]')]
+    .map((m) => m.content.trim())
+    .filter(Boolean)
+    .join(', ');
+
+  const themeCode = [...document.head.querySelectorAll('meta[name="theme"]')]
+    .map((m) => m.content.trim())
+    .filter(Boolean)
+    .join(', ');
+
+  // Build paths
+  const brandPath = brandCode ? `${brandCode}/` : '';
+  const themePath = themeCode ? `themes/${themeCode}/` : '';
+
+  // Styles to load
+  const stylesheets = [
+    `${window.hlx.codeBasePath}/styles/${brandPath}${themePath}tokens.css`,
+    `${window.hlx.codeBasePath}/styles/${brandPath}${themePath}styles.css`,
+  ];
+
+  // Inject them (non-blocking)
+  stylesheets.forEach((href) => {
+    if (!href) return;
+
+    // Prevent duplicate injection
+    if (document.querySelector(`link[href="${href}"]`)) return;
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.type = 'text/css';
+    document.head.appendChild(link);
+  });
 }
 
 /**
