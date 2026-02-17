@@ -1,0 +1,221 @@
+/*
+ * RAI Form - Request A call / Information form
+ * AT&T Business contact form with validation
+ * Original: .rai-form on business.att.com
+ */
+
+.rai-form {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-m);
+  padding: var(--spacing-xl);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 8%);
+}
+
+/* Error banner */
+.rai-form .rai-error-banner {
+  background-color: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: var(--border-radius-s);
+  color: #b91c1c;
+  padding: var(--spacing-s) var(--spacing-m);
+  margin-bottom: var(--spacing-l);
+  font-size: var(--body-font-size-s);
+}
+
+/* Fields grid */
+.rai-form .rai-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-m);
+  margin-bottom: var(--spacing-l);
+}
+
+/* Individual field */
+.rai-form .rai-field {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.rai-form label {
+  display: block;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  color: var(--heading-color);
+  margin-bottom: var(--spacing-xs);
+  cursor: pointer;
+}
+
+.rai-form label[data-required]::after {
+  content: ' *';
+  color: #dc2626;
+}
+
+/* Inputs and textarea */
+.rai-form input[type="text"],
+.rai-form input[type="email"],
+.rai-form input[type="tel"],
+.rai-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--border-radius-s);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+  color: var(--heading-color);
+  background-color: var(--color-white);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rai-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.rai-form input::placeholder,
+.rai-form textarea::placeholder {
+  color: var(--color-gray-400);
+  font-size: var(--body-font-size-xs);
+}
+
+.rai-form input:focus,
+.rai-form textarea:focus {
+  outline: none;
+  border-color: var(--color-att-blue);
+  box-shadow: 0 0 0 2px rgb(0 56 143 / 20%);
+}
+
+/* Invalid state */
+.rai-form input.rai-invalid,
+.rai-form textarea.rai-invalid {
+  border-color: #dc2626;
+}
+
+.rai-form input.rai-invalid:focus,
+.rai-form textarea.rai-invalid:focus {
+  box-shadow: 0 0 0 2px rgb(220 38 38 / 20%);
+}
+
+/* Field error message */
+.rai-form .rai-field-error {
+  display: block;
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: var(--spacing-xs);
+}
+
+/* Checkbox */
+.rai-form .rai-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-s);
+  margin-bottom: var(--spacing-l);
+}
+
+.rai-form .rai-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--color-att-blue);
+  cursor: pointer;
+}
+
+.rai-form .rai-checkbox label {
+  font-weight: 400;
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color);
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+
+/* Submit button */
+.rai-form .rai-submit {
+  margin-bottom: var(--spacing-m);
+}
+
+.rai-form .rai-submit button {
+  display: block;
+  width: 100%;
+  padding: 14px var(--spacing-xl);
+  background-color: var(--color-att-blue);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--button-border-radius);
+  font-family: var(--body-font-family);
+  font-size: var(--button-font-size);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.rai-form .rai-submit button:hover {
+  background-color: var(--color-att-blue-hover);
+}
+
+.rai-form .rai-submit button:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+/* Privacy link */
+.rai-form .rai-privacy {
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color);
+  text-align: center;
+}
+
+.rai-form .rai-privacy a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+.rai-form .rai-privacy a:hover {
+  color: var(--link-hover-color);
+}
+
+/* Desktop: two-column grid for short fields */
+@media (width >= 600px) {
+  .rai-form .rai-fields-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rai-form .rai-field-full {
+    grid-column: 1 / -1;
+  }
+
+  .rai-form .rai-submit button {
+    width: auto;
+    min-width: 200px;
+  }
+}
+
+/* Section layout: side-by-side with columns-contact */
+.section.columns-contact-container {
+  padding: var(--spacing-xxl) var(--content-padding);
+}
+
+@media (width >= 900px) {
+  .section.columns-contact-container > .columns-contact-wrapper,
+  .section.columns-contact-container > .rai-form-wrapper {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .section.columns-contact-container {
+    display: flex;
+    gap: var(--spacing-xxl);
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+  }
+
+  .section.columns-contact-container > .columns-contact-wrapper {
+    flex: 1;
+  }
+
+  .section.columns-contact-container > .rai-form-wrapper {
+    flex: 1;
+  }
+}

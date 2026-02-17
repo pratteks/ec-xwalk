@@ -30,6 +30,7 @@
       "hero-promo",
       "hero-story",
       "image",
+      "rai-form",
       "quote",
       "search",
       "tabs",
@@ -46,45 +47,9 @@
     ]
   },
   {
-    "id": "cards-links",
-    "components": [
-      "card-link"
-    ]
-  },
-  {
-    "id": "cards-product",
-    "components": [
-      "card-product"
-    ]
-  },
-  {
-    "id": "cards-promo",
-    "components": [
-      "card-promo"
-    ]
-  },
-  {
-    "id": "cards-value",
-    "components": [
-      "card-value"
-    ]
-  },
-  {
     "id": "cards",
     "components": [
       "card"
-    ]
-  },
-  {
-    "id": "carousel-banner",
-    "components": [
-      "carousel-banner-item"
-    ]
-  },
-  {
-    "id": "carousel-story",
-    "components": [
-      "carousel-story-item"
     ]
   },
   {

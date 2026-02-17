@@ -115,134 +115,6 @@
           }
         },
         {
-          "title": "Cards (Links)",
-          "id": "cards-links",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Cards",
-                  "model": "cards",
-                  "classes": "links",
-                  "filter": "cards-links"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Card Link",
-          "id": "card-link",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Card Link",
-                  "model": "card-link"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Cards (Product)",
-          "id": "cards-product",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Cards",
-                  "model": "cards",
-                  "classes": "product",
-                  "filter": "cards-product"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Card Product",
-          "id": "card-product",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Card Product",
-                  "model": "card-product"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Cards (Promo)",
-          "id": "cards-promo",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Cards",
-                  "model": "cards",
-                  "classes": "promo",
-                  "filter": "cards-promo"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Card Promo",
-          "id": "card-promo",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Card Promo",
-                  "model": "card-promo"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Cards (Value)",
-          "id": "cards-value",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Cards",
-                  "model": "cards",
-                  "classes": "value",
-                  "filter": "cards-value"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Card Value",
-          "id": "card-value",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Card Value",
-                  "model": "card-value"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Cards",
           "id": "cards",
           "plugins": {
@@ -251,7 +123,6 @@
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
                   "name": "Cards",
-                  "model": "cards",
                   "filter": "cards"
                 }
               }
@@ -274,70 +145,6 @@
           }
         },
         {
-          "title": "Carousel (Banner)",
-          "id": "carousel-banner",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Carousel",
-                  "model": "carousel",
-                  "classes": "banner",
-                  "filter": "carousel-banner"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Carousel Banner Slide",
-          "id": "carousel-banner-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Carousel Banner Slide",
-                  "model": "carousel-banner-item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Carousel (Story)",
-          "id": "carousel-story",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Carousel",
-                  "model": "carousel",
-                  "classes": "story",
-                  "filter": "carousel-story"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Carousel Story Slide",
-          "id": "carousel-story-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Carousel Story Slide",
-                  "model": "carousel-story-item"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Carousel",
           "id": "carousel",
           "plugins": {
@@ -346,7 +153,6 @@
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
                   "name": "Carousel",
-                  "model": "carousel",
                   "filter": "carousel"
                 }
               }
@@ -562,6 +368,21 @@
                 "template": {
                   "name": "Quote",
                   "model": "quote"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "RAI Form",
+          "id": "rai-form",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "RAI Form",
+                  "model": "rai-form"
                 }
               }
             }
