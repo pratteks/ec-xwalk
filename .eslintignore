@@ -2,3 +2,5 @@ helix-importer-ui
 dompurify.min.js
 theme-tools/*
 gulpfile.js
+tools/importer/import-homepage.bundle.js
+tools/importer/transformers/att-cleanup.js
