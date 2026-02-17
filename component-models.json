@@ -129,9 +129,38 @@
         "description": "The label shown for this section in the Content Tree"
       },
       {
+        "component": "select",
+        "name": "layout",
+        "label": "Layout Width",
+        "description": "Controls the max-width of content within this section",
+        "options": [
+          {
+            "name": "Default (1310px)",
+            "value": ""
+          },
+          {
+            "name": "Narrow (800px)",
+            "value": "narrow"
+          },
+          {
+            "name": "Wide (1400px)",
+            "value": "wide"
+          },
+          {
+            "name": "Full Width (1600px)",
+            "value": "full-width"
+          },
+          {
+            "name": "Full Bleed (edge-to-edge)",
+            "value": "full-bleed"
+          }
+        ]
+      },
+      {
         "component": "multiselect",
         "name": "style",
         "label": "Style",
+        "description": "Visual appearance of the section background",
         "options": [
           {
             "name": "Highlight",

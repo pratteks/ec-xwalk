@@ -87,6 +87,12 @@
   --breadcrumbs-height: 34px;
   --header-height: var(--nav-height);
 
+  /* Section width tiers (used via section-metadata layout field) */
+  --section-width-narrow: 800px;
+  --section-width-default: var(--content-max-width);
+  --section-width-wide: 1400px;
+  --section-width-full: var(--content-full-width);
+
   /* ===== GAPS (grid / flex) ===== */
   --gap-tight: 8px;
   --gap-default: 16px;
@@ -513,6 +519,8 @@ main .section.blue a.button.secondary:hover {
   color: var(--color-att-blue);
 }
 
+/* Full-width section variant (legacy class — prefer data-layout) */
+
 /* Compact section — tighter vertical spacing */
 main .section.compact {
   padding: var(--spacing-l) 0;
@@ -531,6 +539,33 @@ main .section.flush {
 /* Full-width section variant */
 main .section.full-width > div {
   max-width: var(--content-full-width);
+}
+
+/* =============================================
+   Section layout variants
+   Controlled via section-metadata "layout" field.
+   Sets max-width on the inner wrapper <div>.
+   ============================================= */
+
+/* Narrow — centred forms, focused text content */
+main .section[data-layout="narrow"] > div {
+  max-width: var(--section-width-narrow);
+}
+
+/* Wide — expanded content area for media, wide card grids */
+main .section[data-layout="wide"] > div {
+  max-width: var(--section-width-wide);
+}
+
+/* Full-width — extra-wide content, same as legacy .full-width */
+main .section[data-layout="full-width"] > div {
+  max-width: var(--section-width-full);
+}
+
+/* Full-bleed — no max-width constraint, edge-to-edge content */
+main .section[data-layout="full-bleed"] > div {
+  max-width: none;
+  padding: 0;
 }
 
 /* ===== SECTION METADATA BLOCK (hidden) ===== */
