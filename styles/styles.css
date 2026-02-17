@@ -23,13 +23,14 @@
   --color-att-blue: #00388f;
   --color-att-blue-hover: #0057b8;
   --color-att-blue-light: #009fdb;
-  --color-att-blue-link: #0568ae;
+  --color-att-blue-link: #0074b3;
 
   /* Neutral palette */
   --color-white: #fff;
   --color-black: #000;
   --color-gray-100: #f3f4f6;
   --color-gray-200: #e5e7eb;
+  --color-gray-300: #d2d2d2;
   --color-gray-400: #878c94;
   --color-gray-500: #6b7280;
   --color-gray-700: #454b52;
@@ -50,15 +51,13 @@
   --overlay-background-color: var(--color-gray-100);
 
   /* ===== FONTS ===== */
-
-  /* When AT&T Aleck Sans fonts are available, replace 'ATT Aleck Sans' with proper family */
-  --body-font-family: 'Helvetica Neue', helvetica, arial, att-body-fallback, sans-serif;
-  --heading-font-family: 'Helvetica Neue', helvetica, arial, att-heading-fallback, sans-serif;
+  --body-font-family: 'ATT Aleck Sans', 'Helvetica Neue', helvetica, arial, att-body-fallback, sans-serif;
+  --heading-font-family: 'ATT Aleck Sans', 'Helvetica Neue', helvetica, arial, att-heading-fallback, sans-serif;
 
   /* Body sizes */
-  --body-font-size-m: 17px;
+  --body-font-size-m: 18px;
   --body-font-size-s: 15px;
-  --body-font-size-xs: 13px;
+  --body-font-size-xs: 14px;
 
   /* Heading sizes (mobile-first) */
   --heading-font-size-xxl: 38px;
@@ -78,7 +77,8 @@
   --spacing-xxxl: 64px;
 
   /* ===== LAYOUT ===== */
-  --content-max-width: 1200px;
+  --content-max-width: 1310px;
+  --content-full-width: 1600px;
   --content-padding: 16px;
   --nav-height: 56px;
   --breadcrumbs-height: 34px;
@@ -86,8 +86,9 @@
 
   /* ===== BUTTONS ===== */
   --button-font-size: 14px;
+  --button-height: 48px;
   --button-border-radius: 28px;
-  --button-padding: 12px 32px;
+  --button-padding: 0 32px;
   --button-transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 
   /* ===== TYPOGRAPHY DETAILS ===== */
@@ -110,9 +111,9 @@
 /* Desktop overrides */
 @media (width >= 900px) {
   :root {
-    --body-font-size-m: 17px;
-    --body-font-size-s: 15px;
-    --body-font-size-xs: 13px;
+    --body-font-size-m: 18px;
+    --body-font-size-s: 16px;
+    --body-font-size-xs: 14px;
     --heading-font-size-xxl: 48px;
     --heading-font-size-xl: 48px;
     --heading-font-size-l: 26px;
@@ -247,8 +248,11 @@ button {
 a.button:any-link,
 button {
   box-sizing: border-box;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   max-width: 100%;
+  height: var(--button-height);
   margin: 12px 0;
   border: 2px solid transparent;
   border-radius: var(--button-border-radius);
@@ -332,17 +336,24 @@ input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="number"],
+select,
 textarea {
   box-sizing: border-box;
   width: 100%;
-  padding: var(--spacing-s) var(--spacing-m);
+  height: 48px;
+  padding: 12px 16px;
   border: 1px solid var(--color-gray-400);
-  border-radius: var(--border-radius-s);
+  border-radius: var(--border-radius-m);
   font-family: var(--body-font-family);
-  font-size: var(--body-font-size-m);
+  font-size: var(--body-font-size-xs);
   color: var(--text-color);
   background-color: var(--color-white);
   transition: border-color 0.2s ease;
+}
+
+textarea {
+  height: auto;
+  min-height: 96px;
 }
 
 input:focus,
@@ -451,6 +462,51 @@ main .section.dark a.button.secondary {
 main .section.dark a.button.secondary:hover {
   background-color: var(--color-blue-50);
   color: var(--color-att-blue);
+}
+
+/* Blue section - AT&T primary blue background */
+main .section.blue {
+  background-color: var(--color-att-blue);
+  color: var(--color-white);
+  padding: var(--spacing-xxl) 0;
+}
+
+main .section.blue h1,
+main .section.blue h2,
+main .section.blue h3,
+main .section.blue h4,
+main .section.blue h5,
+main .section.blue h6 {
+  color: var(--color-white);
+}
+
+main .section.blue a:any-link {
+  color: var(--color-blue-50);
+}
+
+main .section.blue a.button:any-link {
+  background-color: var(--color-blue-50);
+  color: var(--color-att-blue);
+}
+
+main .section.blue a.button:hover {
+  background-color: var(--color-white);
+}
+
+main .section.blue a.button.secondary:any-link {
+  background-color: transparent;
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+main .section.blue a.button.secondary:hover {
+  background-color: var(--color-white);
+  color: var(--color-att-blue);
+}
+
+/* Full-width section variant */
+main .section.full-width > div {
+  max-width: var(--content-full-width);
 }
 
 /* ===== SECTION METADATA BLOCK (hidden) ===== */

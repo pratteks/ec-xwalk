@@ -1,17 +1,9 @@
 /*
  * AT&T Business - Font Configuration
- *
- * AT&T Aleck Sans is a proprietary typeface. For production use,
- * self-host the licensed font files under /fonts/ and uncomment
- * the @font-face blocks below.
- *
- * Current setup uses system-font fallbacks that closely match
- * the AT&T Aleck Sans metrics.
+ * AT&T Aleck Sans - proprietary typeface
+ * Self-hosted from /fonts/ directory
  */
 
-/* --- Self-hosted AT&T Aleck Sans (uncomment when font files are available) --- */
-
-/*
 @font-face {
   font-family: 'ATT Aleck Sans';
   font-style: normal;
@@ -43,4 +35,3 @@
   font-display: swap;
   src: url('../fonts/att-aleck-sans-bold.woff2') format('woff2');
 }
-*/
